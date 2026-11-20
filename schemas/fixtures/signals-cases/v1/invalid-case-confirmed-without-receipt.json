@@ -1,0 +1,16 @@
+{
+  "caseId": "dddddddddddddddddddddddddddddddd",
+  "capability": "retrieval",
+  "scopeId": "global",
+  "privacy": "team",
+  "groupKey": "g",
+  "lineageKey": "lineage:7QK2M9X4AB",
+  "inputRef": "x",
+  "frozenFeatures": {},
+  "expected": {},
+  "split": "train",
+  "sourceSignals": [],
+  "author": "frank",
+  "client": "connector",
+  "status": "confirmed"
+}

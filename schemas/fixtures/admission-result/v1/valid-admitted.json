@@ -1,0 +1,9 @@
+{
+  "requestId": "22222222222222222222222222222222",
+  "outcome": "admitted",
+  "ruleCodes": [],
+  "destination": {
+    "collection": "inbox:frank",
+    "quarantine": false
+  }
+}

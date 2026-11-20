@@ -1,0 +1,2309 @@
+{
+  "fixtureFormat": "reference-sweep-protection-cases/v1",
+  "status": "reference-fixtures",
+  "synthetic": true,
+  "sourceIds": [
+    "understudy-trust-ledger",
+    "understudy/understudy-sweep.ps1",
+    "understudy/adjudicate-report.ps1",
+    "understudy-verify-report",
+    "understudy-sweep-skill"
+  ],
+  "notes": [
+    "New pure fail-closed format adapter; these fixtures contain no real state, log, report or citation.",
+    "A known result establishes format coverage only, not kernel eligibility, authenticated adjudication or complete S2 conformance.",
+    "The exact project identity and fourteen-day local-clock cutoff are caller-controlled trusted context; ambiguous or unsupported evidence blocks every candidate.",
+    "This fixture format is reference data, not the canonical library-evidence/v1 envelope.",
+    "R3 adds source-skill ISO headers, documented legacy non-report grammar, singleton no-findings blocks, date-only nonmatching ledger keys, same-day citation unions and universal line endings. Source skill prompt text and real runtime inputs are not fixture content.",
+    "Round4 adds failing-before regressions for parser omission and association hazards. Model-written header dates are not report identity; uncertainty blocks eligibility and citation target bytes must be preserved."
+  ],
+  "cases": [
+    {
+      "id": "pending-old-report-protects",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [
+          "notes/example.md"
+        ],
+        "protectedReports": [
+          {
+            "key": "2030-01-02 12:00|sample-project",
+            "verdict": "pending",
+            "reason": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "id": "older-adjudicated-report-not-protective",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{\"2030-01-02 12:00|sample-project\":{\"verdict\":\"clean\",\"note\":\"Synthetic independently adjudicated outcome\",\"by\":\"external\"}},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "recent-adjudicated-clean-protects",
+      "input": {
+        "sweepLogText": "- 2030-01-20 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{\"2030-01-20 12:00|sample-project\":{\"verdict\":\"clean\",\"note\":\"Synthetic independently adjudicated outcome\",\"by\":\"external\"}},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-20\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [
+          "notes/example.md"
+        ],
+        "protectedReports": [
+          {
+            "key": "2030-01-20 12:00|sample-project",
+            "verdict": "clean",
+            "reason": "recent-adjudicated"
+          }
+        ]
+      }
+    },
+    {
+      "id": "recent-adjudicated-false-protects",
+      "input": {
+        "sweepLogText": "- 2030-01-20 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{\"2030-01-20 12:00|sample-project\":{\"verdict\":\"false\",\"note\":\"Synthetic independently adjudicated outcome\",\"by\":\"external\"}},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-20\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [
+          "notes/example.md"
+        ],
+        "protectedReports": [
+          {
+            "key": "2030-01-20 12:00|sample-project",
+            "verdict": "false",
+            "reason": "recent-adjudicated"
+          }
+        ]
+      }
+    },
+    {
+      "id": "recent-adjudicated-neutral-protects",
+      "input": {
+        "sweepLogText": "- 2030-01-20 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{\"2030-01-20 12:00|sample-project\":{\"verdict\":\"neutral\",\"note\":\"Synthetic independently adjudicated outcome\",\"by\":\"external\"}},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-20\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [
+          "notes/example.md"
+        ],
+        "protectedReports": [
+          {
+            "key": "2030-01-20 12:00|sample-project",
+            "verdict": "neutral",
+            "reason": "recent-adjudicated"
+          }
+        ]
+      }
+    },
+    {
+      "id": "recent-adjudicated-learned-protects",
+      "input": {
+        "sweepLogText": "- 2030-01-20 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{\"2030-01-20 12:00|sample-project\":{\"verdict\":\"learned\",\"note\":\"Synthetic independently adjudicated outcome\",\"by\":\"external\"}},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-20\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [
+          "notes/example.md"
+        ],
+        "protectedReports": [
+          {
+            "key": "2030-01-20 12:00|sample-project",
+            "verdict": "learned",
+            "reason": "recent-adjudicated"
+          }
+        ]
+      }
+    },
+    {
+      "id": "missing-sweep-log",
+      "input": {
+        "sweepLogText": null,
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "sweep-log-missing-unreadable"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "missing-trust-state",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": null,
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "trust-ledger-missing-unreadable"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "unparseable-trust-state",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "trust-ledger-unparseable"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "missing-adjudication-map",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "trust-ledger-shape"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "unparseable-sweep-event",
+      "input": {
+        "sweepLogText": "- not-a-time - sample-project: ACCEPTED - synthetic",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "sweep-log-unknown-record"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "lowercase-report-status-is-unknown",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report\n- 2030-01-20 12:00 - sample-project: accepted - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{\"2030-01-02 12:00|sample-project\":{\"verdict\":\"clean\",\"note\":\"Synthetic independently adjudicated outcome\",\"by\":\"external\"}},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "sweep-log-unknown-record"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "unknown-project-status-is-unknown",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report\n- 2030-01-20 12:00 - sample-project: CONFIRMED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{\"2030-01-02 12:00|sample-project\":{\"verdict\":\"clean\",\"note\":\"Synthetic independently adjudicated outcome\",\"by\":\"external\"}},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "sweep-log-unknown-record"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "invalid-calendar-time",
+      "input": {
+        "sweepLogText": "- 2030-99-99 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "sweep-log-invalid-timestamp"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "no-report-lines",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - offline - skipped",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "no-report-lines-for-folder"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "exact-folder-identity-no-basename-guess",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "different-sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "no-report-lines-for-folder"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "duplicate-same-day-report-events",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report\n- 2030-01-02 13:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "same-day-report-ambiguity"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "duplicate-same-day-report-blocks",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---\n# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "same-day-block-ambiguity"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "unmatched-pending-report",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-03\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "unmatched-understudy-block"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "pending-block-missing-among-other-events",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report\n- 2030-01-03 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-03\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "required-report-block-unmatched"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "required-report-file-missing",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": null,
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "required-understudy-missing"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "header-only-report-is-unknown",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "understudy-block-empty"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "report-has-no-citations",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\nSynthetic narrative without citation evidence.\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "required-report-citations-missing"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "report-header-missing",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "## Findings\nSynthetic report without supported block header.",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "report-preamble-unrecognized"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      },
+      "note": "Round4 keeps the unknown verdict; earlier framing/terminator uncertainty now determines the first reason."
+    },
+    {
+      "id": "malformed-target-bearing-citation",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` broken quotation\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "citation-unparseable"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "markdown-link-citation-with-valid-target",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---\nSee [other](notes/other.md).",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "report-content-after-terminator"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      },
+      "note": "Round4 keeps the unknown verdict; earlier framing/terminator uncertainty now determines the first reason."
+    },
+    {
+      "id": "inline-backticked-path-with-valid-target",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---\nAlso see `notes/other.md:2`.",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "report-content-after-terminator"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      },
+      "note": "Round4 keeps the unknown verdict; earlier framing/terminator uncertainty now determines the first reason."
+    },
+    {
+      "id": "plain-path-with-valid-target",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---\nAlso see notes/other.md:2 for context.",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "report-content-after-terminator"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      },
+      "note": "Round4 keeps the unknown verdict; earlier framing/terminator uncertainty now determines the first reason."
+    },
+    {
+      "id": "unsupported-range-citation",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3-7` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "citation-target-unparseable"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "unsupported-alternate-stream-target",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:alternate` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "citation-target-unparseable"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "nested-report-header-cannot-hide-recent-block",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{\"2030-01-02 12:00|sample-project\":{\"verdict\":\"clean\",\"note\":\"Synthetic independently adjudicated outcome\",\"by\":\"external\"}},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---\n## Understudy scan — 2030-01-20\n## Findings\n- `notes/other.md:2` -- \"Synthetic evidence\"",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "unsupported-understudy-report-header"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "indented-report-header-cannot-hide-recent-block",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{\"2030-01-02 12:00|sample-project\":{\"verdict\":\"clean\",\"note\":\"Synthetic independently adjudicated outcome\",\"by\":\"external\"}},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---\n # Understudy scan — 2030-01-20\n## Findings\n- `notes/other.md:2` -- \"Synthetic evidence\"",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "unsupported-understudy-report-header"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "date-only-adjudication-keeps-report-pending",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{\"2030-01-02|sample-project\":{\"verdict\":\"clean\",\"note\":\"Synthetic independently adjudicated outcome\",\"by\":\"external\"}},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [
+          "notes/example.md"
+        ],
+        "protectedReports": [
+          {
+            "key": "2030-01-02 12:00|sample-project",
+            "verdict": "pending",
+            "reason": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "id": "unmatched-project-adjudication-does-not-clear-pending",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{\"2030-01-02 12:00|other-sample-project\":{\"verdict\":\"clean\",\"note\":\"Synthetic independently adjudicated outcome\",\"by\":\"external\"}},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [
+          "notes/example.md"
+        ],
+        "protectedReports": [
+          {
+            "key": "2030-01-02 12:00|sample-project",
+            "verdict": "pending",
+            "reason": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "id": "malformed-adjudication-project-key",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{\"2030-01-02 12:00|sample-project|extra\":{\"verdict\":\"clean\",\"note\":\"Synthetic independently adjudicated outcome\",\"by\":\"external\"}},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "trust-ledger-adjudication-shape"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "unsupported-ledger-verdict",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{\"2030-01-02 12:00|sample-project\":{\"verdict\":\"approved\",\"note\":\"Synthetic independently adjudicated outcome\",\"by\":\"external\"}},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "trust-ledger-adjudication-shape"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "duplicate-top-level-adjudications",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"adjudications\":{},\"adjudications\":{}}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "trust-ledger-duplicate-json-member"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "escaped-duplicate-top-level-member",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"adjudications\":{},\"adjudic\\u0061tions\":{}}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "trust-ledger-duplicate-json-member"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "duplicate-adjudication-key",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"adjudications\":{\"2030-01-02 12:00|sample-project\":{\"verdict\":\"clean\"},\"2030-01-02 12:00|sample-project\":{\"verdict\":\"false\"}}}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "trust-ledger-duplicate-json-member"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "duplicate-verdict-field",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"adjudications\":{\"2030-01-02 12:00|sample-project\":{\"verdict\":\"false\",\"verdict\":\"clean\"}}}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "trust-ledger-duplicate-json-member"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "escaped-duplicate-verdict-field",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"adjudications\":{\"2030-01-02 12:00|sample-project\":{\"verdict\":\"false\",\"ver\\u0064ict\":\"clean\"}}}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "trust-ledger-duplicate-json-member"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "invalid-decoding-marker",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report\n�",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "sweep-log-missing-unreadable"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "known-nonreport-rows-dont-add-events",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report\n- 2030-01-03 12:00 - sample-project: RUN FAILED (no report produced: Synthetic failure) - watermark NOT advanced - charged to NEITHER the agent nor the harness\n- 2030-01-03 13:00 - sample-project: APPLIED 0 sweep fix(es) via the corrector lane (undo: synthetic-state)",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [
+          "notes/example.md"
+        ],
+        "protectedReports": [
+          {
+            "key": "2030-01-02 12:00|sample-project",
+            "verdict": "pending",
+            "reason": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "id": "absent-understudy-with-no-folder-events",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - other-sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": null,
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "malformed-date-and-status-never-disappear",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report\n- 2030-01-xx 12:00 - sample-project: ACCEPTD - synthetic",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "sweep-log-unknown-record"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "unsupported-log-annotation-never-disappears",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report\n# Custom annotation",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "sweep-log-unknown-record"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "lone-cr-cannot-hide-log-report",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report\r- 2030-01-20 12:00 - sample-project: ACCEPTED - synthetic",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "required-report-block-unmatched"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "lone-cr-cannot-hide-understudy-block",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---\r# Understudy scan — 2030-01-20",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "unmatched-understudy-block"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "skill-template-iso-t-header",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — sample-project — 2030-01-02T12:00:00Z\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [
+          "notes/example.md"
+        ],
+        "protectedReports": [
+          {
+            "key": "2030-01-02 12:00|sample-project",
+            "verdict": "pending",
+            "reason": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "id": "skill-template-iso-offset-header",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — sample-project — 2030-01-02T12:00:00-05:00\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [
+          "notes/example.md"
+        ],
+        "protectedReports": [
+          {
+            "key": "2030-01-02 12:00|sample-project",
+            "verdict": "pending",
+            "reason": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "id": "utc-header-date-does-not-match-local-log",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — sample-project — 2030-01-03T00:30:00Z\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "unmatched-understudy-block"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "iso-header-digit-adjacency-is-unknown",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — sample-project — 12030-01-02T12:00:00Z\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "understudy-block-header-unparseable"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "legacy-empty-claude-output",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report\n- 2030-01-03 12:00 - claude returned nothing - watermark NOT advanced",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [
+          "notes/example.md"
+        ],
+        "protectedReports": [
+          {
+            "key": "2030-01-02 12:00|sample-project",
+            "verdict": "pending",
+            "reason": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "id": "legacy-empty-claude-output-unknown-twin",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report\n- 2030-01-03 12:00 - claude returned nothing - watermark NOT advanced - extra",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "sweep-log-unknown-record"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "legacy-swept-proposal",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report\n- 2030-01-03 12:00 - swept 12 files - 3 finding(s) -> _UNDERSTUDY/proposals/2030-01-03-1200.md",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [
+          "notes/example.md"
+        ],
+        "protectedReports": [
+          {
+            "key": "2030-01-02 12:00|sample-project",
+            "verdict": "pending",
+            "reason": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "id": "legacy-swept-proposal-unknown-twin",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report\n- 2030-01-03 12:00 - swept 12 files - 3 finding(s) -> _UNDERSTUDY/other/2030-01-03-1200.md",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "sweep-log-unknown-record"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "legacy-run-failed",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report\n- 2030-01-03 12:00 - sample-project: RUN FAILED (synthetic timeout, no report produced) - see _UNDERSTUDY/failed/2030-01-03-1200.txt",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [
+          "notes/example.md"
+        ],
+        "protectedReports": [
+          {
+            "key": "2030-01-02 12:00|sample-project",
+            "verdict": "pending",
+            "reason": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "id": "legacy-run-failed-unknown-twin",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report\n- 2030-01-03 12:00 - sample-project: RUN FAILED (synthetic timeout, no report produced) - see _UNDERSTUDY/failed/nested/2030-01-03-1200.txt",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "sweep-log-unknown-record"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "singleton-no-findings-has-empty-pin-set",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\nNothing worth your attention.\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [],
+        "protectedReports": [
+          {
+            "key": "2030-01-02 12:00|sample-project",
+            "verdict": "pending",
+            "reason": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "id": "singleton-no-new-findings-has-empty-pin-set",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\nNothing new worth your attention\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [],
+        "protectedReports": [
+          {
+            "key": "2030-01-02 12:00|sample-project",
+            "verdict": "pending",
+            "reason": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "id": "no-findings-plus-prose-is-unknown",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\nNothing worth your attention.\nExtra unsupported content.\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "required-report-citations-missing"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "no-findings-substring-prose-is-unknown",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\nPossibly Nothing worth your attention today.\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "required-report-citations-missing"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "invalid-calendar-date-only-ledger-key",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{\"2030-02-30|sample-project\":{\"verdict\":\"clean\"}},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "trust-ledger-adjudication-shape"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "same-day-matching-counts-protect-union",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report\n- 2030-01-02 13:00 - sample-project: ACCEPTED - second synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---\n# Understudy scan — sample-project — 2030-01-02T13:00:00-05:00\n## Findings\n- `notes/second.md:7` -- \"Second synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [
+          "notes/example.md",
+          "notes/second.md"
+        ],
+        "protectedReports": [
+          {
+            "key": "2030-01-02 12:00|sample-project",
+            "verdict": "pending",
+            "reason": "pending"
+          },
+          {
+            "key": "2030-01-02 13:00|sample-project",
+            "verdict": "pending",
+            "reason": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "id": "same-day-pending-and-adjudicated-protect-union",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report\n- 2030-01-02 13:00 - sample-project: ACCEPTED - second synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{\"2030-01-02 12:00|sample-project\":{\"verdict\":\"clean\"}},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---\n# Understudy scan — sample-project — 2030-01-02T13:00:00-05:00\n## Findings\n- `notes/second.md:7` -- \"Second synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [
+          "notes/example.md",
+          "notes/second.md"
+        ],
+        "protectedReports": [
+          {
+            "key": "2030-01-02 13:00|sample-project",
+            "verdict": "pending",
+            "reason": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "id": "same-day-recent-adjudicated-protect-union",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report\n- 2030-01-02 13:00 - sample-project: ACCEPTED - second synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{\"2030-01-02 12:00|sample-project\":{\"verdict\":\"clean\"},\"2030-01-02 13:00|sample-project\":{\"verdict\":\"neutral\"}},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---\n# Understudy scan — sample-project — 2030-01-02T13:00:00-05:00\n## Findings\n- `notes/second.md:7` -- \"Second synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-01 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [
+          "notes/example.md",
+          "notes/second.md"
+        ],
+        "protectedReports": [
+          {
+            "key": "2030-01-02 12:00|sample-project",
+            "verdict": "clean",
+            "reason": "recent-adjudicated"
+          },
+          {
+            "key": "2030-01-02 13:00|sample-project",
+            "verdict": "neutral",
+            "reason": "recent-adjudicated"
+          }
+        ]
+      }
+    },
+    {
+      "id": "same-day-old-adjudicated-no-blocks-is-ambiguous",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report\n- 2030-01-02 13:00 - sample-project: ACCEPTED - second synthetic report\n- 2030-01-03 12:00 - sample-project: ACCEPTED - third synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{\"2030-01-02 12:00|sample-project\":{\"verdict\":\"clean\"},\"2030-01-02 13:00|sample-project\":{\"verdict\":\"clean\"}},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-03\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "same-day-report-ambiguity"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "same-day-exact-identity-duplicate-is-unknown",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report\n- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---\n# Understudy scan — sample-project — 2030-01-02T13:00:00-05:00\n## Findings\n- `notes/second.md:7` -- \"Second synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "duplicate-report-identity"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "universal-cr-lines-preserve-pins",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report\r- 2030-01-03 12:00 - offline - skipped",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\r## Findings\r- `notes/example.md:3` -- \"Synthetic evidence\"\r---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [
+          "notes/example.md"
+        ],
+        "protectedReports": [
+          {
+            "key": "2030-01-02 12:00|sample-project",
+            "verdict": "pending",
+            "reason": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "id": "universal-crlf-lines-preserve-pins",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report\r\n- 2030-01-03 12:00 - offline - skipped",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\r\n## Findings\r\n- `notes/example.md:3` -- \"Synthetic evidence\"\r\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [
+          "notes/example.md"
+        ],
+        "protectedReports": [
+          {
+            "key": "2030-01-02 12:00|sample-project",
+            "verdict": "pending",
+            "reason": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "id": "nul-in-log-still-blocks",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report\u0000",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "sweep-log-missing-unreadable"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "nul-in-report-still-blocks",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---\u0000",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "understudy-unreadable"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "no-findings-plus-false-separator-prose-is-unknown",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\nNothing worth your attention.\n--- additional finding text",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "report-terminator-missing"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      },
+      "note": "Round4 keeps the unknown verdict; earlier framing/terminator uncertainty now determines the first reason."
+    },
+    {
+      "id": "legacy-run-failed-unicode-spaced-filename",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report\n- 2030-01-03 12:00 - sample-project: RUN FAILED (synthetic timeout, no report produced) - see _UNDERSTUDY/failed/2030-01-03 café [synthetic].txt",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [
+          "notes/example.md"
+        ],
+        "protectedReports": [
+          {
+            "key": "2030-01-02 12:00|sample-project",
+            "verdict": "pending",
+            "reason": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "id": "legacy-run-failed-backslash-component-is-unknown",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report\n- 2030-01-03 12:00 - sample-project: RUN FAILED (synthetic timeout, no report produced) - see _UNDERSTUDY/failed/nested\\synthetic.txt",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "sweep-log-unknown-record"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "r4-python-whitespace-001c-leading",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n\u001c- `Makefile:3` -- \"Synthetic citation\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [
+          "Makefile",
+          "notes/example.md"
+        ],
+        "protectedReports": [
+          {
+            "key": "2030-01-02 12:00|sample-project",
+            "verdict": "pending",
+            "reason": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "id": "r4-python-whitespace-001c-after-marker",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n-\u001c`Makefile:3` -- \"Synthetic citation\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [
+          "Makefile",
+          "notes/example.md"
+        ],
+        "protectedReports": [
+          {
+            "key": "2030-01-02 12:00|sample-project",
+            "verdict": "pending",
+            "reason": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "id": "r4-python-whitespace-001d-leading",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n\u001d- `Makefile:3` -- \"Synthetic citation\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [
+          "Makefile",
+          "notes/example.md"
+        ],
+        "protectedReports": [
+          {
+            "key": "2030-01-02 12:00|sample-project",
+            "verdict": "pending",
+            "reason": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "id": "r4-python-whitespace-001d-after-marker",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n-\u001d`Makefile:3` -- \"Synthetic citation\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [
+          "Makefile",
+          "notes/example.md"
+        ],
+        "protectedReports": [
+          {
+            "key": "2030-01-02 12:00|sample-project",
+            "verdict": "pending",
+            "reason": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "id": "r4-python-whitespace-001e-leading",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n\u001e- `Makefile:3` -- \"Synthetic citation\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [
+          "Makefile",
+          "notes/example.md"
+        ],
+        "protectedReports": [
+          {
+            "key": "2030-01-02 12:00|sample-project",
+            "verdict": "pending",
+            "reason": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "id": "r4-python-whitespace-001e-after-marker",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n-\u001e`Makefile:3` -- \"Synthetic citation\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [
+          "Makefile",
+          "notes/example.md"
+        ],
+        "protectedReports": [
+          {
+            "key": "2030-01-02 12:00|sample-project",
+            "verdict": "pending",
+            "reason": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "id": "r4-python-whitespace-001f-leading",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n\u001f- `Makefile:3` -- \"Synthetic citation\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [
+          "Makefile",
+          "notes/example.md"
+        ],
+        "protectedReports": [
+          {
+            "key": "2030-01-02 12:00|sample-project",
+            "verdict": "pending",
+            "reason": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "id": "r4-python-whitespace-001f-after-marker",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n-\u001f`Makefile:3` -- \"Synthetic citation\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [
+          "Makefile",
+          "notes/example.md"
+        ],
+        "protectedReports": [
+          {
+            "key": "2030-01-02 12:00|sample-project",
+            "verdict": "pending",
+            "reason": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "id": "r4-python-whitespace-0085-leading",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n- `Makefile:3` -- \"Synthetic citation\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [
+          "Makefile",
+          "notes/example.md"
+        ],
+        "protectedReports": [
+          {
+            "key": "2030-01-02 12:00|sample-project",
+            "verdict": "pending",
+            "reason": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "id": "r4-python-whitespace-0085-after-marker",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n-`Makefile:3` -- \"Synthetic citation\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [
+          "Makefile",
+          "notes/example.md"
+        ],
+        "protectedReports": [
+          {
+            "key": "2030-01-02 12:00|sample-project",
+            "verdict": "pending",
+            "reason": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "id": "r4-target-leading-space-identity",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- ` Makefile:3` -- \"Synthetic citation\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [
+          " Makefile"
+        ],
+        "protectedReports": [
+          {
+            "key": "2030-01-02 12:00|sample-project",
+            "verdict": "pending",
+            "reason": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "id": "r4-target-leading-nbsp-identity",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- ` Makefile:3` -- \"Synthetic citation\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [
+          " Makefile"
+        ],
+        "protectedReports": [
+          {
+            "key": "2030-01-02 12:00|sample-project",
+            "verdict": "pending",
+            "reason": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "id": "r4-target-leading-bom-identity",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `﻿Makefile:3` -- \"Synthetic citation\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [
+          "﻿Makefile"
+        ],
+        "protectedReports": [
+          {
+            "key": "2030-01-02 12:00|sample-project",
+            "verdict": "pending",
+            "reason": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "id": "r4-citation-before-first-header",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# UNDERSTUDY.md\n\n---\n\n- `notes/pre.md:3` -- \"Synthetic evidence\"\n# Understudy scan — 2030-01-02\n## Findings\n- `notes/example.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "citation-outside-report-block"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "r4-preamble-citation-before-quiet-report",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# UNDERSTUDY.md\n\n---\n\n- `notes/pre.md:3` -- \"Synthetic evidence\"\n# Understudy scan — 2030-01-02\n## Verdict\nNothing worth your attention.\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "citation-outside-report-block"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "r4-citation-after-terminator-before-next-header",
+      "input": {
+        "sweepLogText": "- 2030-01-01 09:00 - sample-project: ACCEPTED - old synthetic report\n- 2030-01-02 12:00 - sample-project: ACCEPTED - pending synthetic report",
+        "trustLedgerText": "{\"adjudications\":{\"2030-01-01 09:00|sample-project\":{\"verdict\":\"clean\"}}}",
+        "understudyText": "# Understudy scan — 2030-01-01\n## Findings\n- `notes/old.md:1` -- \"Synthetic evidence\"\n---\n- `notes/pre.md:3` -- \"Synthetic evidence\"\n# Understudy scan — 2030-01-02\n## Findings\n- `notes/new.md:1` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-02 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "report-content-after-terminator"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "r4-unknown-header-nel-cannot-hide-citations",
+      "input": {
+        "sweepLogText": "- 2030-01-01 09:00 - sample-project: ACCEPTED - old synthetic report\n- 2030-01-02 12:00 - sample-project: ACCEPTED - pending synthetic report",
+        "trustLedgerText": "{\"adjudications\":{\"2030-01-01 09:00|sample-project\":{\"verdict\":\"clean\"}}}",
+        "understudyText": "# Understudy scan — 2030-01-01\n## Findings\n- `notes/old.md:1` -- \"Synthetic evidence\"\n---\n\n#Understudy scan — 2030-01-02T12:00\n- `notes/first.md:4` -- \"Synthetic evidence\"\n# Understudy scan recap — 2030-01-02\n- `notes/second.md:5` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-02 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "unsupported-understudy-report-header"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "r4-unknown-header-cf-cannot-hide-citations",
+      "input": {
+        "sweepLogText": "- 2030-01-01 09:00 - sample-project: ACCEPTED - old synthetic report\n- 2030-01-02 12:00 - sample-project: ACCEPTED - pending synthetic report",
+        "trustLedgerText": "{\"adjudications\":{\"2030-01-01 09:00|sample-project\":{\"verdict\":\"clean\"}}}",
+        "understudyText": "# Understudy scan — 2030-01-01\n## Findings\n- `notes/old.md:1` -- \"Synthetic evidence\"\n---\n\n# Under​study scan — 2030-01-02T12:00\n- `notes/first.md:4` -- \"Synthetic evidence\"\n# Understudy scan recap — 2030-01-02\n- `notes/second.md:5` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-02 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "unsupported-understudy-report-header"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "r4-unknown-header-sweep-cannot-hide-citations",
+      "input": {
+        "sweepLogText": "- 2030-01-01 09:00 - sample-project: ACCEPTED - old synthetic report\n- 2030-01-02 12:00 - sample-project: ACCEPTED - pending synthetic report",
+        "trustLedgerText": "{\"adjudications\":{\"2030-01-01 09:00|sample-project\":{\"verdict\":\"clean\"}}}",
+        "understudyText": "# Understudy scan — 2030-01-01\n## Findings\n- `notes/old.md:1` -- \"Synthetic evidence\"\n---\n\n# Understudy sweep — 2030-01-02T12:00\n- `notes/first.md:4` -- \"Synthetic evidence\"\n# Understudy scan recap — 2030-01-02\n- `notes/second.md:5` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-02 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "unsupported-understudy-report-header"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "r4-quiet-section-prose-is-not-empty-evidence",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\nNothing worth your attention.\n## Additional finding: the archive index drifted\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "required-report-citations-missing"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "r4-quiet-issue-heading-is-not-empty-evidence",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\nNothing worth your attention.\n### 1. decisions.md is the only copy\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "required-report-citations-missing"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "r4-quiet-file-heading-is-not-empty-evidence",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\nNothing worth your attention.\n## alpha.md contradicts beta.md\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "required-report-citations-missing"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "r4-case-only-label-title-is-ambiguous",
+      "input": {
+        "sweepLogText": "- 2030-01-02 10:00 - Sample-Project: ACCEPTED - pending synthetic report\n- 2030-01-02 12:00 - sample-project: ACCEPTED - old synthetic report",
+        "trustLedgerText": "{\"adjudications\":{\"2030-01-02 12:00|sample-project\":{\"verdict\":\"clean\"}}}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/pending.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "project-label-case-variant"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "r4-case-only-label-upper-is-ambiguous",
+      "input": {
+        "sweepLogText": "- 2030-01-02 10:00 - SAMPLE-PROJECT: ACCEPTED - pending synthetic report\n- 2030-01-02 12:00 - sample-project: ACCEPTED - old synthetic report",
+        "trustLedgerText": "{\"adjudications\":{\"2030-01-02 12:00|sample-project\":{\"verdict\":\"clean\"}}}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/pending.md:3` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "project-label-case-variant"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "r4-utc-date-cross-match-cannot-cover-missing-block",
+      "input": {
+        "sweepLogText": "- 2030-01-02 23:30 - sample-project: ACCEPTED - old synthetic report\n- 2030-01-03 10:00 - sample-project: ACCEPTED - pending synthetic report",
+        "trustLedgerText": "{\"adjudications\":{\"2030-01-02 23:30|sample-project\":{\"verdict\":\"clean\"}}}",
+        "understudyText": "# Understudy scan — sample-project — 2030-01-03T04:30:00Z\n## Findings\n- `notes/old.md:1` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "required-report-block-unmatched"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "r4-model-day-order-cross-match-is-unknown",
+      "input": {
+        "sweepLogText": "- 2030-01-02 23:30 - sample-project: ACCEPTED - old synthetic report\n- 2030-01-03 00:05 - sample-project: ACCEPTED - pending synthetic report",
+        "trustLedgerText": "{\"adjudications\":{\"2030-01-02 23:30|sample-project\":{\"verdict\":\"clean\"}}}",
+        "understudyText": "# Understudy scan — sample-project — 2030-01-03T04:30:00Z\n## Findings\n- `notes/old.md:1` -- \"Synthetic evidence\"\n---\n# Understudy scan — sample-project — 2030-01-02T23:55:00-05:00\n## Findings\n- `notes/pending.md:1` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "understudy-block-order"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "r4-midnight-straddle-pruned-old-block-is-unknown",
+      "input": {
+        "sweepLogText": "- 2030-01-02 00:05 - sample-project: ACCEPTED - old synthetic report\n- 2030-01-03 00:04 - sample-project: ACCEPTED - pending synthetic report\n- 2030-01-04 00:06 - sample-project: ACCEPTED - old synthetic report",
+        "trustLedgerText": "{\"adjudications\":{\"2030-01-02 00:05|sample-project\":{\"verdict\":\"clean\"},\"2030-01-04 00:06|sample-project\":{\"verdict\":\"neutral\"}}}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Findings\n- `notes/pending.md:1` -- \"Synthetic evidence\"\n---\n# Understudy scan — 2030-01-03\n## Findings\n- `notes/third.md:1` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "required-report-block-unmatched"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "r4-protective-event-protects-all-block-citations",
+      "input": {
+        "sweepLogText": "- 2030-01-01 09:00 - sample-project: ACCEPTED - old synthetic report\n- 2030-01-02 12:00 - sample-project: ACCEPTED - pending synthetic report",
+        "trustLedgerText": "{\"adjudications\":{\"2030-01-01 09:00|sample-project\":{\"verdict\":\"clean\"}}}",
+        "understudyText": "# Understudy scan — 2030-01-01\n## Findings\n- `notes/old.md:1` -- \"Synthetic evidence\"\n---\n# Understudy scan — 2030-01-02\n## Findings\n- `notes/new.md:1` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [
+          "notes/new.md",
+          "notes/old.md"
+        ],
+        "protectedReports": [
+          {
+            "key": "2030-01-02 12:00|sample-project",
+            "verdict": "pending",
+            "reason": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "id": "r4-old-adjudicated-malformed-citation-not-a-safe-sink",
+      "input": {
+        "sweepLogText": "- 2030-01-01 09:00 - sample-project: ACCEPTED - old synthetic report\n- 2030-01-02 12:00 - sample-project: ACCEPTED - pending synthetic report",
+        "trustLedgerText": "{\"adjudications\":{\"2030-01-01 09:00|sample-project\":{\"verdict\":\"clean\"}}}",
+        "understudyText": "# Understudy scan — 2030-01-01\n## Findings\n- `Makefile` unsupported\n---\n# Understudy scan — 2030-01-02\n## Findings\n- `notes/new.md:1` -- \"Synthetic evidence\"\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "citation-unparseable"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "r4-source-quiet-verdict-heading-remains-supported",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — 2030-01-02\n## Verdict\nNothing worth your attention.\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "known",
+        "reasonCodes": [],
+        "blockEveryCandidate": false,
+        "protectedTargets": [],
+        "protectedReports": [
+          {
+            "key": "2030-01-02 12:00|sample-project",
+            "verdict": "pending",
+            "reason": "pending"
+          }
+        ]
+      }
+    },
+    {
+      "id": "r4-header-unrelated-project-text-is-unknown",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — unrelated arbitrary prose — 2030-01-02\n## Verdict\nNothing worth your attention.\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "unsupported-understudy-report-header"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "r4-header-invalid-clock-offset-is-unknown",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — sample-project — 2030-01-02T99:99:99+99:99\n## Verdict\nNothing worth your attention.\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "understudy-block-header-unparseable"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    },
+    {
+      "id": "r4-header-citation-looking-middle-is-unknown",
+      "input": {
+        "sweepLogText": "- 2030-01-02 12:00 - sample-project: ACCEPTED - synthetic report",
+        "trustLedgerText": "{\"threshold\":10,\"rung\":0,\"baseline\":{\"streak\":0,\"asof\":\"2030-01-01 00:00\",\"note\":\"Synthetic baseline\"},\"adjudications\":{},\"updatedAt\":\"2030-01-03T00:00:00Z\"}",
+        "understudyText": "# Understudy scan — `LICENSE` -- \"Synthetic evidence\" — 2030-01-02\n## Verdict\nNothing worth your attention.\n---",
+        "project": "sample-project",
+        "cutoffTimestamp": "2030-01-15 00:00"
+      },
+      "expected": {
+        "status": "adjudication-unknown",
+        "reasonCodes": [
+          "unsupported-understudy-report-header"
+        ],
+        "blockEveryCandidate": true,
+        "protectedTargets": [],
+        "protectedReports": []
+      }
+    }
+  ]
+}

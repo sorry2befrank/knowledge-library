@@ -1,0 +1,23 @@
+{
+  "schema": "reference-fixture-cases/v1",
+  "subject": "legacy-local-triage.perishability",
+  "constructionGrammar": "String values are literal text. Objects with concat, repeat or join are constructed recursively; repeat is [value,count], join is [value,count,separator].",
+  "executionStatus": "Expected outputs derived from the inspected formula; no source module or production test executed.",
+  "cases": [
+    {"id": "empty", "text": "", "expected": {"hits": 0, "per1k": 0, "classes": []}},
+    {"id": "ordinary-text", "text": "Ready for review.", "expected": {"hits": 0, "per1k": 0, "classes": []}},
+    {"id": "uppercase-status", "text": "DONE", "expected": {"hits": 1, "per1k": 500, "classes": ["status-word"]}},
+    {"id": "lowercase-status-does-not-match", "text": "done", "expected": {"hits": 0, "per1k": 0, "classes": []}},
+    {"id": "temporal", "text": "currently", "expected": {"hits": 1, "per1k": 222.22, "classes": ["temporal-claim"]}},
+    {"id": "money", "text": "$12.00", "expected": {"hits": 1, "per1k": 222.22, "classes": ["money"]}},
+    {"id": "counter", "text": "3/4", "expected": {"hits": 1, "per1k": 444.44, "classes": ["counter"]}},
+    {"id": "version", "text": "v1.2.3", "expected": {"hits": 1, "per1k": 111.11, "classes": ["version"]}},
+    {"id": "synthetic-hex", "text": "abcdef0", "expected": {"hits": 1, "per1k": 95.24, "classes": ["commit-sha"]}},
+    {"id": "synthetic-date", "text": "2030-01-02", "expected": {"hits": 1, "per1k": 33.33, "classes": ["iso-date"]}},
+    {"id": "status-and-date", "text": "DONE 2030-01-02", "expected": {"hits": 2, "per1k": 175, "classes": ["status-word", "iso-date"]}},
+    {"id": "all-marker-classes", "text": "DONE currently $12.00 3/4 v1.2.3 abcdef0 2030-01-02", "expected": {"hits": 7, "per1k": 217.86, "classes": ["status-word", "temporal-claim", "money", "counter", "version", "commit-sha", "iso-date"]}},
+    {"id": "date-dense-log", "text": {"join": ["2030-01-02", 200, " "]}, "expected": {"hits": 200, "per1k": 30.32, "classes": ["iso-date"]}},
+    {"id": "outside-scan-head", "text": {"concat": [{"repeat": ["x", 8000]}, " DONE"]}, "expected": {"hits": 0, "per1k": 0, "classes": []}},
+    {"id": "at-scan-boundary", "text": {"concat": [{"repeat": ["x", 7995]}, " DONE"]}, "expected": {"hits": 1, "per1k": 0.25, "classes": ["status-word"]}}
+  ]
+}

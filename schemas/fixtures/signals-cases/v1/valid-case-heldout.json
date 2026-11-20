@@ -1,0 +1,21 @@
+{
+  "caseId": "dddddddddddddddddddddddddddddddd",
+  "capability": "retrieval",
+  "scopeId": "global",
+  "privacy": "team",
+  "groupKey": "lineage:7QK2M9X4AB",
+  "lineageKey": "lineage:7QK2M9X4AB",
+  "inputRef": "{\"q_h\":\"...\"}",
+  "frozenFeatures": {},
+  "expected": {
+    "noteId": "7QK2M9X4AB"
+  },
+  "split": "heldout",
+  "sourceSignals": [
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  ],
+  "author": "frank",
+  "client": "connector",
+  "receiptId": null,
+  "status": "unconfirmed"
+}

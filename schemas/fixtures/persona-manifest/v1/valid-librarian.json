@@ -1,0 +1,48 @@
+{
+  "schema": "library-manifest/v1",
+  "adaptedFrom": "orrery-owner-manifest@pack-pending",
+  "id": "understudy.librarian.frank-epps",
+  "version": "0.1.0",
+  "tenant_id": "frank-epps",
+  "role": "librarian",
+  "risk_tier": "low-reversible",
+  "registryKey": "librarian",
+  "persona": {
+    "northstar": "persona/NORTHSTAR.md",
+    "directive": "persona/DIRECTIVE.md",
+    "corrections": "kl:corrections"
+  },
+  "knowledge": {
+    "collections": "pushed-in-scope",
+    "privacy_ceiling": "principal"
+  },
+  "tools": {
+    "capabilities": [
+      "tag",
+      "link",
+      "dedupe",
+      "supersede",
+      "context",
+      "focus",
+      "retrieval"
+    ],
+    "never": [
+      "policy.*",
+      "acl.*",
+      "retention.*",
+      "roots.*",
+      "eligibility.*",
+      "pins.*",
+      "ladder.*",
+      "overrides.confirm",
+      "delete",
+      "purge"
+    ]
+  },
+  "crew": {},
+  "reports": {
+    "contract": "MOVED|BLOCKED|HIRING|NEXT",
+    "extension": "LEARNED",
+    "cadence": "weekly"
+  }
+}

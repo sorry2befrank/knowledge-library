@@ -1,0 +1,1096 @@
+{
+  "format": "reference-pack-provenance/v1",
+  "packFormat": "reference-pack/1",
+  "preparedOn": "2026-10-05",
+  "status": "reference-pack",
+  "basis": [
+    {
+      "id": "planning-design-r0.4.2",
+      "sha256": "DB0C86664C1B72790A10E1DBBF39A98AC296DA44A0DAC78805B9F031E9384633",
+      "role": "local planning document; not published. Historical extraction basis; superseded for Library target requirements by the repository DESIGN.md r0.5",
+      "visibility": "local planning document; not published"
+    },
+    {
+      "id": "planning-reconciliation-r0.5",
+      "sha256": "26E4868F8D0E03CF9F0F076023B8C73F801EFA5C59F5250A841F38F44902A8B5",
+      "role": "local planning document; not published. Accepted decisions D1-D13",
+      "visibility": "local planning document; not published"
+    },
+    {
+      "id": "planning-adopted-codex-review",
+      "sha256": "C272DF8B4A978115BCDC44E01F4C91C3E1140FA9FA02301F893A104E67FDE9B9",
+      "role": "local planning document; not published. Adopted reference-pack order and Orrery integration contract",
+      "visibility": "local planning document; not published"
+    },
+    {
+      "id": "repository-design-r0.5",
+      "sha256": "D1354FB6097B0B7313474B24C8FD1A0E203507A31999440D43F2652F83F380A9",
+      "role": "observed draft r0.5 (historical extraction basis)"
+    },
+    {
+      "id": "reference-pack-review",
+      "sha256": "6A62F5BE0DB9F52622FFABDCA7DAD234E982C55BA863CDB482130DA63B5A57EE",
+      "role": "local planning document; not published. Requested pack revisions P01-P06, P08-P09, P11-P13, R2-01 through R2-10 and R3-01 through R3-15",
+      "visibility": "local planning document; not published"
+    },
+    {
+      "id": "repository-session-s1c",
+      "sha256": "CF04DFAAEAA7375C718B0E228E7AD4008164B792C8306C57B10CB2BAAAC63E24",
+      "role": "Published session work order; shared evidence-contract rulings applied by both lanes before new schema pins"
+    },
+    {
+      "id": "reference-pack-round4-review",
+      "sha256": "EA020B4684C62392CA9DBDF7DFE484533EF00F1DB44E058F8BBD9962C7115CDD",
+      "role": "Local partial review independently reproduced during takeover; source report is not published. Supplemental adversarial probes found raw-target identity and co-latest hash/version tie gaps.",
+      "visibility": "local review; not published"
+    },
+    {
+      "id": "repository-session-s1c-merged",
+      "sha256": "88B177BEF5D8172E9E8E162CAD9851A8C080B10E2E2AB40E90A2A3FEB29C7117",
+      "role": "Shared evidence rulings at the reviewed S1c merge; supersedes the earlier session extraction basis."
+    }
+  ],
+  "schemas": {
+    "denyTemplate": "knowledge-library-deny-reference/v1",
+    "policyAndScorerFixtures": "reference-fixture-cases/v1",
+    "runtimeFixtures": "reference-runtime-cases/v1",
+    "canonicalEvidenceContract": "library-evidence/v1",
+    "canonicalEvidenceWireSchemaCreated": false,
+    "canonicalEvidenceSchemaOwner": "knowledge-library-repository (Codex takeover)",
+    "evidenceFixtureBinding": {
+      "status": "bound-to-reviewed-merged-s1c",
+      "mergeCommit": "50f3f811ce7e64cf32ac21e079e3b33444def029",
+      "reviewedHead": "8ae1e5a7e5322f05f15622e10bca3e1be0e929d7",
+      "schemaPins": [
+        {
+          "path": "schemas/library-evidence-v1.json",
+          "sha256": "36DA96EE56D763A152C90BDF7310F15CD23CF9CE9898F8D0A446A8A72DBC7239"
+        },
+        {
+          "path": "schemas/library-evidence-signed-v1.json",
+          "sha256": "2D3F28DDCEECCBC54D4B8520543ED4E35AB22B17F6F38A50037A179B52A8386B"
+        }
+      ],
+      "sharedWireFixtureDirectories": [
+        "schemas/fixtures/library-evidence/v1/",
+        "schemas/fixtures/library-evidence-signed/v1/"
+      ],
+      "semanticFixtures": "fixtures/reference/runtime.cases.json",
+      "conformanceLimit": "This is a provenance binding, not a claim that semantic summaries satisfy either wire schema. The shared schema fixtures and consumer tests validate wire contracts; reference expectations require owning-lane integration.",
+      "hashRule": "SHA-256 over canonical Git blob bytes at mergeCommit."
+    },
+    "sweepProtectionFixtures": "reference-sweep-protection-cases/v1"
+  },
+  "sourceLocations": "Logical IDs only. Absolute source locations are retained exclusively in the local build report.",
+  "sourceHashCheck": {
+    "compared": 33,
+    "unchanged": 33,
+    "changed": 0
+  },
+  "sources": [
+    {
+      "id": "legacy-vault-policy",
+      "sha256": "4F43EDBD1E6530E372F594D082A054AA9DD1FC01D929F78A4B8B2D692CEEBA73",
+      "symbols": [
+        "denied:6",
+        "badFile:7",
+        "defaultGuard:8",
+        "deniedDirectory:10",
+        "checkName:11-15",
+        "guardContent:16-23"
+      ],
+      "transforms": [
+        "Retain generic patterns and thresholds.",
+        "Omit project/owner identifiers and private operational markers.",
+        "Mark required private overlay and Library refusal behavior as adaptations.",
+        "Credential detection language preserved; three literal prefixes rendered through equivalent quantified/singleton-class regex forms to avoid CI signature literals. Synthetic private-header fixture prefix split through the existing concat grammar; constructed input and expected behavior unchanged."
+      ]
+    },
+    {
+      "id": "legacy-static-policy",
+      "sha256": "FECC723C85DB87AD7730380DE1E47E84B30B312DED186EAE04295369DB768C4D",
+      "symbols": [
+        "DENIED_DIRS:4",
+        "DENIED_FILE:5",
+        "staticCheck:6-12"
+      ],
+      "transforms": [
+        "Retain generic denied segments and declarative restrictions.",
+        "Omit named-project and private audit/path exclusions.",
+        "Copy no reader/IO code."
+      ]
+    },
+    {
+      "id": "legacy-local-triage",
+      "sha256": "CB5B20269F81724862CD5C9B1AFB70A76B2568547C06BF67958A223EFB9D1059",
+      "symbols": [
+        "PERISHABLE_MARKERS:43-51",
+        "SCAN_CHARS:54",
+        "Perishability:56-63",
+        "perishability:66-88"
+      ],
+      "transforms": [
+        "Preserve scoring statements and regexes.",
+        "Adapt comments; omit personal benchmark prose, note examples and IO/ranking wrappers."
+      ]
+    },
+    {
+      "id": "owner-manifest-envelope",
+      "sha256": "75B0F41B5AFA67C464297E352F9F53B075D78DDA2D8A48FB63A854AFD50EF531",
+      "symbols": [
+        "envelope:2-9",
+        "persona:11-21",
+        "knowledge:24-40",
+        "tools:43-50",
+        "crew:53-74",
+        "reports:77-86",
+        "cache_layout:89-93"
+      ],
+      "transforms": [
+        "Export keys and JSON types only.",
+        "Replace all values/prompts/identities with fictional examples.",
+        "Map source envelope to distinct Library adaptation."
+      ]
+    },
+    {
+      "id": "orrery-personas",
+      "sha256": "4DD32E605AC6D01DCB426E80BC3C4A3B8F43154969D9F0D50571DC0812D317A3",
+      "symbols": [
+        "PersonaDef/loadPersonaRegistry:19-50",
+        "getPersona:56-57",
+        "appendCorrection:75-91",
+        "CORRECTION_TOPIC_RE:93",
+        "liveCorrections:95-115",
+        "parseFourFields:125-162",
+        "PersonaDef",
+        "loadPersonaRegistry",
+        "getPersona",
+        "appendCorrection",
+        "parseFourFields",
+        "fileReport"
+      ],
+      "transforms": [
+        "Describe structural declarations and exact parsing/fold behavior.",
+        "Export no correction history.",
+        "Mark author isolation and ownership capabilities as new adaptations."
+      ],
+      "aliases": [
+        "orrery/lib/armillary/personas.ts"
+      ],
+      "lineRanges": [
+        "19-63",
+        "75-91",
+        "131-159",
+        "207-229"
+      ]
+    },
+    {
+      "id": "understudy-agent-ladder",
+      "sha256": "0FCE7DF12D53B4660CDE718EB2B0AC4637BE569591B7BB7232BA95E22986638D",
+      "symbols": [
+        "usage:17-23",
+        "RUNGS:67-73",
+        "agent_entry:100-101",
+        "streaks:104-135",
+        "next_rung:138-150",
+        "cmd_record:153-170",
+        "cmd_promote:173-196",
+        "cmd_sync_crew:199-240",
+        "projections:243-306",
+        "dispatch:339-360"
+      ],
+      "transforms": [
+        "Describe interface and earn filters using synthetic records.",
+        "Omit configured agents and runtime state.",
+        "Do not equate generic outcomes with Library authority."
+      ]
+    },
+    {
+      "id": "orrery-evolution",
+      "sha256": "481BC5CB0DB33A46C0F807201ABAFE86C7CE5A976AFC438B92BA5D06358E3CED",
+      "symbols": [
+        "version:7",
+        "schema:11-35",
+        "digest/opaque:44-49",
+        "cleanRelative:52-65",
+        "evolutionScope:86-110",
+        "appendEvolutionEvent:113-141",
+        "reader:143-149",
+        "candidateCheck:152-160",
+        "summary:163-171"
+      ],
+      "transforms": [
+        "Describe shape and runtime validation limits.",
+        "Use fictional IDs/digests.",
+        "Mark Library additions as requirements, not canonical schema fields."
+      ]
+    },
+    {
+      "id": "orrery/lib/armillary/ripple-watch.ts",
+      "sha256": "C254BC5B94B73DBA26A4237FFD0DFAF979732BBCA3F225D94EC1790BEE27E336",
+      "symbols": [
+        "RIPPLE_WATCH_DEBOUNCE_MS",
+        "RIPPLE_SUPPRESSION_REASONS",
+        "suppressionFor",
+        "createRippleWatchGate",
+        "routeRippleWatchEvent"
+      ],
+      "lineRanges": [
+        "6-20",
+        "69-123",
+        "227-237"
+      ],
+      "transforms": [
+        "Static source inspection paraphrased into generic contracts.",
+        "Preserve field/marker names and behavior; export no runtime prose, identities, state or paths."
+      ]
+    },
+    {
+      "id": "orrery/lib/armillary/ripple.ts",
+      "sha256": "C45B2CE93B44F9E68E80EC9C8D47ABAFCD29993DDB2F9213B43523ABFFE077A2",
+      "symbols": [
+        "IGNORE_DIRS",
+        "TEXT_EXT",
+        "MAX_FILE_BYTES",
+        "MAX_HITS",
+        "MIN_TOKEN",
+        "walk",
+        "detectRipple"
+      ],
+      "lineRanges": [
+        "34-44",
+        "56-123"
+      ],
+      "transforms": [
+        "Static source inspection paraphrased into generic contracts.",
+        "Preserve field/marker names and behavior; export no runtime prose, identities, state or paths."
+      ]
+    },
+    {
+      "id": "orrery/lib/armillary/ripple-rot.ts",
+      "sha256": "F517B2DB99CB2321C948FA6B0412C690E7D23557ABFC347C2D5548AF8D8793CC",
+      "symbols": [
+        "NOISE",
+        "HISTORICAL",
+        "splitHit",
+        "buildHomeIndex",
+        "rotFindings",
+        "correctionFor"
+      ],
+      "lineRanges": [
+        "55-71",
+        "73-123",
+        "158-209",
+        "219-241"
+      ],
+      "transforms": [
+        "Static source inspection paraphrased into generic contracts.",
+        "Preserve field/marker names and behavior; export no runtime prose, identities, state or paths."
+      ]
+    },
+    {
+      "id": "orrery/scripts/armillary-loop.mjs",
+      "sha256": "B3E7062C92597B990FAB3C0FFF653D95310502F4594D1E86C8E4CC9A3C15E4DA",
+      "symbols": [
+        "FLEET_ROOTS:41",
+        "MIN_TOKEN:42",
+        "tokenFor",
+        "scanRipple",
+        "runSupervisor pending/flush"
+      ],
+      "lineRanges": [
+        "41",
+        "42",
+        "70-99",
+        "148-174"
+      ],
+      "transforms": [
+        "Static source inspection paraphrased into generic contracts.",
+        "Preserve field/marker names and behavior; export no runtime prose, identities, state or paths."
+      ]
+    },
+    {
+      "id": "orrery/scripts/armillary-daily.mjs",
+      "sha256": "5F92153A07A2EACAFBAC507E0018758F5B501641075C848A417B300ED02C1963",
+      "symbols": [
+        "run environment extension"
+      ],
+      "lineRanges": [
+        "195-220"
+      ],
+      "transforms": [
+        "Static source inspection paraphrased into generic contracts.",
+        "Preserve field/marker names and behavior; export no runtime prose, identities, state or paths."
+      ]
+    },
+    {
+      "id": "orrery/scripts/claude-cli.mjs",
+      "sha256": "3A2052CE4BA0559B793C04F17F99A8FC381EB99E7DBD1273ACB9A7395C5CE66E",
+      "symbols": [
+        "buildClaudeEnv",
+        "spawnClaude"
+      ],
+      "lineRanges": [
+        "59-85"
+      ],
+      "transforms": [
+        "Static source inspection paraphrased into generic contracts.",
+        "Preserve field/marker names and behavior; export no runtime prose, identities, state or paths."
+      ]
+    },
+    {
+      "id": "orrery/lib/armillary/rehearsal-inbox.ts",
+      "sha256": "77438E304A316566877658E6BDD610D94C386A572483A42850C740A69D54572F",
+      "symbols": [
+        "homeFor",
+        "promoteSkillToHome",
+        "grownSkills"
+      ],
+      "lineRanges": [
+        "49-94",
+        "99-116"
+      ],
+      "transforms": [
+        "Static source inspection paraphrased into generic contracts.",
+        "Preserve field/marker names and behavior; export no runtime prose, identities, state or paths."
+      ]
+    },
+    {
+      "id": "orrery/lib/armillary/rehearsal.ts",
+      "sha256": "F59762DBAD3CEC2EB619F7490B1085A8C820F173AF1EE84DAD756F6BEB87F87C",
+      "symbols": [
+        "tasksFromCommons",
+        "promoteProposal"
+      ],
+      "lineRanges": [
+        "86-124",
+        "166-184"
+      ],
+      "transforms": [
+        "Static source inspection paraphrased into generic contracts.",
+        "Preserve field/marker names and behavior; export no runtime prose, identities, state or paths."
+      ]
+    },
+    {
+      "id": "orrery/lib/armillary/auto-home.ts",
+      "sha256": "BBA50E92A95D064197E9B413B2509C6A780D01DFE166D966E353C60E380CF118",
+      "symbols": [
+        "autoHomeGrownSkills",
+        "recordReversal"
+      ],
+      "lineRanges": [
+        "81-106"
+      ],
+      "transforms": [
+        "Static source inspection paraphrased into generic contracts.",
+        "Preserve field/marker names and behavior; export no runtime prose, identities, state or paths."
+      ]
+    },
+    {
+      "id": "orrery/lib/armillary/operating-model.ts",
+      "sha256": "3D5D2C5D246EF32F164EFE194008B9ED463EC581668805CBFF7CA0B5B33CC06F",
+      "symbols": [
+        "writeOperatingModels"
+      ],
+      "lineRanges": [
+        "144-180"
+      ],
+      "transforms": [
+        "Static source inspection paraphrased into generic contracts.",
+        "Preserve field/marker names and behavior; export no runtime prose, identities, state or paths."
+      ]
+    },
+    {
+      "id": "orrery/lib/armillary/orbit-turnover.ts",
+      "sha256": "B40D70D85832DA4404A38C9FA800556AB3DB59921732C39688FD672DC2B4297B",
+      "symbols": [
+        "writePersonaPassdown",
+        "buildOrbitPassdowns"
+      ],
+      "lineRanges": [
+        "502-558",
+        "574-649"
+      ],
+      "transforms": [
+        "Static source inspection paraphrased into generic contracts.",
+        "Preserve field/marker names and behavior; export no runtime prose, identities, state or paths."
+      ]
+    },
+    {
+      "id": "orrery/lib/armillary/hiring.ts",
+      "sha256": "3F9B959103E744D30285E413BCE3B10BC67AD86C14AF18609155BBECDBDDBB32",
+      "symbols": [
+        "crewLeaf:177-183",
+        "approveHire"
+      ],
+      "lineRanges": [
+        "177-183",
+        "219-327"
+      ],
+      "transforms": [
+        "Static source inspection paraphrased into generic contracts.",
+        "Preserve field/marker names and behavior; export no runtime prose, identities, state or paths."
+      ]
+    },
+    {
+      "id": "orrery/lib/armillary/income-lanes.ts",
+      "sha256": "A3D8F3483EF48F785327F3AF142D93C703E39EE936859F241714649FD8ED010D",
+      "symbols": [
+        "createIncomeLane"
+      ],
+      "lineRanges": [
+        "63-145"
+      ],
+      "transforms": [
+        "Static source inspection paraphrased into generic contracts.",
+        "Preserve field/marker names and behavior; export no runtime prose, identities, state or paths."
+      ]
+    },
+    {
+      "id": "orrery/app/api/console/route.ts",
+      "sha256": "1A6601B387F0C54AC516FA1C3943365103D1A8F25E558C1137B296A3794313A9",
+      "symbols": [
+        "POST personaDirective"
+      ],
+      "lineRanges": [
+        "413-420"
+      ],
+      "transforms": [
+        "Static source inspection paraphrased into generic contracts.",
+        "Preserve field/marker names and behavior; export no runtime prose, identities, state or paths."
+      ]
+    },
+    {
+      "id": "orrery/scripts/armillary-correct.mjs",
+      "sha256": "CA0209B6B2B804348D98795E81A63BCE780E9A2C1D071E198FA3162C700D58EA",
+      "symbols": [
+        "P.getPersona / P.appendCorrection"
+      ],
+      "lineRanges": [
+        "44-54"
+      ],
+      "transforms": [
+        "Static source inspection paraphrased into generic contracts.",
+        "Preserve field/marker names and behavior; export no runtime prose, identities, state or paths."
+      ]
+    },
+    {
+      "id": "orrery/lib/armillary/missions.ts",
+      "sha256": "D64C1FEC0696079302AE4A50FE94F59F00FC459AFB483C8DE299E862B81A8ADB",
+      "symbols": [
+        "enabledPersonas",
+        "missionDecision"
+      ],
+      "lineRanges": [
+        "173-176",
+        "253-281"
+      ],
+      "transforms": [
+        "Static source inspection paraphrased into generic contracts.",
+        "Preserve field/marker names and behavior; export no runtime prose, identities, state or paths."
+      ]
+    },
+    {
+      "id": "orrery/scripts/armillary-passes.mjs",
+      "sha256": "4A4D714E50EC25811099D1B4C16DD8CF072C116BE172A8DA0D25564C112A70C5",
+      "symbols": [
+        "registeredPersonas / planMissionAwareCycle"
+      ],
+      "lineRanges": [
+        "53-78"
+      ],
+      "transforms": [
+        "Static source inspection paraphrased into generic contracts.",
+        "Preserve field/marker names and behavior; export no runtime prose, identities, state or paths."
+      ]
+    },
+    {
+      "id": "orrery/scripts/armillary-persona.mjs",
+      "sha256": "FF3D8036F14C1FBB8D23F340F8D3E2CB10B2B4E2813EC4E1E904A6D662C0E907",
+      "symbols": [
+        "delivery admission / missionDecision"
+      ],
+      "lineRanges": [
+        "220-243"
+      ],
+      "transforms": [
+        "Static source inspection paraphrased into generic contracts.",
+        "Preserve field/marker names and behavior; export no runtime prose, identities, state or paths."
+      ]
+    },
+    {
+      "id": "orrery/lib/armillary/hub.ts",
+      "sha256": "853FFBC7893AD0D53F15E6C3FB59C065E6048AD44DF66854C3D2DFF3BE50E82C",
+      "symbols": [
+        "FlowStep",
+        "FlowHealth",
+        "flowHealth judge and aggregation"
+      ],
+      "lineRanges": [
+        "723-743",
+        "759-766",
+        "1560-1589"
+      ],
+      "transforms": [
+        "Static source inspection paraphrased into generic contracts.",
+        "Preserve field/marker names and behavior; export no runtime prose, identities, state or paths."
+      ]
+    },
+    {
+      "id": "orrery/lib/types.ts",
+      "sha256": "B236CAEEA0D82AC6633C6F6D2017E256ECD0FAC04521F1BEF2EB6D92BCD60A3A",
+      "symbols": [
+        "Project archived/archivedManual/path"
+      ],
+      "lineRanges": [
+        "34-63"
+      ],
+      "transforms": [
+        "Static source inspection paraphrased into generic contracts.",
+        "Preserve field/marker names and behavior; export no runtime prose, identities, state or paths."
+      ]
+    },
+    {
+      "id": "orrery/scripts/flow-health.mjs",
+      "sha256": "D06536957CA3652139ACBE713A1061D3BA5C3D7DCE4E71C67668835C4932A6CF",
+      "symbols": [
+        "flow-health summary / per-step projection"
+      ],
+      "lineRanges": [
+        "45-88"
+      ],
+      "transforms": [
+        "Static source inspection paraphrased into generic contracts.",
+        "Preserve field/marker names and behavior; export no runtime prose, identities, state or paths."
+      ]
+    },
+    {
+      "id": "understudy/understudy-sweep.ps1",
+      "sha256": "9E86BE341527E6ACFB640C6AEB4192E554ED79CEA3C495626E7A2A7E03E04B7F",
+      "symbols": [
+        "Invoke-Sweep",
+        "Write-SweepLog:50-55",
+        "non-report messages:62,101,270,319",
+        "accepted append:288-307",
+        "accepted report log:329"
+      ],
+      "lineRanges": [
+        "101",
+        "233-243",
+        "270",
+        "288-307",
+        "319",
+        "329",
+        "50-55",
+        "62"
+      ],
+      "transforms": [
+        "Describe invocation and environment limits; omit prompts/allowed paths.",
+        "Describe sweep-log row grammar, known non-report forms and accepted-report append order; omit prompts, project lists and live logs."
+      ]
+    },
+    {
+      "id": "understudy/adjudicate-report.ps1",
+      "sha256": "95C4C218C45BD1B0430782BB391D357D347811002AEA5DE4AEF3D0EE715673B6",
+      "symbols": [
+        "print-mode invocation / verdict handling",
+        "report identity:32-43",
+        "dated-block selection:55-68"
+      ],
+      "lineRanges": [
+        "96-104",
+        "126-133",
+        "32-43",
+        "55-68"
+      ],
+      "transforms": [
+        "Describe invocation and label limits; omit prompts/allowed paths.",
+        "Describe exact timestamp/project lookup and day-only block matching limits; new adapter rejects ambiguous matches."
+      ]
+    },
+    {
+      "id": "understudy-trust-ledger",
+      "sha256": "36E2EAA5A511D953182F896EE768F04E0466714B2024BE915BA68EF19B803E15",
+      "symbols": [
+        "REPORT_RE:48-51",
+        "default shape:83-95",
+        "load fallback:98-109",
+        "key_for:119-120",
+        "read_report_events:123-133",
+        "verdict_for:136-145",
+        "cmd_adjudicate:390-402"
+      ],
+      "lineRanges": [
+        "48-51",
+        "83-95",
+        "98-109",
+        "119-145",
+        "390-402"
+      ],
+      "transforms": [
+        "Describe event, exact identity-key and explicit verdict formats; omit original baseline identities, prompts and runtime state.",
+        "Author a new pure Library format adapter that rejects missing, malformed and ambiguous evidence rather than restoring default counting state.",
+        "Use fictional logs, reports, adjudications and timestamps only; no original script executed."
+      ]
+    },
+    {
+      "id": "understudy-verify-report",
+      "sha256": "EA2F357EF5DC47C8698E255706ECE283B848B41FCDDBCB0D57E9FFF67BB340FA",
+      "symbols": [
+        "BULLET:34-36",
+        "citation handling:184-231",
+        "no-findings form:245-248"
+      ],
+      "lineRanges": [
+        "153",
+        "184-231",
+        "245-248",
+        "34-36",
+        "34-41",
+        "92-101"
+      ],
+      "transforms": [
+        "Describe supported citation syntax with fictional targets and evidence.",
+        "Extract unresolved protective references only; omit filesystem verification and model prompts.",
+        "New adapter conservatively rejects unsupported target syntax; it does not replace source citation verification.",
+        "Recognize only the source verifier no-findings form as a zero-citation report; other protective zero-citation text remains unknown."
+      ]
+    },
+    {
+      "id": "understudy-sweep-skill",
+      "sha256": "E34F4ABE322B973340CDBD8310F41F8645F1176427EE394147C17CFA5BBC7DD8",
+      "symbols": [
+        "evidence citation grammar:88-94",
+        "report header and layout:206-238"
+      ],
+      "lineRanges": [
+        "88-94",
+        "206-238"
+      ],
+      "transforms": [
+        "Describe only report-header and evidence-citation formats using fictional examples; no prompt text exported.",
+        "Support ISO timestamp headers without converting their recorded calendar date or guessing a report identity."
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "docs/reference/README.md",
+      "bytes": 7716,
+      "sha256": "5E6824B8308CBEFF289E51627F67BBC3227FFAE5031BABD899B931D540615E00",
+      "derivedFrom": [],
+      "role": "index"
+    },
+    {
+      "path": "docs/reference/corrections.md",
+      "bytes": 4246,
+      "sha256": "60099D6340423C10AFCA830BC6556F65B8D4B134586A36192033FE42F58F7171",
+      "derivedFrom": [
+        "orrery-personas"
+      ]
+    },
+    {
+      "path": "docs/reference/evolution.md",
+      "bytes": 4437,
+      "sha256": "BCB3FBE95EC0902E7E21E1CB1445878A54E20A4130FF599C926970F68E800A4A",
+      "derivedFrom": [
+        "orrery-evolution"
+      ]
+    },
+    {
+      "path": "docs/reference/headless.md",
+      "bytes": 3812,
+      "sha256": "75073E54075AD2430ED0F73FBF777D22C05DE1B07DF4260B8E3976650B63E3AA",
+      "derivedFrom": [
+        "orrery/scripts/armillary-daily.mjs",
+        "orrery/scripts/claude-cli.mjs",
+        "understudy/understudy-sweep.ps1",
+        "understudy/adjudicate-report.ps1"
+      ]
+    },
+    {
+      "path": "docs/reference/ladder.md",
+      "bytes": 4623,
+      "sha256": "222C5543E807A7F14054F1C0D88B2F98D23280AAEEFF3D6C1E82388E9A60EE57",
+      "derivedFrom": [
+        "understudy-agent-ladder"
+      ]
+    },
+    {
+      "path": "docs/reference/manifest-mapping.md",
+      "bytes": 7229,
+      "sha256": "14E8EA4F9F05645B132A210C8506CEF2F2A7D8D66833A22AB303F332AE8CEAA1",
+      "derivedFrom": [
+        "owner-manifest-envelope",
+        "understudy-agent-ladder",
+        "orrery/lib/armillary/hiring.ts"
+      ]
+    },
+    {
+      "path": "docs/reference/orrery-integration.md",
+      "bytes": 22659,
+      "sha256": "14350FC431CFC67C5AC5DE7E5809989B73C78E94D76E2DE00D85784DC9DFAA53",
+      "derivedFrom": [
+        "orrery-personas",
+        "orrery/lib/armillary/rehearsal-inbox.ts",
+        "orrery/lib/armillary/rehearsal.ts",
+        "orrery/lib/armillary/auto-home.ts",
+        "orrery/lib/armillary/operating-model.ts",
+        "orrery/lib/armillary/orbit-turnover.ts",
+        "orrery/lib/armillary/hiring.ts",
+        "orrery/lib/armillary/income-lanes.ts",
+        "orrery/app/api/console/route.ts",
+        "orrery/scripts/armillary-correct.mjs",
+        "orrery/lib/armillary/missions.ts",
+        "orrery/scripts/armillary-passes.mjs",
+        "orrery/scripts/armillary-persona.mjs",
+        "orrery/lib/armillary/hub.ts",
+        "orrery/lib/types.ts",
+        "orrery/scripts/flow-health.mjs"
+      ]
+    },
+    {
+      "path": "docs/reference/policy-and-scorer.md",
+      "bytes": 6292,
+      "sha256": "A5AEAD949466C1D25B19E1EB649D5A821D57AEE54C32C7F52BF9553392D706E0",
+      "derivedFrom": [
+        "legacy-vault-policy",
+        "legacy-static-policy",
+        "legacy-local-triage"
+      ]
+    },
+    {
+      "path": "docs/reference/reports-and-turnover.md",
+      "bytes": 4265,
+      "sha256": "652C0E038E68CEBA0814B7FC38E2A4D9CBD294390376DF628632278D79998F3E",
+      "derivedFrom": [
+        "orrery-personas"
+      ]
+    },
+    {
+      "path": "docs/reference/ripple.md",
+      "bytes": 6662,
+      "sha256": "EE21577EC1AE8E6CEFD20F0846CE9D67EEA75ADD6ABE8ABF7D34391A740EE6D6",
+      "derivedFrom": [
+        "orrery/lib/armillary/ripple-watch.ts",
+        "orrery/lib/armillary/ripple.ts",
+        "orrery/lib/armillary/ripple-rot.ts",
+        "orrery/scripts/armillary-loop.mjs"
+      ]
+    },
+    {
+      "path": "docs/reference/sweep-protection.md",
+      "derivedFrom": [
+        "understudy-trust-ledger",
+        "understudy-verify-report",
+        "understudy/understudy-sweep.ps1",
+        "understudy/adjudicate-report.ps1",
+        "understudy-sweep-skill"
+      ],
+      "bytes": 16110,
+      "sha256": "A1B076631509BC7DA74EC2F4530ABB4097DB648AF4AF1B7CBDE495186AC8C4B9"
+    },
+    {
+      "path": "fixtures/reference/learning.cases.json",
+      "bytes": 20591,
+      "sha256": "0F0B5EB4389BC9C84A2FBA62BFD15BA319C71530BD89652B6FB0AEBB01BCA3F2",
+      "derivedFrom": [
+        "owner-manifest-envelope",
+        "orrery-personas",
+        "understudy-agent-ladder",
+        "orrery-evolution"
+      ]
+    },
+    {
+      "path": "fixtures/reference/policy.cases.json",
+      "bytes": 7777,
+      "sha256": "45660399B5704C945DEF8171DD4441CB61212073516A845B6FB078C4BEBD8BC5",
+      "derivedFrom": [
+        "legacy-vault-policy",
+        "legacy-static-policy"
+      ]
+    },
+    {
+      "path": "fixtures/reference/runtime.cases.json",
+      "bytes": 280543,
+      "sha256": "2C48DAF377BE901B8B6D2CCCCCCFEF52EB702315AA3E68EC43BC90B5896A8F2A",
+      "derivedFrom": [
+        "orrery-personas",
+        "orrery/lib/armillary/hub.ts",
+        "orrery/lib/armillary/rehearsal-inbox.ts",
+        "orrery/lib/armillary/ripple-rot.ts",
+        "orrery/lib/armillary/ripple-watch.ts",
+        "orrery/lib/armillary/ripple.ts",
+        "orrery/scripts/armillary-daily.mjs",
+        "orrery/scripts/armillary-loop.mjs",
+        "orrery/scripts/claude-cli.mjs",
+        "understudy/adjudicate-report.ps1",
+        "understudy/understudy-sweep.ps1"
+      ]
+    },
+    {
+      "path": "fixtures/reference/scorer.cases.json",
+      "bytes": 2327,
+      "sha256": "5B1B5385EC7AF279DEA904BEEFF7E72879A947314479EC2DC4A472B3D4E5E268",
+      "derivedFrom": [
+        "legacy-local-triage"
+      ]
+    },
+    {
+      "path": "fixtures/reference/sweep-protection.cases.json",
+      "derivedFrom": [
+        "understudy-trust-ledger",
+        "understudy-verify-report",
+        "understudy/understudy-sweep.ps1",
+        "understudy/adjudicate-report.ps1",
+        "understudy-sweep-skill"
+      ],
+      "bytes": 104720,
+      "sha256": "0D6E457096D51B2B6908E2A685C535C22919358E9C8178B7D987069684537AD8"
+    },
+    {
+      "path": "policy/deny.template.json",
+      "bytes": 4358,
+      "sha256": "FD6B312333F393F2159C077A064CF64C7AD01EDBE4AFEFF4E173FF1F98A725CB",
+      "derivedFrom": [
+        "legacy-vault-policy",
+        "legacy-static-policy"
+      ]
+    },
+    {
+      "path": "vendor/perishability.ts",
+      "bytes": 2052,
+      "sha256": "1F90D085FC9B36F9890E7C9080863148802DACC6F8DC68818D58886B9965E1A5",
+      "derivedFrom": [
+        "legacy-local-triage"
+      ]
+    },
+    {
+      "path": "vendor/sweep-protection.mjs",
+      "derivedFrom": [
+        "understudy-trust-ledger",
+        "understudy-verify-report",
+        "understudy/understudy-sweep.ps1",
+        "understudy/adjudicate-report.ps1",
+        "understudy-sweep-skill"
+      ],
+      "bytes": 13792,
+      "sha256": "1781C8FEAF7883C5AD49257CC2321E3B2E896CFE481375BCBD8ABCA29A42CE4A"
+    }
+  ],
+  "selfHashPolicy": "This file's SHA-256 is recorded in the local exact-inventory receipt; omitted here to avoid recursive self-hashing.",
+  "redactions": [
+    "All original manifest values, prompts, identities and cache guidance omitted.",
+    "Named-project/client deny segments, owner-specific path markers and audit prefixes omitted.",
+    "Real client matching overlay remains owner-controlled outside publication.",
+    "Personal benchmarks and original note/report/correction/eval examples omitted.",
+    "No production ledger, runtime state, registry entry, environment value or credential copied.",
+    "Paths in synthetic fixtures use a fictional fixture namespace."
+  ],
+  "verification": {
+    "jsonFilesBeforeProvenance": 6,
+    "fixtureCases": {
+      "learning": 39,
+      "policy": 35,
+      "runtime": 154,
+      "scorer": 15,
+      "sweep-protection": 108,
+      "total": 351
+    },
+    "uniqueFixtureIds": true,
+    "scorerSyntax": "Type-stripped syntax check only; no source module executed",
+    "scorerStatementAndRegexParity": true,
+    "learningOracleChecks": {
+      "passed": 31,
+      "basis": "Rerun 31 independent in-memory legacy-behavior checks in revision 3; no original script/module executed. Eight other learning fixtures remain structural/adaptation expectations.",
+      "coverage": {
+        "topicFolds": 7,
+        "topicNormalizations": 2,
+        "reportParses": 8,
+        "rungStreaks": 5,
+        "evolutionReaderChecks": 9
+      }
+    },
+    "runtimeScenariosExecuted": false,
+    "targetedPrivacyScanFindings": 0,
+    "repositoryWrites": true,
+    "scorerArithmeticChecks": {
+      "passed": 15,
+      "basis": "Independent in-memory arithmetic and constructor checks; no source or extracted module executed"
+    },
+    "revisionFindingsAddressed": [
+      "P01",
+      "P02",
+      "P03",
+      "P04",
+      "P05",
+      "P06",
+      "P08",
+      "P09",
+      "P11",
+      "P12",
+      "P13",
+      "R2-01",
+      "R2-02",
+      "R2-03",
+      "R2-04",
+      "R2-05",
+      "R2-06",
+      "R2-07",
+      "R2-08",
+      "R2-09",
+      "R2-10",
+      "R3-01",
+      "R3-02",
+      "R3-03",
+      "R3-04",
+      "R3-05",
+      "R3-06",
+      "R3-07",
+      "R3-08",
+      "R3-09",
+      "R3-10",
+      "R3-11",
+      "R3-12",
+      "R3-13",
+      "R3-14",
+      "R3-15"
+    ],
+    "artifactSourceLinks": {
+      "artifacts": 19,
+      "references": 70,
+      "allResolve": true,
+      "indexArtifacts": 1
+    },
+    "policyFixtureChecks": {
+      "passed": 35,
+      "basis": "Independent in-memory declaration checks over synthetic fixtures; no source module executed"
+    },
+    "runtimeSemanticChecks": {
+      "casesPassed": 128,
+      "expectedTopLevelFieldAssertions": 325,
+      "assertionDefinition": "One deep equality for each explicitly listed expected top-level field; object-valued fields count once. Checked keys are declared in runtime fixture metadata.",
+      "deliberateOracleRegressionsDetected": 13,
+      "basis": "Re-executed independent contract expectation oracle; no original/Orrery runtime executed and no signed-wrapper or canonical wire-schema conformance claimed. The other 26 runtime summaries remain reference expectations, not executed scenarios.",
+      "independentReviewer": {
+        "casesPassed": 128,
+        "expectedTopLevelFieldAssertions": 325,
+        "oracleRegressionsDetected": 13,
+        "orderPermutationsChecked": 386,
+        "receiptSha256": "EE3DA0B847F148B5B6394509164854449C66DE5824E68048688C22F9E0D6084B"
+      }
+    },
+    "sweepProtectionChecks": {
+      "casesPassed": 108,
+      "fullResultEqualityAssertions": 108,
+      "knownResults": 38,
+      "unknownResults": 70,
+      "deliberateAdapterRegressionsDetected": 8,
+      "failingFirst": "27 new cases failed against the untouched previous adapter; three further header cases failed before their final grammar fix. Five prior unknown cases now report earlier framing reasons; all five remain unknown.",
+      "execution": "Only the newly authored pure adapter executed. No original source script was run. No new real-format census is claimed."
+    },
+    "ciSignatureScan": {
+      "patternSource": "scripts/lib/scan-secrets.ts at 50f3f811ce7e64cf32ac21e079e3b33444def029",
+      "filesScanned": 20,
+      "credentialExclusions": [],
+      "pathExclusions": "CI excludes docs, README and .gitignore; independent pack privacy scan has no path exclusions.",
+      "credentialOrPathMatchLines": 0,
+      "note": "Exact shared CI scanner run locally on candidate; publication still needs a green cloud CI run."
+    },
+    "historicalChecksNotRepeated": {
+      "credentialRegexParity": {
+        "probesPassed": 584,
+        "inverseRepresentationMatchesSource": true,
+        "flagsUnchanged": true,
+        "basis": "Old-versus-new regex probes, including length thresholds, boundaries and case variants",
+        "verifiedIn": "revision 2 (2026-10-04)",
+        "reason": "Policy, scorer, regex declarations and their fixture bytes are unchanged; current revision rechecked declaration parity and policy/scorer results without repeating the 584 matching probes."
+      },
+      "revision3RuntimeSemanticChecks": {
+        "casesPassed": 75,
+        "expectedFieldAssertions": 219,
+        "deliberateRegressionsDetected": 6,
+        "independentReviewer": {
+          "casesPassed": 75,
+          "coreExpectedFieldAssertions": 207
+        },
+        "basis": "Standalone contract expectation oracles only; no original/cloud/Orrery runtime executed, no signed-wrapper or canonical wire-schema conformance claimed. The other 26 unchanged runtime summaries were not re-executed."
+      },
+      "revision3SweepProtectionChecks": {
+        "fixturesPassed": 75,
+        "independentReviewerFixturesPassed": 75,
+        "independentAdditionalFilenameProbesPassed": 8,
+        "originalExpectationsUpdatedForApprovedRules": 3,
+        "execution": "Only the newly authored pure candidate adapter executed. Synthetic fixtures and a counts-only local real-format probe were run; original scripts were never executed. No live row, identity, path or target was exported.",
+        "originalInputsRetained": 48,
+        "originalInputMigration": "One fixture renamed from date-only-adjudication-key-is-unknown to date-only-adjudication-keeps-report-pending when R3-05(b) changed its expected result from unknown to known/pending; two other expectations changed in place. These are revision-3 receipts, not proof that the original expectations remained unchanged."
+      }
+    },
+    "realFormatProbe": {
+      "reportLocation": "Excluded local build receipt; counts only",
+      "logRowsRecognized": 184,
+      "logRowsTotal": 184,
+      "reportHeadersParsed": 174,
+      "reportHeadersTotal": 180,
+      "reportFiles": 25,
+      "knownResults": 0,
+      "unknownResults": 25,
+      "unknownReasonCounts": {
+        "citation-unparseable": 17,
+        "understudy-block-header-unparseable": 4,
+        "no-report-lines-for-folder": 4
+      },
+      "inputHashesUnchanged": 27,
+      "inputHashesChanged": 0,
+      "scope": "Non-atomic format coverage only. Snapshot byte stability does not establish S2 identity/IO/freshness or removal authority. Unknown results block every candidate.",
+      "measuredFingerprint": "55AD568BCCC5880AA993BD2DD5B387687B23B3044FFE52B025D6E2A508C7A8D9",
+      "measuredBefore": "takeover round-4 corrections; not a measurement of changed parser bytes"
+    },
+    "originalSourcesExecuted": false,
+    "productionServicesInvoked": false,
+    "productionDataModified": false,
+    "repositoryWriteScope": "Takeover edits are confined to the local planning packet and the isolated Library repository. Reference-pack publication follows publicationGate; no production source modules or running Orrery/Understudy state changed.",
+    "checkedOn": "2026-10-05"
+  },
+  "limitations": [
+    "Pattern scans are evidence of inspected redaction, not a complete privacy classifier.",
+    "The owner approved public release of this exact inventory under the repository's MIT license; a missing license file in the sources established nothing on its own.",
+    "The pack creates no canonical schema: reviewed evidence schemas now exist in the repository and are bound above. No production producer key enrollment or live local integration is claimed.",
+    "Synthetic expectations require binding to implemented tests in their owning lane.",
+    "Compute the governing specification hash from docs/DESIGN.md at build time; historical draft and local-planning basis hashes are not authority. Follow the governing specification and session work order and report disagreements before implementation.",
+    "No real-content admission is authorized by this template.",
+    "No verified accepted-event and zero-hit timing measurement record is pinned. The default-off Orrery counter and an approved measured canary remain required; ripple cap term stays at 1.",
+    "The pure sweep-protection adapter establishes format coverage only. S2 must supply coherent strict reads, unique folder identity, trusted cutoff/freshness and fail-closed target resolution; no complete kernel conformance is claimed.",
+    "The counts-only real-format probe returned unknown for all evaluated report files because of unsupported citation syntax, ambiguous header dates or absent matching folder events. Do not treat synthetic format coverage as live readiness or weaken these protections to increase yield.",
+    "Structural report accounting plus conservative citation union does not authenticate report identity or prove append completeness. S2 must independently establish coherent trusted input coverage and reference inventory before using a known result."
+  ],
+  "publicationGate": "Publish only after approval of the exact inventory fingerprint by the owner or the explicitly delegated build reviewer, after separate exact-byte hash/privacy/fail-open review, and after PR #1 with S1c merges. The pack-publication PR must pass CI. Schema binding changes require a new exact fingerprint review.",
+  "governingSpecification": {
+    "path": "docs/DESIGN.md",
+    "hashRule": "Compute SHA-256 of the LF-normalized docs/DESIGN.md file at build time and record that revision and hash in the build turnover (S1c D9). The file changes when the new schema pins are recorded.",
+    "historicalBasisPins": "The basis entries record extraction history; they do not pin or override the governing specification.",
+    "sessionWorkOrder": "docs/sessions/S1c.md applies the shared evidence-contract rulings, overriding S1b where stated; S1b D3 staleness remains an overlay that leaves milestone verdicts unchanged.",
+    "publicationRevision": "0.5",
+    "publicationSha256": "B60DABEB91F8DED3CE6E2BD36F7E0C4290A375976BFB661E47AB483C91E7BBEA",
+    "publicationHashMeaning": "Exact LF bytes published with this pack; historical once DESIGN is revised. Build-time revision/hash remain authoritative."
+  },
+  "observedFormats": [
+    {
+      "id": "legacy-empty-response",
+      "format": "claude returned nothing - watermark NOT advanced",
+      "origin": "observed in the append-only log; no current source emits it",
+      "relatedSource": "understudy-trust-ledger",
+      "relatedSymbol": "REPORT_RE:49 names the empty-response category, not the full historical message"
+    },
+    {
+      "id": "legacy-proposal-summary",
+      "format": "swept <N> files - <N> finding(s) -> _UNDERSTUDY/proposals/<stamp>.md",
+      "origin": "observed in the append-only log; no current source emits it"
+    },
+    {
+      "id": "legacy-failed-report",
+      "format": "<project>: RUN FAILED (<reason>, no report produced) - see _UNDERSTUDY/failed/<file>",
+      "origin": "observed in the append-only log; no current source emits it"
+    }
+  ]
+}

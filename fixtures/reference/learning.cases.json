@@ -1,0 +1,659 @@
+{
+  "fixtureFormat": "reference-learning-cases/v1",
+  "status": "reference-fixtures",
+  "synthetic": true,
+  "sourceIds": [
+    "owner-manifest-envelope",
+    "orrery-personas",
+    "understudy-agent-ladder",
+    "orrery-evolution"
+  ],
+  "notes": [
+    "This fixture format is local reference-pack data, not the cloud lane's canonical library-evidence/v1 schema.",
+    "Source cases describe observed legacy behavior. Library cases describe approved adaptation requirements and never confer runtime authority.",
+    "All identities, dates, guidance and digest placeholders are fictional; no source content or runtime state is exported.",
+    "No source script needs to be invoked to consume these fixtures."
+  ],
+  "cases": [
+    {
+      "id": "topic-case-fold",
+      "kind": "source-correction-fold",
+      "input": "# Synthetic corrections\n- [2030-01-01] (topic: Evidence) old guidance\n- [2030-01-02] (topic: evidence) revised guidance",
+      "expected": "# Synthetic corrections\n- [2030-01-02] (topic: evidence) revised guidance"
+    },
+    {
+      "id": "topic-file-order-not-date",
+      "kind": "source-correction-fold",
+      "input": "- [2030-01-05] (topic: ranking) first in file\n- [2030-01-01] (topic: ranking) last in file",
+      "expected": "- [2030-01-01] (topic: ranking) last in file"
+    },
+    {
+      "id": "topic-untagged-retained",
+      "kind": "source-correction-fold",
+      "input": "\n# Example\n- A permanent untagged note\n- [2030-01-01] (topic: ranking) old\n- [2030-01-02] (topic: ranking) new\n",
+      "expected": "# Example\n- A permanent untagged note\n- [2030-01-02] (topic: ranking) new"
+    },
+    {
+      "id": "topic-malformed-bullet",
+      "kind": "source-correction-fold",
+      "input": "* [2030-01-01] (topic: ranking) star bullet\n- [2030-01-02] (topic: ranking) valid bullet",
+      "expected": "* [2030-01-01] (topic: ranking) star bullet\n- [2030-01-02] (topic: ranking) valid bullet"
+    },
+    {
+      "id": "topic-no-calendar-validation",
+      "kind": "source-correction-fold",
+      "input": "- [2030-99-99] (topic: ranking) date-shaped entry\n- [2030-01-02] (topic: ranking) later position",
+      "expected": "- [2030-01-02] (topic: ranking) later position"
+    },
+    {
+      "id": "topic-empty-not-matched",
+      "kind": "source-correction-fold",
+      "input": "- [2030-01-01] (topic:) empty topic\n- [2030-01-02] (topic: ranking) valid topic",
+      "expected": "- [2030-01-01] (topic:) empty topic\n- [2030-01-02] (topic: ranking) valid topic"
+    },
+    {
+      "id": "topic-whitespace-normalization",
+      "kind": "source-correction-fold",
+      "input": "- [2030-01-01] (TOPIC:  Rank  ) old\n- [2030-01-02] (topic: rank) new",
+      "expected": "- [2030-01-02] (topic: rank) new"
+    },
+    {
+      "id": "topic-writer-parenthesis-becomes-space",
+      "kind": "source-correction-topic-normalization",
+      "input": "a)b",
+      "expected": "a b"
+    },
+    {
+      "id": "topic-writer-whitespace-and-parenthesis-collapse",
+      "kind": "source-correction-topic-normalization",
+      "input": "  a)\t  b  ",
+      "expected": "a b"
+    },
+    {
+      "id": "library-author-isolation",
+      "kind": "library-author-fold",
+      "note": "Unconfirmed corrections are visible only to their issuer (DESIGN §7.6, How a correction becomes a lesson).",
+      "rows": [
+        {
+          "id": "correction-a1",
+          "author": "principal-a",
+          "role": "owner",
+          "target": "example-target",
+          "topic": "rank",
+          "statement": "Synthetic A guidance",
+          "class": "team"
+        },
+        {
+          "id": "correction-b1",
+          "author": "principal-b",
+          "role": "partner",
+          "target": "example-target",
+          "topic": "rank",
+          "statement": "Synthetic B guidance",
+          "class": "team"
+        }
+      ],
+      "expectedLiveIds": [
+        "correction-a1"
+      ],
+      "expectedHeldUnderNextIds": [
+        "correction-b1"
+      ],
+      "expectedDisputedCases": true,
+      "expectedCrossAuthorConflict": true,
+      "expectedConfirmedLabel": false
+    },
+    {
+      "id": "library-same-author-retirement",
+      "kind": "library-author-fold",
+      "note": "Unconfirmed corrections are visible only to their issuer (DESIGN §7.6, How a correction becomes a lesson).",
+      "rows": [
+        {
+          "id": "correction-a1",
+          "author": "principal-a",
+          "target": "example-target",
+          "topic": "Rank",
+          "statement": "Old synthetic guidance",
+          "class": "team"
+        },
+        {
+          "id": "correction-a2",
+          "author": "principal-a",
+          "target": "example-target",
+          "topic": "rank",
+          "statement": "New synthetic guidance",
+          "class": "team"
+        }
+      ],
+      "expectedLiveIds": [
+        "correction-a2"
+      ],
+      "expectedCrossAuthorConflict": false,
+      "expectedConfirmedLabel": false
+    },
+    {
+      "id": "library-target-isolation",
+      "kind": "library-author-fold",
+      "note": "Unconfirmed corrections are visible only to their issuer (DESIGN §7.6, How a correction becomes a lesson).",
+      "rows": [
+        {
+          "id": "correction-a1",
+          "author": "principal-a",
+          "target": "target-one",
+          "topic": "rank",
+          "statement": "Synthetic guidance",
+          "class": "team"
+        },
+        {
+          "id": "correction-a2",
+          "author": "principal-a",
+          "target": "target-two",
+          "topic": "rank",
+          "statement": "Other synthetic guidance",
+          "class": "team"
+        }
+      ],
+      "expectedLiveIds": [
+        "correction-a1",
+        "correction-a2"
+      ],
+      "expectedCrossAuthorConflict": false,
+      "expectedConfirmedLabel": false
+    },
+    {
+      "id": "library-forged-author-not-trusted",
+      "kind": "library-attribution-boundary",
+      "authenticatedPrincipal": "principal-b",
+      "claimedAuthorInText": "principal-a",
+      "expectedStoredAuthor": "principal-b",
+      "expectedOwnerApproval": false,
+      "expectedConfirmedLabel": false
+    },
+    {
+      "id": "report-syntax",
+      "kind": "source-four-field-parser",
+      "input": "- **MOVED:** Synthetic progress\nblocked: None\n* HIRING: No hire\nNEXT: Review synthetic evidence",
+      "expected": {
+        "moved": "Synthetic progress",
+        "blocked": "None",
+        "hiring": "No hire",
+        "next": "Review synthetic evidence"
+      }
+    },
+    {
+      "id": "report-continuation-and-heading",
+      "kind": "source-four-field-parser",
+      "input": "MOVED: First line\n  second line\n## Another section\nThis is outside capture\nNEXT: Review\n",
+      "expected": {
+        "moved": "First line second line",
+        "blocked": "",
+        "hiring": "",
+        "next": "Review"
+      }
+    },
+    {
+      "id": "report-populated-duplicate-first-wins",
+      "kind": "source-four-field-parser",
+      "input": "MOVED: Original\nMOVED: Later replacement\nIgnored continuation\nNEXT: Continue",
+      "expected": {
+        "moved": "Original",
+        "blocked": "",
+        "hiring": "",
+        "next": "Continue"
+      }
+    },
+    {
+      "id": "report-empty-first-can-be-replaced",
+      "kind": "source-four-field-parser",
+      "input": "MOVED:\n\nMOVED: Nonempty replacement",
+      "expected": {
+        "moved": "Nonempty replacement",
+        "blocked": "",
+        "hiring": "",
+        "next": ""
+      }
+    },
+    {
+      "id": "report-empty-first-continuation-fills",
+      "kind": "source-four-field-parser",
+      "input": "MOVED:\nContinuation fills first value\nMOVED: Later replacement",
+      "expected": {
+        "moved": "Continuation fills first value",
+        "blocked": "",
+        "hiring": "",
+        "next": ""
+      }
+    },
+    {
+      "id": "report-unheaded-learned-is-continuation",
+      "kind": "source-four-field-parser",
+      "input": "NEXT: Review the proposal\nLEARNED: Unconfirmed synthetic observation",
+      "expected": {
+        "moved": "",
+        "blocked": "",
+        "hiring": "",
+        "next": "Review the proposal LEARNED: Unconfirmed synthetic observation"
+      }
+    },
+    {
+      "id": "report-headed-learned-is-separate",
+      "kind": "source-four-field-parser",
+      "input": "NEXT: Review the proposal\n## LEARNED\nUnconfirmed synthetic observation",
+      "expected": {
+        "moved": "",
+        "blocked": "",
+        "hiring": "",
+        "next": "Review the proposal"
+      }
+    },
+    {
+      "id": "report-no-fields",
+      "kind": "source-four-field-parser",
+      "input": "# Synthetic narrative\nNo report fields are present.",
+      "expected": {
+        "moved": "",
+        "blocked": "",
+        "hiring": "",
+        "next": ""
+      }
+    },
+    {
+      "id": "record-arbitrary-id",
+      "kind": "source-record-contract",
+      "input": {
+        "agentId": "synthetic.librarian",
+        "eventId": "synthetic-event-001",
+        "verdict": "clean",
+        "note": "Synthetic independently adjudicated outcome."
+      },
+      "existingRecords": {},
+      "expectedExit": 0,
+      "expectedRecordKeys": [
+        "verdict",
+        "note",
+        "by",
+        "ts"
+      ],
+      "expectedBy": "external",
+      "expectedWrotePresent": false,
+      "expectedMergedPresent": false,
+      "expectedLibraryRemovalAuthority": false
+    },
+    {
+      "id": "record-duplicate-preserves-existing",
+      "kind": "source-record-contract",
+      "input": {
+        "agentId": "synthetic.librarian",
+        "eventId": "synthetic-event-001",
+        "verdict": "false",
+        "note": "Attempted replacement"
+      },
+      "existingRecords": {
+        "synthetic-event-001": {
+          "verdict": "clean",
+          "note": "Original synthetic decision",
+          "by": "external",
+          "ts": "2030-01-01T12:00:00+00:00"
+        }
+      },
+      "expectedExit": 0,
+      "expectedNoMutation": true
+    },
+    {
+      "id": "record-invalid-verdict",
+      "kind": "source-record-contract",
+      "input": {
+        "agentId": "synthetic.librarian",
+        "eventId": "synthetic-event-002",
+        "verdict": "approved",
+        "note": "Invalid verdict"
+      },
+      "existingRecords": {},
+      "expectedExit": 2,
+      "expectedNoMutation": true
+    },
+    {
+      "id": "record-omitted-note",
+      "kind": "source-record-contract",
+      "input": {
+        "agentId": "synthetic.librarian",
+        "eventId": "synthetic-event-003",
+        "verdict": "neutral"
+      },
+      "existingRecords": {},
+      "expectedExit": 0,
+      "expectedNote": ""
+    },
+    {
+      "id": "rung-clean-neutral",
+      "kind": "source-rung-streak",
+      "filter": null,
+      "records": [
+        {
+          "ts": "2030-01-01T00:00:00Z",
+          "verdict": "clean"
+        },
+        {
+          "ts": "2030-01-02T00:00:00Z",
+          "verdict": "neutral"
+        },
+        {
+          "ts": "2030-01-03T00:00:00Z",
+          "verdict": "clean"
+        }
+      ],
+      "expected": 2
+    },
+    {
+      "id": "rung-false-resets",
+      "kind": "source-rung-streak",
+      "filter": null,
+      "records": [
+        {
+          "ts": "2030-01-01T00:00:00Z",
+          "verdict": "clean"
+        },
+        {
+          "ts": "2030-01-02T00:00:00Z",
+          "verdict": "false"
+        },
+        {
+          "ts": "2030-01-03T00:00:00Z",
+          "verdict": "clean"
+        }
+      ],
+      "expected": 1
+    },
+    {
+      "id": "rung-wrote-filter",
+      "kind": "source-rung-streak",
+      "filter": "wrote",
+      "records": [
+        {
+          "ts": "2030-01-01T00:00:00Z",
+          "verdict": "clean",
+          "wrote": true
+        },
+        {
+          "ts": "2030-01-02T00:00:00Z",
+          "verdict": "clean"
+        },
+        {
+          "ts": "2030-01-03T00:00:00Z",
+          "verdict": "clean",
+          "wrote": true
+        }
+      ],
+      "expected": 2
+    },
+    {
+      "id": "rung-merged-filter-blocks-generic-records",
+      "kind": "source-rung-streak",
+      "filter": "merged",
+      "records": [
+        {
+          "ts": "2030-01-01T00:00:00Z",
+          "verdict": "clean",
+          "by": "external"
+        },
+        {
+          "ts": "2030-01-02T00:00:00Z",
+          "verdict": "clean",
+          "by": "external"
+        }
+      ],
+      "expected": 0
+    },
+    {
+      "id": "rung-invalid-skips-only-in-rung-helper",
+      "kind": "source-rung-streak",
+      "filter": null,
+      "records": [
+        {
+          "ts": "2030-01-01T00:00:00Z",
+          "verdict": "clean"
+        },
+        {
+          "ts": "2030-01-02T00:00:00Z",
+          "verdict": "unexpected"
+        },
+        {
+          "ts": "2030-01-03T00:00:00Z",
+          "verdict": "clean"
+        }
+      ],
+      "expected": 2,
+      "expectedGeneralStreak": 1
+    },
+    {
+      "id": "evolution-state-candidate",
+      "kind": "source-evolution-reader",
+      "row": {
+        "id": "synthetic-evolution-001",
+        "traceId": "synthetic-trace-001",
+        "ts": "2030-01-02T12:00:00.000Z",
+        "version": 1,
+        "state": "candidate",
+        "persona": "synthetic-persona",
+        "taskDigest": "synthetic-task-digest",
+        "crewDigest": "synthetic-crew-digest",
+        "capabilityKey": "synthetic-capability",
+        "folderScopeIds": [
+          "synthetic-folder-scope"
+        ],
+        "evidenceCount": 2,
+        "checkCount": 1,
+        "errorCount": 0,
+        "resultDigest": "synthetic-result-digest",
+        "lessonDigest": "synthetic-lesson-digest",
+        "regressionDigest": "synthetic-regression-digest"
+      },
+      "expectedReaderKeeps": true,
+      "expectedDeclaredShape": true,
+      "expectedLibraryPromotionAuthority": false
+    },
+    {
+      "id": "evolution-state-accepted",
+      "kind": "source-evolution-reader",
+      "row": {
+        "id": "synthetic-evolution-001",
+        "traceId": "synthetic-trace-001",
+        "ts": "2030-01-02T12:00:00.000Z",
+        "version": 1,
+        "state": "accepted",
+        "persona": "synthetic-persona",
+        "taskDigest": "synthetic-task-digest",
+        "crewDigest": "synthetic-crew-digest",
+        "capabilityKey": "synthetic-capability",
+        "folderScopeIds": [
+          "synthetic-folder-scope"
+        ],
+        "evidenceCount": 2,
+        "checkCount": 1,
+        "errorCount": 0,
+        "resultDigest": "synthetic-result-digest",
+        "lessonDigest": "synthetic-lesson-digest",
+        "regressionDigest": "synthetic-regression-digest"
+      },
+      "expectedReaderKeeps": true,
+      "expectedDeclaredShape": true,
+      "expectedLibraryPromotionAuthority": false
+    },
+    {
+      "id": "evolution-state-returned",
+      "kind": "source-evolution-reader",
+      "row": {
+        "id": "synthetic-evolution-001",
+        "traceId": "synthetic-trace-001",
+        "ts": "2030-01-02T12:00:00.000Z",
+        "version": 1,
+        "state": "returned",
+        "persona": "synthetic-persona",
+        "taskDigest": "synthetic-task-digest",
+        "crewDigest": "synthetic-crew-digest",
+        "capabilityKey": "synthetic-capability",
+        "folderScopeIds": [
+          "synthetic-folder-scope"
+        ],
+        "evidenceCount": 2,
+        "checkCount": 1,
+        "errorCount": 0,
+        "resultDigest": "synthetic-result-digest",
+        "lessonDigest": "synthetic-lesson-digest",
+        "regressionDigest": "synthetic-regression-digest"
+      },
+      "expectedReaderKeeps": true,
+      "expectedDeclaredShape": true,
+      "expectedLibraryPromotionAuthority": false
+    },
+    {
+      "id": "evolution-wrong-version",
+      "kind": "source-evolution-reader",
+      "row": {
+        "id": "synthetic-evolution-001",
+        "traceId": "synthetic-trace-001",
+        "ts": "2030-01-02T12:00:00.000Z",
+        "version": 2,
+        "state": "candidate",
+        "persona": "synthetic-persona",
+        "taskDigest": "synthetic-task-digest",
+        "crewDigest": "synthetic-crew-digest",
+        "capabilityKey": "synthetic-capability",
+        "folderScopeIds": [
+          "synthetic-folder-scope"
+        ],
+        "evidenceCount": 2,
+        "checkCount": 1,
+        "errorCount": 0,
+        "resultDigest": "synthetic-result-digest",
+        "lessonDigest": "synthetic-lesson-digest",
+        "regressionDigest": "synthetic-regression-digest"
+      },
+      "expectedReaderKeeps": false,
+      "expectedDeclaredShape": true,
+      "expectedLibraryPromotionAuthority": false
+    },
+    {
+      "id": "evolution-wrong-state",
+      "kind": "source-evolution-reader",
+      "row": {
+        "id": "synthetic-evolution-001",
+        "traceId": "synthetic-trace-001",
+        "ts": "2030-01-02T12:00:00.000Z",
+        "version": 1,
+        "state": "promoted",
+        "persona": "synthetic-persona",
+        "taskDigest": "synthetic-task-digest",
+        "crewDigest": "synthetic-crew-digest",
+        "capabilityKey": "synthetic-capability",
+        "folderScopeIds": [
+          "synthetic-folder-scope"
+        ],
+        "evidenceCount": 2,
+        "checkCount": 1,
+        "errorCount": 0,
+        "resultDigest": "synthetic-result-digest",
+        "lessonDigest": "synthetic-lesson-digest",
+        "regressionDigest": "synthetic-regression-digest"
+      },
+      "expectedReaderKeeps": false,
+      "expectedDeclaredShape": false,
+      "expectedLibraryPromotionAuthority": false
+    },
+    {
+      "id": "evolution-missing-fields-pass-weak-reader",
+      "kind": "source-evolution-reader",
+      "row": {
+        "version": 1,
+        "state": "accepted",
+        "taskDigest": "synthetic-task-digest"
+      },
+      "expectedReaderKeeps": true,
+      "expectedDeclaredShape": false,
+      "expectedLibraryPromotionAuthority": false
+    },
+    {
+      "id": "evolution-negative-counts-pass-weak-reader",
+      "kind": "source-evolution-reader",
+      "row": {
+        "id": "synthetic-evolution-001",
+        "traceId": "synthetic-trace-001",
+        "ts": "2030-01-02T12:00:00.000Z",
+        "version": 1,
+        "state": "candidate",
+        "persona": "synthetic-persona",
+        "taskDigest": "synthetic-task-digest",
+        "crewDigest": "synthetic-crew-digest",
+        "capabilityKey": "synthetic-capability",
+        "folderScopeIds": [
+          "synthetic-folder-scope"
+        ],
+        "evidenceCount": -1,
+        "checkCount": 1,
+        "errorCount": 0,
+        "resultDigest": "synthetic-result-digest",
+        "lessonDigest": "synthetic-lesson-digest",
+        "regressionDigest": "synthetic-regression-digest"
+      },
+      "expectedReaderKeeps": true,
+      "expectedDeclaredShape": true,
+      "expectedLibraryCountValidation": false,
+      "expectedLibraryPromotionAuthority": false
+    },
+    {
+      "id": "evolution-fractional-counts-pass-weak-reader",
+      "kind": "source-evolution-reader",
+      "row": {
+        "id": "synthetic-evolution-001",
+        "traceId": "synthetic-trace-001",
+        "ts": "2030-01-02T12:00:00.000Z",
+        "version": 1,
+        "state": "candidate",
+        "persona": "synthetic-persona",
+        "taskDigest": "synthetic-task-digest",
+        "crewDigest": "synthetic-crew-digest",
+        "capabilityKey": "synthetic-capability",
+        "folderScopeIds": [
+          "synthetic-folder-scope"
+        ],
+        "evidenceCount": 2,
+        "checkCount": 1.5,
+        "errorCount": 0,
+        "resultDigest": "synthetic-result-digest",
+        "lessonDigest": "synthetic-lesson-digest",
+        "regressionDigest": "synthetic-regression-digest"
+      },
+      "expectedReaderKeeps": true,
+      "expectedDeclaredShape": true,
+      "expectedLibraryCountValidation": false,
+      "expectedLibraryPromotionAuthority": false
+    },
+    {
+      "id": "evolution-task-type-rejected",
+      "kind": "source-evolution-reader",
+      "row": {
+        "id": "synthetic-evolution-001",
+        "traceId": "synthetic-trace-001",
+        "ts": "2030-01-02T12:00:00.000Z",
+        "version": 1,
+        "state": "candidate",
+        "persona": "synthetic-persona",
+        "taskDigest": 42,
+        "crewDigest": "synthetic-crew-digest",
+        "capabilityKey": "synthetic-capability",
+        "folderScopeIds": [
+          "synthetic-folder-scope"
+        ],
+        "evidenceCount": 2,
+        "checkCount": 1,
+        "errorCount": 0,
+        "resultDigest": "synthetic-result-digest",
+        "lessonDigest": "synthetic-lesson-digest",
+        "regressionDigest": "synthetic-regression-digest"
+      },
+      "expectedReaderKeeps": false,
+      "expectedDeclaredShape": false,
+      "expectedLibraryPromotionAuthority": false
+    }
+  ]
+}

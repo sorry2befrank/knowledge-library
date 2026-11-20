@@ -1,0 +1,21 @@
+{
+  "collectionId": "col:client-examplecorp",
+  "class": "client:examplecorp",
+  "store_ok": true,
+  "clients_ok": [
+    "claude-code"
+  ],
+  "model_processing": false,
+  "decision_row": {
+    "client": "Examplecorp Robotics",
+    "store_ok": true,
+    "clients_ok": [
+      "claude-code"
+    ],
+    "vendors": [
+      "anthropic"
+    ],
+    "decidedAt": "2026-10-04",
+    "receiptId": "rcpt-synthetic"
+  }
+}

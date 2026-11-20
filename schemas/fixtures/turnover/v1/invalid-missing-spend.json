@@ -1,0 +1,13 @@
+{
+  "session": "S1",
+  "date": "2026-10-04",
+  "lane": "cloud",
+  "branch": "b",
+  "built": [],
+  "exitEvidence": [],
+  "decisions": [],
+  "conflictsWithDesign": [],
+  "packPending": [],
+  "funding_source": "credit",
+  "nextStep": "x"
+}

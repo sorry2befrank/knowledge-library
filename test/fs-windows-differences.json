@@ -1,0 +1,3 @@
+{
+  "$comment": "S2e item B: native differences from the memory model, keyed by test ID, each naming the difference. A test body never branches on the implementation; a difference is declared here and the gate reports it as differs, never as established. Empty: no difference has been observed."
+}

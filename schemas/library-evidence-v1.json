@@ -1,0 +1,956 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://knowledge-library.invalid/schemas/library-evidence/v1",
+  "title": "library-evidence/v1",
+  "description": "The one evidence envelope the Library produces and Orrery's adapter validates (DESIGN §8.3). Content-free: ids, hashes, counts, enums and timestamps. Ruling 1: a completed operation without its required proof fields is invalid at the schema level, so the whole snapshot is rejected. Ruling 2 (declared v1 omission): the v1 wire binds a proof to a source version only; run and policy binding is a consumer check. Orrery's adapter compares each operation's goalHash and policyHash with the hashes it approved, and a mismatch makes that milestone unproven. Ruling 3: within each milestone the key is sourceVersion, runId is not part of the key; the attempt with the newest timestamp wins and ties go to the worse outcome; a milestone is blocked if any latest attempt is blocked, verified if every one is verified, otherwise unproven. A receipt for a different version keeps the snapshot valid and makes only that attempt unproven (validateEvidence). Only proving stages verify a milestone (ingest-custody: CUSTODY_OK or COMMITTED with custodyReceipt; retrieval-index: INDEXED; recovery: RESTORED; focus: RECEIPTED, HELD_PURGED or VEIL_WRITTEN with veilReceipt); GUARD_REFUSED, CONFLICT_HELD_CHANGED and RECREATED block; any other completed stage is progress, not proof. Freshness is sync-first and an overlay, never a verdict. A truncated snapshot lists blocked and unproven attempts before verified ones. A snapshot equal to the accepted checkpoint is a duplicate. Limits: one snapshot at most 1 MiB, at most 100 operation summaries, explicit truncation flags. Any later change is v2.",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "producer",
+    "snapshotId",
+    "sequence",
+    "generatedAt",
+    "observedAt",
+    "spec",
+    "policyRevision",
+    "mappingRevision",
+    "scope",
+    "traceId",
+    "terminalReceiptId",
+    "identity",
+    "operations",
+    "state",
+    "learning",
+    "measurement",
+    "freshness",
+    "truncated"
+  ],
+  "additionalProperties": false,
+  "$defs": {
+    "hex64": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "id32": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{32}$"
+    },
+    "receipt": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "pattern": "^\\S+$"
+    },
+    "versionRef": {
+      "type": "string",
+      "pattern": "^[0-9A-HJKMNP-TV-Z]{10}@[1-9][0-9]*$"
+    },
+    "count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "countOrUnknown": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 0
+        },
+        {
+          "const": "unknown"
+        }
+      ]
+    },
+    "milestone": {
+      "enum": [
+        "ingest-custody",
+        "retrieval-index",
+        "recovery",
+        "focus"
+      ]
+    },
+    "stage": {
+      "enum": [
+        "RECEIVED",
+        "COMMITTED",
+        "INDEXED",
+        "PLANNED",
+        "FRESH",
+        "CUSTODY_OK",
+        "READBACK_OK",
+        "SNAPSHOT_OK",
+        "HELD",
+        "HELD_OK",
+        "RECEIPTED",
+        "HELD_PURGED",
+        "RESTORE_REQUESTED",
+        "RESTORED",
+        "RECREATED",
+        "CONFLICT_HELD_CHANGED",
+        "GUARD_REFUSED",
+        "VEIL_WRITTEN"
+      ]
+    },
+    "result": {
+      "enum": [
+        "pending",
+        "completed",
+        "failed",
+        "skipped"
+      ]
+    },
+    "proof": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sourceVersion": {
+          "$ref": "#/$defs/versionRef"
+        },
+        "sourceHash": {
+          "$ref": "#/$defs/hex64"
+        },
+        "custodyReceipt": {
+          "$ref": "#/$defs/receipt"
+        },
+        "readbackReceipt": {
+          "$ref": "#/$defs/receipt"
+        },
+        "backupSnapshotId": {
+          "$ref": "#/$defs/idString"
+        },
+        "backupSnapshotHash": {
+          "$ref": "#/$defs/hex64"
+        },
+        "moveReceipt": {
+          "$ref": "#/$defs/receipt"
+        },
+        "holdReceipt": {
+          "$ref": "#/$defs/receipt"
+        },
+        "purgeReceipt": {
+          "$ref": "#/$defs/receipt"
+        },
+        "restoreReceipt": {
+          "$ref": "#/$defs/receipt"
+        },
+        "veilReceipt": {
+          "$ref": "#/$defs/receipt"
+        }
+      }
+    },
+    "operation": {
+      "type": "object",
+      "required": [
+        "operationId",
+        "runId",
+        "planId",
+        "goalHash",
+        "policyHash",
+        "milestone",
+        "stage",
+        "result",
+        "reasonCode",
+        "sourceVersion",
+        "timestamps",
+        "proof"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "operationId": {
+          "$ref": "#/$defs/id32"
+        },
+        "runId": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/idString"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "planId": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/idString"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "goalHash": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/hex64"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "policyHash": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/hex64"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "milestone": {
+          "$ref": "#/$defs/milestone"
+        },
+        "stage": {
+          "$ref": "#/$defs/stage"
+        },
+        "result": {
+          "$ref": "#/$defs/result"
+        },
+        "reasonCode": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "pattern": "^[a-z0-9:._-]*$"
+        },
+        "sourceVersion": {
+          "$ref": "#/$defs/versionRef",
+          "description": "the exact version this operation is about; proof.sourceVersion must equal it (cross-version receipts never satisfy a milestone)"
+        },
+        "timestamps": {
+          "type": "object",
+          "propertyNames": {
+            "$ref": "#/$defs/stage"
+          },
+          "additionalProperties": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "proof": {
+          "$ref": "#/$defs/proof"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "result": {
+                "const": "completed"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "proof": {
+                "required": [
+                  "sourceVersion",
+                  "sourceHash"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "result": {
+                "const": "completed"
+              },
+              "stage": {
+                "const": "CUSTODY_OK"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "proof": {
+                "required": [
+                  "custodyReceipt"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "result": {
+                "const": "completed"
+              },
+              "stage": {
+                "const": "COMMITTED"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "proof": {
+                "required": [
+                  "custodyReceipt"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "result": {
+                "const": "completed"
+              },
+              "stage": {
+                "const": "READBACK_OK"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "proof": {
+                "required": [
+                  "readbackReceipt"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "result": {
+                "const": "completed"
+              },
+              "stage": {
+                "const": "SNAPSHOT_OK"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "proof": {
+                "required": [
+                  "backupSnapshotId",
+                  "backupSnapshotHash"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "result": {
+                "const": "completed"
+              },
+              "stage": {
+                "enum": [
+                  "HELD",
+                  "HELD_OK",
+                  "RECEIPTED"
+                ]
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "proof": {
+                "required": [
+                  "moveReceipt",
+                  "holdReceipt",
+                  "readbackReceipt",
+                  "backupSnapshotId",
+                  "backupSnapshotHash"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "result": {
+                "const": "completed"
+              },
+              "stage": {
+                "const": "HELD_PURGED"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "proof": {
+                "required": [
+                  "purgeReceipt",
+                  "holdReceipt"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "result": {
+                "const": "completed"
+              },
+              "stage": {
+                "const": "RESTORED"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "proof": {
+                "required": [
+                  "restoreReceipt"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "result": {
+                "const": "completed"
+              },
+              "stage": {
+                "const": "VEIL_WRITTEN"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "proof": {
+                "required": [
+                  "veilReceipt"
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "result": {
+                "enum": [
+                  "failed",
+                  "skipped"
+                ]
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "reasonCode"
+            ],
+            "properties": {
+              "reasonCode": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    "idString": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 256,
+      "pattern": "^\\S+$"
+    }
+  },
+  "properties": {
+    "schemaVersion": {
+      "const": "library-evidence/v1"
+    },
+    "producer": {
+      "type": "object",
+      "required": [
+        "id",
+        "version",
+        "keyId"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "const": "knowledge-library"
+        },
+        "version": {
+          "$ref": "#/$defs/idString"
+        },
+        "keyId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 64,
+          "pattern": "^\\S+$"
+        }
+      }
+    },
+    "snapshotId": {
+      "$ref": "#/$defs/id32"
+    },
+    "sequence": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "generatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "observedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "spec": {
+      "type": "object",
+      "required": [
+        "revision",
+        "hash"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "revision": {
+          "type": "string"
+        },
+        "hash": {
+          "$ref": "#/$defs/hex64"
+        }
+      }
+    },
+    "policyRevision": {
+      "type": "string"
+    },
+    "mappingRevision": {
+      "type": "string"
+    },
+    "scope": {
+      "type": "object",
+      "required": [
+        "authorizedCollections",
+        "milestonesEnabled"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "authorizedCollections": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/idString"
+          }
+        },
+        "milestonesEnabled": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/milestone"
+          },
+          "uniqueItems": true
+        }
+      }
+    },
+    "traceId": {
+      "$ref": "#/$defs/id32"
+    },
+    "terminalReceiptId": {
+      "$ref": "#/$defs/receipt"
+    },
+    "identity": {
+      "type": "object",
+      "required": [
+        "integrationProjectId",
+        "collectionId",
+        "folderId"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "integrationProjectId": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+        },
+        "collectionId": {
+          "$ref": "#/$defs/idString"
+        },
+        "folderId": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/idString"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "sourceIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/idString"
+          }
+        }
+      }
+    },
+    "operations": {
+      "type": "array",
+      "maxItems": 100,
+      "items": {
+        "$ref": "#/$defs/operation"
+      }
+    },
+    "state": {
+      "type": "object",
+      "required": [
+        "custody",
+        "indexing",
+        "localPresence",
+        "availability",
+        "backupAgeHours",
+        "lastRestoreDrill",
+        "conflicts",
+        "holds"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "custody": {
+          "type": "object",
+          "description": "exclusive buckets: every version is in exactly one",
+          "required": [
+            "receivedOnly",
+            "verifiedNotIndexed",
+            "indexed"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "receivedOnly": {
+              "$ref": "#/$defs/count"
+            },
+            "verifiedNotIndexed": {
+              "$ref": "#/$defs/count"
+            },
+            "indexed": {
+              "$ref": "#/$defs/count"
+            }
+          }
+        },
+        "indexing": {
+          "type": "object",
+          "required": [
+            "preserved",
+            "extracted",
+            "indexed",
+            "accessible",
+            "unsupported",
+            "pending"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "preserved": {
+              "$ref": "#/$defs/count"
+            },
+            "extracted": {
+              "$ref": "#/$defs/count"
+            },
+            "indexed": {
+              "$ref": "#/$defs/count"
+            },
+            "accessible": {
+              "$ref": "#/$defs/countOrUnknown"
+            },
+            "unsupported": {
+              "$ref": "#/$defs/count"
+            },
+            "pending": {
+              "$ref": "#/$defs/count"
+            }
+          }
+        },
+        "localPresence": {
+          "type": "object",
+          "required": [
+            "present",
+            "focusHeld",
+            "absentLocally",
+            "unknown"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "present": {
+              "$ref": "#/$defs/countOrUnknown"
+            },
+            "focusHeld": {
+              "$ref": "#/$defs/count"
+            },
+            "absentLocally": {
+              "$ref": "#/$defs/count"
+            },
+            "unknown": {
+              "$ref": "#/$defs/count"
+            }
+          }
+        },
+        "availability": {
+          "enum": [
+            "online",
+            "offline",
+            "unknown"
+          ]
+        },
+        "backupAgeHours": {
+          "anyOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "const": "unknown"
+            }
+          ]
+        },
+        "lastRestoreDrill": {
+          "anyOf": [
+            {
+              "type": "object",
+              "required": [
+                "at",
+                "result",
+                "receiptId"
+              ],
+              "additionalProperties": false,
+              "properties": {
+                "at": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "result": {
+                  "enum": [
+                    "passed",
+                    "failed"
+                  ]
+                },
+                "receiptId": {
+                  "$ref": "#/$defs/receipt"
+                }
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "conflicts": {
+          "$ref": "#/$defs/count"
+        },
+        "holds": {
+          "$ref": "#/$defs/count"
+        }
+      }
+    },
+    "learning": {
+      "type": "object",
+      "required": [
+        "proposals",
+        "evaluations",
+        "promotions",
+        "reversions",
+        "trustRevision",
+        "confirmingReceiptId",
+        "observationCounts"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "proposals": {
+          "$ref": "#/$defs/count"
+        },
+        "evaluations": {
+          "$ref": "#/$defs/count"
+        },
+        "promotions": {
+          "$ref": "#/$defs/count"
+        },
+        "reversions": {
+          "$ref": "#/$defs/count"
+        },
+        "trustRevision": {
+          "type": "object",
+          "required": [
+            "scopeId",
+            "revision"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "scopeId": {
+              "$ref": "#/$defs/idString"
+            },
+            "revision": {
+              "$ref": "#/$defs/idString"
+            }
+          }
+        },
+        "confirmingReceiptId": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/receipt"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "required when promotions > 0; observation counts are not earned lessons"
+        },
+        "observationCounts": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/count"
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "promotions": {
+                "minimum": 1
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "confirmingReceiptId": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
+        }
+      ]
+    },
+    "measurement": {
+      "type": "object",
+      "required": [
+        "notesRemovedFromWorkingFolders",
+        "notesHeld",
+        "notesVeiled",
+        "bytesLogicallyPreserved",
+        "bytesReclaimedMeasured",
+        "incompleteCount",
+        "unknownCount",
+        "durationMs",
+        "adapterCostMs"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "notesRemovedFromWorkingFolders": {
+          "$ref": "#/$defs/count"
+        },
+        "notesHeld": {
+          "$ref": "#/$defs/count"
+        },
+        "notesVeiled": {
+          "$ref": "#/$defs/count"
+        },
+        "bytesLogicallyPreserved": {
+          "$ref": "#/$defs/count"
+        },
+        "bytesReclaimedMeasured": {
+          "$ref": "#/$defs/countOrUnknown"
+        },
+        "incompleteCount": {
+          "$ref": "#/$defs/count"
+        },
+        "unknownCount": {
+          "$ref": "#/$defs/count"
+        },
+        "durationMs": {
+          "$ref": "#/$defs/countOrUnknown"
+        },
+        "adapterCostMs": {
+          "$ref": "#/$defs/countOrUnknown"
+        }
+      }
+    },
+    "freshness": {
+      "type": "object",
+      "description": "freshness is judged from lastSuccessfulSync (or the consumer's acceptance time); observedAt is only an upper bound",
+      "required": [
+        "lastSuccessfulSync",
+        "staleAfterSeconds",
+        "lastKnownSnapshotId"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "lastSuccessfulSync": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "date-time"
+        },
+        "staleAfterSeconds": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "lastKnownSnapshotId": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/id32"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      }
+    },
+    "truncated": {
+      "type": "object",
+      "required": [
+        "operations"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "operations": {
+          "type": "boolean"
+        },
+        "omittedOperations": {
+          "$ref": "#/$defs/count"
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "operations": {
+                "const": true
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "omittedOperations"
+            ],
+            "properties": {
+              "omittedOperations": {
+                "minimum": 1
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "operations": {
+                "const": false
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "omittedOperations": {
+                "maximum": 0
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

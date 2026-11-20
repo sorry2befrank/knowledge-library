@@ -1,0 +1,18 @@
+{
+  "noteId": "7QK2M9X4AB",
+  "ver": 3,
+  "parentVer": 2,
+  "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "bytes": 1204,
+  "origin": "frank@kl-device",
+  "privacy_class": "team",
+  "role": "note",
+  "vstatus": "current",
+  "authoredAt": null,
+  "observedMtime": "2026-10-04T18:00:00.000Z",
+  "capturedAt": "2026-10-04T18:00:00.000Z",
+  "publishedAt": "2026-10-04T18:00:00.000Z",
+  "lastVerifiedAt": "2026-10-04T18:00:00.000Z",
+  "custody": "indexed",
+  "localState": "present"
+}

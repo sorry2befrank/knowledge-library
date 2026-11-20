@@ -1,0 +1,1861 @@
+{
+  "baseline": "b6258b0bb0042b51543dc4a5a3427e82aac2750cee63a0f1f370eeaddb3ff765",
+  "fixtureDigest": "795d6c728aa83b816697286df62b2c677734cd74047d26d0dd1661b26d67ec5d",
+  "note": "ordered top-10 per query under baseline v0 over the synthetic vault; synthetic note ids; scores to 3 decimals",
+  "queries": [
+    {
+      "q": "rate card",
+      "principal": "frank",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "2MT077M8N4",
+          "score": 10.762
+        },
+        {
+          "noteId": "1ZF6W0E2HA",
+          "score": 10.579
+        },
+        {
+          "noteId": "FEARG5Z74P",
+          "score": 10.539
+        },
+        {
+          "noteId": "9GCG8MAZG9",
+          "score": 10.518
+        },
+        {
+          "noteId": "KFYW3HB2WB",
+          "score": 10.512
+        },
+        {
+          "noteId": "QSH0J0NDGD",
+          "score": 10.492
+        },
+        {
+          "noteId": "M13WT19ZES",
+          "score": 10.478
+        },
+        {
+          "noteId": "3EDZ8EZ2H8",
+          "score": 10.445
+        },
+        {
+          "noteId": "E3E00P066A",
+          "score": 10.432
+        },
+        {
+          "noteId": "5NP67HFN4M",
+          "score": 10.432
+        }
+      ]
+    },
+    {
+      "q": "current rates",
+      "principal": "partner",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "2MT077M8N4",
+          "score": 5.72
+        },
+        {
+          "noteId": "1ZF6W0E2HA",
+          "score": 5.114
+        },
+        {
+          "noteId": "FEARG5Z74P",
+          "score": 5.096
+        },
+        {
+          "noteId": "9GCG8MAZG9",
+          "score": 5.087
+        },
+        {
+          "noteId": "KFYW3HB2WB",
+          "score": 5.084
+        },
+        {
+          "noteId": "QSH0J0NDGD",
+          "score": 5.075
+        },
+        {
+          "noteId": "M13WT19ZES",
+          "score": 5.069
+        },
+        {
+          "noteId": "3EDZ8EZ2H8",
+          "score": 5.054
+        },
+        {
+          "noteId": "E3E00P066A",
+          "score": 5.049
+        },
+        {
+          "noteId": "5NP67HFN4M",
+          "score": 5.048
+        }
+      ]
+    },
+    {
+      "q": "fees",
+      "principal": "frank",
+      "k": 10,
+      "expected": []
+    },
+    {
+      "q": "pricing",
+      "principal": "partner",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "5PQR8XEEXW",
+          "score": 6.843
+        },
+        {
+          "noteId": "EVQJJMXMZJ",
+          "score": 6.763
+        },
+        {
+          "noteId": "29PBPQAEF5",
+          "score": 6.743
+        },
+        {
+          "noteId": "AMS8PEHYDX",
+          "score": 6.597
+        },
+        {
+          "noteId": "RQV24278Q2",
+          "score": 6.562
+        },
+        {
+          "noteId": "6H93NJNYXY",
+          "score": 6.501
+        },
+        {
+          "noteId": "2WS221EZR2",
+          "score": 6.495
+        },
+        {
+          "noteId": "87NJR58JGG",
+          "score": 6.475
+        },
+        {
+          "noteId": "NMJBEP208E",
+          "score": 6.438
+        },
+        {
+          "noteId": "QQ5MXY2SNP",
+          "score": 6.373
+        }
+      ]
+    },
+    {
+      "q": "payment terms",
+      "principal": "frank",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "0JXZYGB9HJ",
+          "score": 12.712
+        },
+        {
+          "noteId": "SWB2DNBASM",
+          "score": 12.706
+        },
+        {
+          "noteId": "9RQRGF0VRZ",
+          "score": 12.652
+        },
+        {
+          "noteId": "KE9E5KZNG9",
+          "score": 12.537
+        },
+        {
+          "noteId": "V7FS2TGT0P",
+          "score": 11.976
+        },
+        {
+          "noteId": "BEGHYRVHGG",
+          "score": 11.885
+        },
+        {
+          "noteId": "2B4R95RQDZ",
+          "score": 8.075
+        },
+        {
+          "noteId": "351YHH0ZRJ",
+          "score": 7.997
+        },
+        {
+          "noteId": "V28B56WE4X",
+          "score": 7.97
+        },
+        {
+          "noteId": "6QNVY7P98V",
+          "score": 7.966
+        }
+      ]
+    },
+    {
+      "q": "invoice terms",
+      "principal": "partner",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "V7FS2TGT0P",
+          "score": 8.727
+        },
+        {
+          "noteId": "0JXZYGB9HJ",
+          "score": 7.941
+        },
+        {
+          "noteId": "9GCG8MAZG9",
+          "score": 6.567
+        },
+        {
+          "noteId": "8RRRWP0QQV",
+          "score": 6.338
+        },
+        {
+          "noteId": "20E2PN28HP",
+          "score": 6.228
+        },
+        {
+          "noteId": "SWB2DNBASM",
+          "score": 6.21
+        },
+        {
+          "noteId": "9RQRGF0VRZ",
+          "score": 6.189
+        },
+        {
+          "noteId": "KE9E5KZNG9",
+          "score": 6.152
+        },
+        {
+          "noteId": "DRSC2MCG4N",
+          "score": 5.893
+        },
+        {
+          "noteId": "K2S8T6WCF5",
+          "score": 5.889
+        }
+      ]
+    },
+    {
+      "q": "net 30",
+      "principal": "partner",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "0JXZYGB9HJ",
+          "score": 12.596
+        },
+        {
+          "noteId": "P61XF6GMMG",
+          "score": 8.714
+        },
+        {
+          "noteId": "9GA21FGPVE",
+          "score": 8.559
+        },
+        {
+          "noteId": "39ZV00MGQB",
+          "score": 8.372
+        },
+        {
+          "noteId": "2WVXFY2B51",
+          "score": 8.304
+        },
+        {
+          "noteId": "3DEM89Z11M",
+          "score": 8.262
+        },
+        {
+          "noteId": "KAP4E8HGBG",
+          "score": 8.182
+        },
+        {
+          "noteId": "2ARB8H9TJK",
+          "score": 8.176
+        },
+        {
+          "noteId": "4G1QANVTYH",
+          "score": 6.611
+        },
+        {
+          "noteId": "ZVKT5XJD1M",
+          "score": 3.783
+        }
+      ]
+    },
+    {
+      "q": "due date clause",
+      "principal": "frank",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "V28B56WE4X",
+          "score": 8.784
+        },
+        {
+          "noteId": "JEVMATZM22",
+          "score": 8.699
+        },
+        {
+          "noteId": "JYPJZBC30S",
+          "score": 7.043
+        },
+        {
+          "noteId": "K3TB1870ZD",
+          "score": 6.976
+        },
+        {
+          "noteId": "MD7PZXE7W7",
+          "score": 6.828
+        },
+        {
+          "noteId": "MVK3P4NDGE",
+          "score": 6.774
+        },
+        {
+          "noteId": "1HAWS5BVC7",
+          "score": 6.765
+        },
+        {
+          "noteId": "RB03V4GZWA",
+          "score": 6.159
+        },
+        {
+          "noteId": "6R1NMBFGDG",
+          "score": 5.76
+        },
+        {
+          "noteId": "H80BZZCM94",
+          "score": 5.696
+        }
+      ]
+    },
+    {
+      "q": "invoice export",
+      "principal": "frank",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "20E2PN28HP",
+          "score": 13.414
+        },
+        {
+          "noteId": "PT6NB95Z7R",
+          "score": 11.003
+        },
+        {
+          "noteId": "MDERZS5GE1",
+          "score": 10.851
+        },
+        {
+          "noteId": "2ZVJ6M5XKP",
+          "score": 10.84
+        },
+        {
+          "noteId": "1953XS36AC",
+          "score": 10.76
+        },
+        {
+          "noteId": "D6GZJFRXZ7",
+          "score": 10.754
+        },
+        {
+          "noteId": "GV7BXP3SFH",
+          "score": 10.55
+        },
+        {
+          "noteId": "T3REVYGXY9",
+          "score": 7.432
+        },
+        {
+          "noteId": "FXYC1W3DHC",
+          "score": 7.282
+        },
+        {
+          "noteId": "PKDNVKMZNM",
+          "score": 7.242
+        }
+      ]
+    },
+    {
+      "q": "billing statement csv",
+      "principal": "partner",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "Z6FS0H050P",
+          "score": 8.325
+        },
+        {
+          "noteId": "BFDB2NWGK3",
+          "score": 7.396
+        },
+        {
+          "noteId": "CMQX6YD8ZB",
+          "score": 6.948
+        },
+        {
+          "noteId": "RDNM4WM4QB",
+          "score": 6.918
+        },
+        {
+          "noteId": "NV14RKXPJ6",
+          "score": 6.908
+        },
+        {
+          "noteId": "5V40SPA1TK",
+          "score": 6.903
+        },
+        {
+          "noteId": "XKHNZZBG09",
+          "score": 6.893
+        },
+        {
+          "noteId": "K1CN5DMYXB",
+          "score": 6.053
+        },
+        {
+          "noteId": "KNWDT7ZYHD",
+          "score": 5.669
+        },
+        {
+          "noteId": "6MFE330JKH",
+          "score": 5.589
+        }
+      ]
+    },
+    {
+      "q": "restore drill",
+      "principal": "partner",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "0Z4J4RNAHF",
+          "score": 14.184
+        },
+        {
+          "noteId": "AS91SVK0BT",
+          "score": 13.855
+        },
+        {
+          "noteId": "YRE4TYMXEN",
+          "score": 13.824
+        },
+        {
+          "noteId": "JAARC58HFK",
+          "score": 13.82
+        },
+        {
+          "noteId": "VT5EEBFQSS",
+          "score": 13.814
+        },
+        {
+          "noteId": "RDNM4WM4QB",
+          "score": 8.803
+        },
+        {
+          "noteId": "630CTEXPWM",
+          "score": 8.733
+        },
+        {
+          "noteId": "DTCS3NH3RK",
+          "score": 8.729
+        },
+        {
+          "noteId": "SCV78W4M7J",
+          "score": 8.7
+        },
+        {
+          "noteId": "NRMCWPX3CE",
+          "score": 8.599
+        }
+      ]
+    },
+    {
+      "q": "recovery runbook",
+      "principal": "frank",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "0Z4J4RNAHF",
+          "score": 13.219
+        },
+        {
+          "noteId": "DAGJFPQTXR",
+          "score": 8.1
+        }
+      ]
+    },
+    {
+      "q": "private hiring plan",
+      "principal": "frank",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "95WVBQP89V",
+          "score": 19.721
+        },
+        {
+          "noteId": "92AYS52YBJ",
+          "score": 10.074
+        },
+        {
+          "noteId": "4TP6GRZH3Y",
+          "score": 9.306
+        },
+        {
+          "noteId": "P5VWC162EA",
+          "score": 9.211
+        },
+        {
+          "noteId": "P5E6XB9RD2",
+          "score": 6.81
+        },
+        {
+          "noteId": "HV419C9SZ6",
+          "score": 6.76
+        },
+        {
+          "noteId": "Z6ET7DKVVF",
+          "score": 6.726
+        },
+        {
+          "noteId": "X0DGGCRY0X",
+          "score": 6.576
+        },
+        {
+          "noteId": "02N8MNY0QF",
+          "score": 6.553
+        },
+        {
+          "noteId": "W9ZHMR9TNN",
+          "score": 6.464
+        }
+      ]
+    },
+    {
+      "q": "export cutover",
+      "principal": "frank",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "1953XS36AC",
+          "score": 14.078
+        },
+        {
+          "noteId": "MDERZS5GE1",
+          "score": 14.016
+        },
+        {
+          "noteId": "D6GZJFRXZ7",
+          "score": 9.762
+        },
+        {
+          "noteId": "2ZVJ6M5XKP",
+          "score": 9.699
+        },
+        {
+          "noteId": "PT6NB95Z7R",
+          "score": 7.706
+        },
+        {
+          "noteId": "20E2PN28HP",
+          "score": 7.687
+        },
+        {
+          "noteId": "GV7BXP3SFH",
+          "score": 7.537
+        },
+        {
+          "noteId": "B7E7K2QEC5",
+          "score": 7.316
+        },
+        {
+          "noteId": "9WS69SJFGY",
+          "score": 7.294
+        },
+        {
+          "noteId": "C0V4C6CPVB",
+          "score": 7.278
+        }
+      ]
+    },
+    {
+      "q": "object lock approach",
+      "principal": "partner",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "ETQRQVGNHR",
+          "score": 20.739
+        },
+        {
+          "noteId": "SCV78W4M7J",
+          "score": 20.49
+        },
+        {
+          "noteId": "Z7VKXGVZQ6",
+          "score": 16.107
+        },
+        {
+          "noteId": "2JM62RC785",
+          "score": 15.905
+        },
+        {
+          "noteId": "79320ETXYB",
+          "score": 15.326
+        },
+        {
+          "noteId": "630CTEXPWM",
+          "score": 13.796
+        },
+        {
+          "noteId": "KZ7AXMT37A",
+          "score": 13.624
+        },
+        {
+          "noteId": "J6Y51CJKBK",
+          "score": 13.441
+        },
+        {
+          "noteId": "80BRFYH3W5",
+          "score": 13.381
+        },
+        {
+          "noteId": "PD2JSDS2JA",
+          "score": 13.345
+        }
+      ]
+    },
+    {
+      "q": "ledger line default",
+      "principal": "frank",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "KNWDT7ZYHD",
+          "score": 18.974
+        },
+        {
+          "noteId": "6MFE330JKH",
+          "score": 18.82
+        },
+        {
+          "noteId": "TVBH07ARAJ",
+          "score": 14.331
+        },
+        {
+          "noteId": "AM832RTRDN",
+          "score": 14.219
+        },
+        {
+          "noteId": "FXYC1W3DHC",
+          "score": 13.7
+        },
+        {
+          "noteId": "T3REVYGXY9",
+          "score": 11.967
+        },
+        {
+          "noteId": "F0GT6KQPHT",
+          "score": 11.875
+        },
+        {
+          "noteId": "A7KK4036SW",
+          "score": 11.803
+        },
+        {
+          "noteId": "Z6FS0H050P",
+          "score": 9.041
+        },
+        {
+          "noteId": "BFDB2NWGK3",
+          "score": 8.862
+        }
+      ]
+    },
+    {
+      "q": "snapshot cutover",
+      "principal": "partner",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "9N7H60YX3K",
+          "score": 13.785
+        },
+        {
+          "noteId": "EMT6PNCGWR",
+          "score": 10.296
+        },
+        {
+          "noteId": "9RKMRCHN21",
+          "score": 9.419
+        },
+        {
+          "noteId": "JDHHCCS0JG",
+          "score": 7.507
+        },
+        {
+          "noteId": "NRMCWPX3CE",
+          "score": 7.257
+        },
+        {
+          "noteId": "DFNZHCAAAR",
+          "score": 7.126
+        },
+        {
+          "noteId": "2X6P473CQE",
+          "score": 7.074
+        },
+        {
+          "noteId": "1B2ZD7XCKP",
+          "score": 7.07
+        },
+        {
+          "noteId": "02VQ2ZX22A",
+          "score": 7.07
+        },
+        {
+          "noteId": "ZVKT5XJD1M",
+          "score": 7.069
+        }
+      ]
+    },
+    {
+      "q": "billing run default",
+      "principal": "frank",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "T3REVYGXY9",
+          "score": 13.221
+        },
+        {
+          "noteId": "FXYC1W3DHC",
+          "score": 13.178
+        },
+        {
+          "noteId": "KNWDT7ZYHD",
+          "score": 9.927
+        },
+        {
+          "noteId": "6MFE330JKH",
+          "score": 9.861
+        },
+        {
+          "noteId": "Z6FS0H050P",
+          "score": 8.571
+        },
+        {
+          "noteId": "BFDB2NWGK3",
+          "score": 8.529
+        },
+        {
+          "noteId": "2HX13XBQBT",
+          "score": 7.378
+        },
+        {
+          "noteId": "PTA4GGTSW1",
+          "score": 7.368
+        },
+        {
+          "noteId": "Q7TJ3BNZ3Y",
+          "score": 7.363
+        },
+        {
+          "noteId": "0NRMBAPNHX",
+          "score": 7.358
+        }
+      ]
+    },
+    {
+      "q": "retention approach",
+      "principal": "partner",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "79320ETXYB",
+          "score": 14.994
+        },
+        {
+          "noteId": "JDHHCCS0JG",
+          "score": 11.316
+        },
+        {
+          "noteId": "SCV78W4M7J",
+          "score": 11.18
+        },
+        {
+          "noteId": "ETQRQVGNHR",
+          "score": 11.163
+        },
+        {
+          "noteId": "954BRZ85N7",
+          "score": 10.285
+        },
+        {
+          "noteId": "EMT6PNCGWR",
+          "score": 8.02
+        },
+        {
+          "noteId": "MVWRHGAA48",
+          "score": 7.774
+        },
+        {
+          "noteId": "SD91828T4W",
+          "score": 7.731
+        },
+        {
+          "noteId": "WRK59J9HF5",
+          "score": 7.715
+        },
+        {
+          "noteId": "MZYRMTJ7C2",
+          "score": 7.704
+        }
+      ]
+    },
+    {
+      "q": "export cutover",
+      "principal": "frank",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "1953XS36AC",
+          "score": 14.078
+        },
+        {
+          "noteId": "MDERZS5GE1",
+          "score": 14.016
+        },
+        {
+          "noteId": "D6GZJFRXZ7",
+          "score": 9.762
+        },
+        {
+          "noteId": "2ZVJ6M5XKP",
+          "score": 9.699
+        },
+        {
+          "noteId": "PT6NB95Z7R",
+          "score": 7.706
+        },
+        {
+          "noteId": "20E2PN28HP",
+          "score": 7.687
+        },
+        {
+          "noteId": "GV7BXP3SFH",
+          "score": 7.537
+        },
+        {
+          "noteId": "B7E7K2QEC5",
+          "score": 7.316
+        },
+        {
+          "noteId": "9WS69SJFGY",
+          "score": 7.294
+        },
+        {
+          "noteId": "C0V4C6CPVB",
+          "score": 7.278
+        }
+      ]
+    },
+    {
+      "q": "object lock policy",
+      "principal": "partner",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "630CTEXPWM",
+          "score": 20.051
+        },
+        {
+          "noteId": "KZ7AXMT37A",
+          "score": 15.639
+        },
+        {
+          "noteId": "ETQRQVGNHR",
+          "score": 13.766
+        },
+        {
+          "noteId": "Z7VKXGVZQ6",
+          "score": 13.679
+        },
+        {
+          "noteId": "SCV78W4M7J",
+          "score": 13.512
+        },
+        {
+          "noteId": "2JM62RC785",
+          "score": 13.466
+        },
+        {
+          "noteId": "J6Y51CJKBK",
+          "score": 13.441
+        },
+        {
+          "noteId": "80BRFYH3W5",
+          "score": 13.381
+        },
+        {
+          "noteId": "PD2JSDS2JA",
+          "score": 13.345
+        },
+        {
+          "noteId": "2Q9V1295MH",
+          "score": 13.181
+        }
+      ]
+    },
+    {
+      "q": "ledger line default",
+      "principal": "frank",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "KNWDT7ZYHD",
+          "score": 18.974
+        },
+        {
+          "noteId": "6MFE330JKH",
+          "score": 18.82
+        },
+        {
+          "noteId": "TVBH07ARAJ",
+          "score": 14.331
+        },
+        {
+          "noteId": "AM832RTRDN",
+          "score": 14.219
+        },
+        {
+          "noteId": "FXYC1W3DHC",
+          "score": 13.7
+        },
+        {
+          "noteId": "T3REVYGXY9",
+          "score": 11.967
+        },
+        {
+          "noteId": "F0GT6KQPHT",
+          "score": 11.875
+        },
+        {
+          "noteId": "A7KK4036SW",
+          "score": 11.803
+        },
+        {
+          "noteId": "Z6FS0H050P",
+          "score": 9.041
+        },
+        {
+          "noteId": "BFDB2NWGK3",
+          "score": 8.862
+        }
+      ]
+    },
+    {
+      "q": "snapshot approach",
+      "principal": "partner",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "JDHHCCS0JG",
+          "score": 14.528
+        },
+        {
+          "noteId": "SCV78W4M7J",
+          "score": 11.336
+        },
+        {
+          "noteId": "79320ETXYB",
+          "score": 10.97
+        },
+        {
+          "noteId": "ETQRQVGNHR",
+          "score": 10.827
+        },
+        {
+          "noteId": "NRMCWPX3CE",
+          "score": 9.755
+        },
+        {
+          "noteId": "SD91828T4W",
+          "score": 7.731
+        },
+        {
+          "noteId": "WRK59J9HF5",
+          "score": 7.715
+        },
+        {
+          "noteId": "MZYRMTJ7C2",
+          "score": 7.704
+        },
+        {
+          "noteId": "44NNDEZKQE",
+          "score": 7.699
+        },
+        {
+          "noteId": "YGXPG3BANH",
+          "score": 7.688
+        }
+      ]
+    },
+    {
+      "q": "billing run default",
+      "principal": "frank",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "T3REVYGXY9",
+          "score": 13.221
+        },
+        {
+          "noteId": "FXYC1W3DHC",
+          "score": 13.178
+        },
+        {
+          "noteId": "KNWDT7ZYHD",
+          "score": 9.927
+        },
+        {
+          "noteId": "6MFE330JKH",
+          "score": 9.861
+        },
+        {
+          "noteId": "Z6FS0H050P",
+          "score": 8.571
+        },
+        {
+          "noteId": "BFDB2NWGK3",
+          "score": 8.529
+        },
+        {
+          "noteId": "2HX13XBQBT",
+          "score": 7.378
+        },
+        {
+          "noteId": "PTA4GGTSW1",
+          "score": 7.368
+        },
+        {
+          "noteId": "Q7TJ3BNZ3Y",
+          "score": 7.363
+        },
+        {
+          "noteId": "0NRMBAPNHX",
+          "score": 7.358
+        }
+      ]
+    },
+    {
+      "q": "retention cutover",
+      "principal": "partner",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "EMT6PNCGWR",
+          "score": 14.366
+        },
+        {
+          "noteId": "9N7H60YX3K",
+          "score": 11.698
+        },
+        {
+          "noteId": "MVWRHGAA48",
+          "score": 9.956
+        },
+        {
+          "noteId": "79320ETXYB",
+          "score": 7.974
+        },
+        {
+          "noteId": "954BRZ85N7",
+          "score": 7.835
+        },
+        {
+          "noteId": "SHWCJ955HK",
+          "score": 7.578
+        },
+        {
+          "noteId": "8FP0GKXY7N",
+          "score": 7.573
+        },
+        {
+          "noteId": "2X6P473CQE",
+          "score": 7.074
+        },
+        {
+          "noteId": "ZVKT5XJD1M",
+          "score": 7.069
+        },
+        {
+          "noteId": "TANHN4N3ET",
+          "score": 7.06
+        }
+      ]
+    },
+    {
+      "q": "invoice",
+      "principal": "frank",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "20E2PN28HP",
+          "score": 6.228
+        },
+        {
+          "noteId": "DRSC2MCG4N",
+          "score": 5.893
+        },
+        {
+          "noteId": "K2S8T6WCF5",
+          "score": 5.889
+        },
+        {
+          "noteId": "12PT5S6S51",
+          "score": 5.885
+        },
+        {
+          "noteId": "PN26RTWW5X",
+          "score": 5.839
+        },
+        {
+          "noteId": "GB1X0NSJ40",
+          "score": 5.808
+        },
+        {
+          "noteId": "T3REVYGXY9",
+          "score": 4.064
+        },
+        {
+          "noteId": "PT6NB95Z7R",
+          "score": 3.997
+        },
+        {
+          "noteId": "K095KMQQGV",
+          "score": 3.974
+        },
+        {
+          "noteId": "B66GRTTWS3",
+          "score": 3.968
+        }
+      ]
+    },
+    {
+      "q": "invoice",
+      "principal": "partner",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "20E2PN28HP",
+          "score": 6.228
+        },
+        {
+          "noteId": "DRSC2MCG4N",
+          "score": 5.893
+        },
+        {
+          "noteId": "K2S8T6WCF5",
+          "score": 5.889
+        },
+        {
+          "noteId": "12PT5S6S51",
+          "score": 5.885
+        },
+        {
+          "noteId": "PN26RTWW5X",
+          "score": 5.839
+        },
+        {
+          "noteId": "GB1X0NSJ40",
+          "score": 5.808
+        },
+        {
+          "noteId": "DPVE05QBHR",
+          "score": 4.235
+        },
+        {
+          "noteId": "52RWG8RK9A",
+          "score": 4.226
+        },
+        {
+          "noteId": "JZAY2Y3C7N",
+          "score": 4.073
+        },
+        {
+          "noteId": "T3REVYGXY9",
+          "score": 4.064
+        }
+      ]
+    },
+    {
+      "q": "rate card tiers",
+      "principal": "frank",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "GPYXDRK27N",
+          "score": 13.694
+        },
+        {
+          "noteId": "9FHG848NKW",
+          "score": 12.391
+        },
+        {
+          "noteId": "2MT077M8N4",
+          "score": 12.229
+        },
+        {
+          "noteId": "6H93NJNYXY",
+          "score": 12.083
+        },
+        {
+          "noteId": "EVQJJMXMZJ",
+          "score": 12.069
+        },
+        {
+          "noteId": "5PQR8XEEXW",
+          "score": 12.053
+        },
+        {
+          "noteId": "29PBPQAEF5",
+          "score": 11.549
+        },
+        {
+          "noteId": "RQV24278Q2",
+          "score": 11.286
+        },
+        {
+          "noteId": "AMS8PEHYDX",
+          "score": 10.518
+        },
+        {
+          "noteId": "Q7TJ3BNZ3Y",
+          "score": 8.825
+        }
+      ]
+    },
+    {
+      "q": "rate card tiers",
+      "principal": "partner",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "2MT077M8N4",
+          "score": 12.229
+        },
+        {
+          "noteId": "6H93NJNYXY",
+          "score": 12.083
+        },
+        {
+          "noteId": "EVQJJMXMZJ",
+          "score": 12.069
+        },
+        {
+          "noteId": "5PQR8XEEXW",
+          "score": 12.053
+        },
+        {
+          "noteId": "29PBPQAEF5",
+          "score": 11.549
+        },
+        {
+          "noteId": "RQV24278Q2",
+          "score": 11.286
+        },
+        {
+          "noteId": "AMS8PEHYDX",
+          "score": 10.518
+        },
+        {
+          "noteId": "4G1QANVTYH",
+          "score": 10.219
+        },
+        {
+          "noteId": "TDRYT5F5BW",
+          "score": 9.671
+        },
+        {
+          "noteId": "Q7TJ3BNZ3Y",
+          "score": 8.825
+        }
+      ]
+    },
+    {
+      "q": "restore drill snapshot",
+      "principal": "frank",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "NRMCWPX3CE",
+          "score": 15.357
+        },
+        {
+          "noteId": "JDHHCCS0JG",
+          "score": 15.035
+        },
+        {
+          "noteId": "DFNZHCAAAR",
+          "score": 14.933
+        },
+        {
+          "noteId": "0Z4J4RNAHF",
+          "score": 14.617
+        },
+        {
+          "noteId": "VT5EEBFQSS",
+          "score": 14.297
+        },
+        {
+          "noteId": "9N7H60YX3K",
+          "score": 13.94
+        },
+        {
+          "noteId": "9RKMRCHN21",
+          "score": 13.732
+        },
+        {
+          "noteId": "SCV78W4M7J",
+          "score": 12.359
+        },
+        {
+          "noteId": "1QD9EB1NWY",
+          "score": 11.622
+        },
+        {
+          "noteId": "79320ETXYB",
+          "score": 11.477
+        }
+      ]
+    },
+    {
+      "q": "restore drill snapshot",
+      "principal": "partner",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "NRMCWPX3CE",
+          "score": 15.357
+        },
+        {
+          "noteId": "JDHHCCS0JG",
+          "score": 15.035
+        },
+        {
+          "noteId": "DFNZHCAAAR",
+          "score": 14.933
+        },
+        {
+          "noteId": "0Z4J4RNAHF",
+          "score": 14.617
+        },
+        {
+          "noteId": "VT5EEBFQSS",
+          "score": 14.297
+        },
+        {
+          "noteId": "9N7H60YX3K",
+          "score": 13.94
+        },
+        {
+          "noteId": "9RKMRCHN21",
+          "score": 13.732
+        },
+        {
+          "noteId": "SCV78W4M7J",
+          "score": 12.359
+        },
+        {
+          "noteId": "79320ETXYB",
+          "score": 11.477
+        },
+        {
+          "noteId": "RDNM4WM4QB",
+          "score": 11.406
+        }
+      ]
+    },
+    {
+      "q": "candidate scorecard",
+      "principal": "frank",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "X9FPKCPAE8",
+          "score": 9.322
+        },
+        {
+          "noteId": "HVSN3T0M39",
+          "score": 8.992
+        },
+        {
+          "noteId": "3K15J60H6M",
+          "score": 8.992
+        },
+        {
+          "noteId": "PXCQPWA53P",
+          "score": 8.946
+        },
+        {
+          "noteId": "QRMSSXF0WP",
+          "score": 8.633
+        },
+        {
+          "noteId": "Y53H86WTV0",
+          "score": 8.577
+        },
+        {
+          "noteId": "FT74ESH15D",
+          "score": 7.005
+        },
+        {
+          "noteId": "STZ9ZD3RG8",
+          "score": 6.883
+        },
+        {
+          "noteId": "95WVBQP89V",
+          "score": 6.816
+        },
+        {
+          "noteId": "SK9YQ4KGCV",
+          "score": 6.507
+        }
+      ]
+    },
+    {
+      "q": "candidate scorecard",
+      "principal": "partner",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "X9FPKCPAE8",
+          "score": 9.322
+        },
+        {
+          "noteId": "HVSN3T0M39",
+          "score": 8.992
+        },
+        {
+          "noteId": "3K15J60H6M",
+          "score": 8.992
+        },
+        {
+          "noteId": "PXCQPWA53P",
+          "score": 8.946
+        },
+        {
+          "noteId": "QRMSSXF0WP",
+          "score": 8.633
+        },
+        {
+          "noteId": "Y53H86WTV0",
+          "score": 8.577
+        },
+        {
+          "noteId": "SK9YQ4KGCV",
+          "score": 6.507
+        },
+        {
+          "noteId": "Z2KMA4Q3AV",
+          "score": 6.507
+        },
+        {
+          "noteId": "92AYS52YBJ",
+          "score": 6.363
+        },
+        {
+          "noteId": "0Q908Q8MQP",
+          "score": 6.323
+        }
+      ]
+    },
+    {
+      "q": "milestone scope cut",
+      "principal": "frank",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "EH51MBKMEB",
+          "score": 14.295
+        },
+        {
+          "noteId": "PB76216CKR",
+          "score": 13.807
+        },
+        {
+          "noteId": "P61XF6GMMG",
+          "score": 13.655
+        },
+        {
+          "noteId": "F3R72XN5AS",
+          "score": 13.594
+        },
+        {
+          "noteId": "9GA21FGPVE",
+          "score": 12.869
+        },
+        {
+          "noteId": "PD2JSDS2JA",
+          "score": 10.516
+        },
+        {
+          "noteId": "PVZASV5VM6",
+          "score": 10.337
+        },
+        {
+          "noteId": "EQ8CVXBH0D",
+          "score": 10.072
+        },
+        {
+          "noteId": "GDDNQTG1KK",
+          "score": 9.903
+        },
+        {
+          "noteId": "KAP4E8HGBG",
+          "score": 9.549
+        }
+      ]
+    },
+    {
+      "q": "milestone scope cut",
+      "principal": "partner",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "EH51MBKMEB",
+          "score": 14.295
+        },
+        {
+          "noteId": "PB76216CKR",
+          "score": 13.807
+        },
+        {
+          "noteId": "P61XF6GMMG",
+          "score": 13.655
+        },
+        {
+          "noteId": "F3R72XN5AS",
+          "score": 13.594
+        },
+        {
+          "noteId": "9GA21FGPVE",
+          "score": 12.869
+        },
+        {
+          "noteId": "J9DRV0P15X",
+          "score": 12.237
+        },
+        {
+          "noteId": "PD2JSDS2JA",
+          "score": 10.516
+        },
+        {
+          "noteId": "PVZASV5VM6",
+          "score": 10.337
+        },
+        {
+          "noteId": "EQ8CVXBH0D",
+          "score": 10.072
+        },
+        {
+          "noteId": "GDDNQTG1KK",
+          "score": 9.903
+        }
+      ]
+    },
+    {
+      "q": "p95 latency error budget",
+      "principal": "frank",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "05C5MAR06G",
+          "score": 18.071
+        },
+        {
+          "noteId": "MZYRMTJ7C2",
+          "score": 17.849
+        },
+        {
+          "noteId": "39966DTYPZ",
+          "score": 16.88
+        },
+        {
+          "noteId": "YGXPG3BANH",
+          "score": 16.51
+        },
+        {
+          "noteId": "T33QRSZK91",
+          "score": 16.385
+        },
+        {
+          "noteId": "CWB5FS9Y0D",
+          "score": 16.181
+        },
+        {
+          "noteId": "PTA4GGTSW1",
+          "score": 15.397
+        },
+        {
+          "noteId": "7C675P29XV",
+          "score": 15.166
+        },
+        {
+          "noteId": "SFY1M81965",
+          "score": 14.79
+        },
+        {
+          "noteId": "MK87TJSP49",
+          "score": 13.612
+        }
+      ]
+    },
+    {
+      "q": "p95 latency error budget",
+      "principal": "partner",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "05C5MAR06G",
+          "score": 18.071
+        },
+        {
+          "noteId": "MZYRMTJ7C2",
+          "score": 17.849
+        },
+        {
+          "noteId": "39966DTYPZ",
+          "score": 16.88
+        },
+        {
+          "noteId": "YGXPG3BANH",
+          "score": 16.51
+        },
+        {
+          "noteId": "T33QRSZK91",
+          "score": 16.385
+        },
+        {
+          "noteId": "CWB5FS9Y0D",
+          "score": 16.181
+        },
+        {
+          "noteId": "PTA4GGTSW1",
+          "score": 15.397
+        },
+        {
+          "noteId": "7C675P29XV",
+          "score": 15.166
+        },
+        {
+          "noteId": "SFY1M81965",
+          "score": 14.79
+        },
+        {
+          "noteId": "MK87TJSP49",
+          "score": 13.612
+        }
+      ]
+    },
+    {
+      "q": "net 30 deposit",
+      "principal": "frank",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "0JXZYGB9HJ",
+          "score": 14.583
+        },
+        {
+          "noteId": "1QD9EB1NWY",
+          "score": 8.833
+        },
+        {
+          "noteId": "9FHG848NKW",
+          "score": 8.818
+        },
+        {
+          "noteId": "KSJZ22ZHY6",
+          "score": 8.788
+        },
+        {
+          "noteId": "P61XF6GMMG",
+          "score": 8.714
+        },
+        {
+          "noteId": "9GA21FGPVE",
+          "score": 8.559
+        },
+        {
+          "noteId": "39ZV00MGQB",
+          "score": 8.372
+        },
+        {
+          "noteId": "2WVXFY2B51",
+          "score": 8.304
+        },
+        {
+          "noteId": "3DEM89Z11M",
+          "score": 8.262
+        },
+        {
+          "noteId": "KAP4E8HGBG",
+          "score": 8.182
+        }
+      ]
+    },
+    {
+      "q": "net 30 deposit",
+      "principal": "partner",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "0JXZYGB9HJ",
+          "score": 14.583
+        },
+        {
+          "noteId": "P61XF6GMMG",
+          "score": 8.714
+        },
+        {
+          "noteId": "9GA21FGPVE",
+          "score": 8.559
+        },
+        {
+          "noteId": "39ZV00MGQB",
+          "score": 8.372
+        },
+        {
+          "noteId": "2WVXFY2B51",
+          "score": 8.304
+        },
+        {
+          "noteId": "3DEM89Z11M",
+          "score": 8.262
+        },
+        {
+          "noteId": "KAP4E8HGBG",
+          "score": 8.182
+        },
+        {
+          "noteId": "2ARB8H9TJK",
+          "score": 8.176
+        },
+        {
+          "noteId": "RB03V4GZWA",
+          "score": 6.816
+        },
+        {
+          "noteId": "H80BZZCM94",
+          "score": 6.776
+        }
+      ]
+    },
+    {
+      "q": "kickoff intake form",
+      "principal": "frank",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "C6YTVNGNK3",
+          "score": 16.42
+        },
+        {
+          "noteId": "HQS432FXCK",
+          "score": 15.776
+        },
+        {
+          "noteId": "FNNMB8YAZS",
+          "score": 15.617
+        },
+        {
+          "noteId": "SX8EDJDHA3",
+          "score": 15.544
+        },
+        {
+          "noteId": "JKF0WCF5JQ",
+          "score": 14.954
+        },
+        {
+          "noteId": "B7H3R6702E",
+          "score": 14.939
+        },
+        {
+          "noteId": "DTS7C1C9XN",
+          "score": 14.557
+        },
+        {
+          "noteId": "S6QCH22MYY",
+          "score": 14.408
+        },
+        {
+          "noteId": "9125K74X93",
+          "score": 13.851
+        },
+        {
+          "noteId": "2HX13XBQBT",
+          "score": 12.571
+        }
+      ]
+    },
+    {
+      "q": "kickoff intake form",
+      "principal": "partner",
+      "k": 10,
+      "expected": [
+        {
+          "noteId": "C6YTVNGNK3",
+          "score": 16.42
+        },
+        {
+          "noteId": "HQS432FXCK",
+          "score": 15.776
+        },
+        {
+          "noteId": "FNNMB8YAZS",
+          "score": 15.617
+        },
+        {
+          "noteId": "SX8EDJDHA3",
+          "score": 15.544
+        },
+        {
+          "noteId": "JKF0WCF5JQ",
+          "score": 14.954
+        },
+        {
+          "noteId": "B7H3R6702E",
+          "score": 14.939
+        },
+        {
+          "noteId": "DTS7C1C9XN",
+          "score": 14.557
+        },
+        {
+          "noteId": "S6QCH22MYY",
+          "score": 14.408
+        },
+        {
+          "noteId": "9125K74X93",
+          "score": 13.851
+        },
+        {
+          "noteId": "2HX13XBQBT",
+          "score": 12.571
+        }
+      ]
+    }
+  ]
+}

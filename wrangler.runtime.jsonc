@@ -1,0 +1,24 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  // A local rehearsal template. Owner packaging supplies the frozen deployment identity.
+  "name": "kl-runtime-local-only",
+  "account_id": "00000000000000000000000000000000",
+  "main": "apps/api/src/cloudflare/archive-worker.ts",
+  "find_additional_modules": false,
+  "compatibility_date": "2026-07-30",
+  "workers_dev": false,
+  "preview_urls": false,
+  "send_metrics": false,
+  "upload_source_maps": false,
+  // P0 privacy ruling: raw request metadata and private policy never enter logs/traces.
+  "observability": { "enabled": false, "logs": { "enabled": false }, "traces": { "enabled": false } },
+  "vars": {
+    "RUNTIME_MODE": "closed", "RUNTIME_CONFIG_COUNT": "0",
+    "RUNTIME_CONFIG_1": "", "RUNTIME_CONFIG_2": "", "RUNTIME_CONFIG_3": "", "RUNTIME_CONFIG_4": "",
+    "RUNTIME_CONFIG_5": "", "RUNTIME_CONFIG_6": "", "RUNTIME_CONFIG_7": "", "RUNTIME_CONFIG_8": ""
+  },
+  "version_metadata": { "binding": "VERSION" },
+  "durable_objects": { "bindings": [{ "name": "LIBRARY", "class_name": "LibraryDO" }] },
+  "migrations": [{ "tag": "archive-runtime-v1", "new_sqlite_classes": ["LibraryDO"] }],
+  "r2_buckets": [{ "binding": "ARCHIVE", "bucket_name": "kl-runtime-local-only" }]
+}

@@ -1,0 +1,14 @@
+{
+  "name": "@kl/cli",
+  "version": "0.1.0",
+  "private": true,
+  "description": "kl command-line client (S1: token helper and version only)",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "types": "./src/index.ts",
+  "dependencies": {
+    "@kl/core": "0.1.0"
+  }
+}

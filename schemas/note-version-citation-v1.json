@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://knowledge-library.invalid/schemas/note-version-citation/v1",
+  "title": "note-version-citation/v1",
+  "description": "Note, version and citation identities (DESIGN §3.1). A citation resolves against the archive only; a missing version is version-not-found, never the latest.",
+  "$defs": {
+    "noteId": { "type": "string", "pattern": "^[0-9A-HJKMNP-TV-Z]{10}$", "description": "10-character Crockford base32, 50 random bits, never derived from a path" },
+    "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "citation": { "type": "string", "pattern": "^kl:[0-9A-HJKMNP-TV-Z]{10}@[1-9][0-9]*(#(L[1-9][0-9]*-L[1-9][0-9]*|\\$[^~\\s]+))?(~[0-9a-f]{8})?$" },
+    "legacyCitation": { "type": "string", "pattern": "^vault:.+" },
+    "privacyClass": { "$ref": "https://knowledge-library.invalid/schemas/collection-privacy/v1#/$defs/privacyClass" },
+    "version": {
+      "type": "object",
+      "required": ["noteId", "ver", "sha256", "bytes", "origin", "privacy_class", "role", "capturedAt", "publishedAt", "lastVerifiedAt", "custody"],
+      "additionalProperties": false,
+      "properties": {
+        "noteId": { "$ref": "#/$defs/noteId" },
+        "ver": { "type": "integer", "minimum": 1 },
+        "parentVer": { "type": ["integer", "null"], "minimum": 1 },
+        "sha256": { "$ref": "#/$defs/sha256" },
+        "bytes": { "type": "integer", "minimum": 0 },
+        "origin": { "type": "string", "maxLength": 64 },
+        "privacy_class": { "type": "string" },
+        "role": { "enum": ["note", "brief", "handoff", "decision", "log", "derivative"] },
+        "vstatus": { "enum": ["current", "sibling", "proposed-edit"] },
+        "authoredAt": { "type": ["string", "null"], "format": "date-time", "description": "only when evidenced; copied mtimes never set it" },
+        "observedMtime": { "type": ["string", "null"], "format": "date-time" },
+        "capturedAt": { "type": "string", "format": "date-time" },
+        "publishedAt": { "type": "string", "format": "date-time" },
+        "lastVerifiedAt": { "type": "string", "format": "date-time" },
+        "custody": { "enum": ["received", "verified", "indexed"] },
+        "localState": { "enum": ["present", "focus-held", "absent-locally"] }
+      }
+    },
+    "note": {
+      "type": "object",
+      "required": ["noteId", "collectionId", "currentVer", "kind", "status", "privacy_class"],
+      "additionalProperties": false,
+      "properties": {
+        "noteId": { "$ref": "#/$defs/noteId" },
+        "collectionId": { "type": "string" },
+        "folderId": { "type": ["string", "null"] },
+        "currentVer": { "type": "integer", "minimum": 0 },
+        "kind": { "enum": ["decision", "implementation", "handoff", "status", "log", "turnover", "note", "binary"] },
+        "status": { "enum": ["current", "superseded", "duplicate", "historical", "withdrawn", "conflict"] },
+        "supersededBy": { "anyOf": [{ "$ref": "#/$defs/noteId" }, { "type": "null" }] },
+        "privacy_class": { "type": "string" }
+      }
+    },
+    "readError": { "enum": ["not-found", "version-not-found", "withdrawn", "not-indexed-yet", "unavailable-storage", "corrupt-object", "conflict", "unversioned-resolution"] }
+  },
+  "oneOf": [{ "$ref": "#/$defs/version" }, { "$ref": "#/$defs/note" }]
+}

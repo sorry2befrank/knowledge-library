@@ -1,0 +1,27 @@
+{
+  "session": "S1",
+  "date": "2026-10-04",
+  "lane": "cloud",
+  "branch": "cloud/s1-spine",
+  "built": [
+    "skeleton"
+  ],
+  "exitEvidence": [
+    {
+      "check": "npm ci && npm test",
+      "result": "pass",
+      "evidence": "45 tests, 1.4 s"
+    }
+  ],
+  "decisions": [
+    {
+      "decision": "node:sqlite in S1",
+      "why": "same engine as DO/D1"
+    }
+  ],
+  "conflictsWithDesign": [],
+  "packPending": [],
+  "funding_source": "credit",
+  "spend_usd": "unknown",
+  "nextStep": "S1b"
+}

@@ -1,0 +1,72 @@
+name: windows-conformance
+on:
+  pull_request:
+    paths-ignore: ["docs/**", "persona/**"]
+  push:
+    branches: [main]
+    paths-ignore: ["docs/**", "persona/**"]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: windows-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  conformance:
+    name: kl-fs conformance (Windows)
+    runs-on: windows-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+      - run: npm ci
+      - run: npm run build:spec
+      - run: npm run build:contracts
+      - run: dotnet build cli/kl-fs/kl-fs.csproj -c Release
+      - run: dotnet build cli/kl-fs/kl-fs.csproj -c Debug
+      - name: portable owner credential helper
+        run: dotnet publish cli/kl-fs/kl-fs.csproj -c Release -r win-x64 --self-contained true -p:PublishSingleFile=true
+      - name: owner ceremony with actual Windows DPAPI
+        env:
+          KL_OWNER_NATIVE_REQUIRED: "true"
+        run: npx vitest run test/archive-owner-native.test.ts --reporter=default
+      - name: session tools, handoff check and resume-loop tests on Windows (AR1-AR3, RL; the only platform they are for)
+        run: npx vitest run sessions- kl-handoff test/rl- --reporter=default
+      - name: helper runtime bundle SHA-256 (Release, the one the tests run)
+        id: helper
+        shell: pwsh
+        run: |
+          $exe = "cli/kl-fs/bin/Release/net8.0/kl-fs.exe"
+          $hash = node scripts/hash-windows-helper.ts $exe
+          if ($LASTEXITCODE -ne 0) { throw "helper runtime bundle hashing failed" }
+          Write-Host "kl-fs runtime bundle sha256 $hash"
+          & $exe --version
+          "sha256=$hash" | Out-File -FilePath $env:GITHUB_OUTPUT -Append
+          fsutil fsinfo volumeinfo $env:RUNNER_TEMP.Substring(0,2)
+          # a second volume for the cross-volume case: a drive other than the one os.tmpdir() (the harness root) lives on
+          $tmpDrive = [IO.Path]::GetTempPath().Substring(0,2); $wsDrive = $env:GITHUB_WORKSPACE.Substring(0,2)
+          $drive = if ($wsDrive -ne $tmpDrive) { $wsDrive } elseif ($tmpDrive -ne "C:") { "C:" } else { $null }
+          Write-Host "temp drive $tmpDrive, workspace drive $wsDrive, second volume drive: $drive"
+          if ($drive) { $second = "$drive\kl-second"; New-Item -ItemType Directory -Force $second | Out-Null; fsutil fsinfo volumeinfo $drive | Select-Object -First 4; "second=$second" | Out-File -FilePath $env:GITHUB_OUTPUT -Append }
+      - name: native tests
+        shell: pwsh
+        env:
+          KL_FS_HELPER: ${{ github.workspace }}\cli\kl-fs\bin\Release\net8.0\kl-fs.exe
+          KL_FS_HELPER_DEBUG: ${{ github.workspace }}\cli\kl-fs\bin\Debug\net8.0\kl-fs.exe
+          KL_FS_SECOND_VOLUME: ${{ steps.helper.outputs.second }}
+        run: npx vitest run test/fs-windows-contract.test.ts test/fs-windows-native.test.ts test/fs-windows-dpapi.test.ts --reporter=json --outputFile=conformance.json --reporter=github-actions
+        continue-on-error: true
+      - name: gate
+        shell: pwsh
+        run: node test/fs-windows-gate.ts conformance.json test/fs-windows-manifest.json ${{ steps.helper.outputs.sha256 }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: conformance
+          path: conformance.json

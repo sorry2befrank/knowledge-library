@@ -1,0 +1,7 @@
+{
+  "requestId": "00000000000000000000000000000000",
+  "outcome": "rejected",
+  "ruleCodes": [
+    "policy.unavailable"
+  ]
+}

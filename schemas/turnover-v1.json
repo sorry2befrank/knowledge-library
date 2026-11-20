@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://knowledge-library.invalid/schemas/turnover/v1",
+  "title": "turnover/v1",
+  "description": "Build-session turnover (DESIGN §7.2, work order). No real note content. Funding source and actual spend are required; unknown spend is written as the string unknown.",
+  "type": "object",
+  "required": ["session", "date", "lane", "branch", "built", "exitEvidence", "decisions", "conflictsWithDesign", "packPending", "funding_source", "spend_usd", "nextStep"],
+  "additionalProperties": false,
+  "properties": {
+    "session": { "type": "string", "pattern": "^S\\d+[a-z]?$" },
+    "date": { "type": "string", "format": "date" },
+    "lane": { "enum": ["cloud", "local"] },
+    "branch": { "type": "string" },
+    "designRevision": { "type": "string" },
+    "designStatusAtBuild": { "enum": ["draft", "final"] },
+    "built": { "type": "array", "items": { "type": "string" } },
+    "exitEvidence": { "type": "array", "items": { "type": "object", "required": ["check", "result"], "additionalProperties": false, "properties": { "check": { "type": "string" }, "result": { "enum": ["pass", "fail", "partial", "pack-pending", "not-run"] }, "evidence": { "type": "string" } } } },
+    "decisions": { "type": "array", "items": { "type": "object", "required": ["decision", "why"], "additionalProperties": false, "properties": { "decision": { "type": "string" }, "why": { "type": "string" } } } },
+    "conflictsWithDesign": { "type": "array", "items": { "type": "object", "required": ["where", "conflict", "chosen"], "additionalProperties": false, "properties": { "where": { "type": "string" }, "conflict": { "type": "string" }, "chosen": { "type": "string" } } } },
+    "draftSectionsFollowed": { "type": "array", "items": { "type": "string" } },
+    "packPending": { "type": "array", "items": { "type": "object", "required": ["test", "needs"], "additionalProperties": false, "properties": { "test": { "type": "string" }, "needs": { "type": "string" } } } },
+    "proposals": { "type": "array", "items": { "type": "string" } },
+    "gotchas": { "type": "array", "items": { "type": "string" } },
+    "learned": { "type": "array", "items": { "type": "string" } },
+    "funding_source": { "enum": ["credit", "purchased", "plan", "codex", "unknown"], "description": "DESIGN §7.2 names credit, purchased, plan and codex; unknown is for a session that cannot see its own funding" },
+    "spend_usd": { "anyOf": [{ "type": "number", "minimum": 0 }, { "const": "unknown" }] },
+    "allocationRemainingUsd": { "anyOf": [{ "type": "number" }, { "const": "unknown" }] },
+    "nextStep": { "type": "string", "minLength": 1 },
+    "remainingAsS1b": { "type": "array", "items": { "type": "string" } }
+  }
+}

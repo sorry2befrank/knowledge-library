@@ -1,0 +1,15 @@
+{
+  "name": "@kl/core",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Pure library core: ids, hashing, citations, admission, ledger, apply, outbox, catalog, search, tools, auth, policy, understudy, evidence",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./worker": "./src/worker.ts"
+  },
+  "types": "./src/index.ts",
+  "dependencies": {
+    "@kl/contracts": "0.1.0"
+  }
+}

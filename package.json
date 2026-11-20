@@ -1,0 +1,54 @@
+{
+  "name": "knowledge-library",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Knowledge Library: the Librarian Understudy. Synthetic spine (S1).",
+  "type": "module",
+  "engines": {
+    "node": ">=22.18"
+  },
+  "workspaces": [
+    "packages/core",
+    "packages/contracts",
+    "apps/api",
+    "apps/auth",
+    "cli/kl"
+  ],
+  "scripts": {
+    "build:spec": "node scripts/build-spec.ts",
+    "pretest": "npm run build:spec && npm run build:contracts",
+    "pretest:watch": "npm run build:spec && npm run build:contracts",
+    "pretypecheck": "npm run build:spec && npm run build:contracts",
+    "prefixtures": "npm run build:spec && npm run build:contracts",
+    "prebench": "npm run build:spec && npm run build:contracts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "lint:citations": "node scripts/lint-citations.ts",
+    "lint:sql": "node scripts/lint-mutating-sql.ts",
+    "lint:persona": "node scripts/lint-persona.ts",
+    "scan:secrets": "node scripts/scan-secrets.ts",
+    "fixtures": "node fixtures/gen.ts",
+    "bench": "node scripts/bench-store.ts",
+    "check": "npm run typecheck && npm run lint:citations && npm run lint:sql && npm run lint:persona && npm run scan:secrets && npm test",
+    "build:contracts": "node scripts/build-contracts.ts",
+    "cloud:types": "wrangler types apps/api/src/cloudflare/worker-configuration.d.ts --env-interface CloudBootstrapEnv --include-runtime=false --config wrangler.bootstrap.jsonc",
+    "cloud:check": "vitest run test/cloud-bootstrap.test.ts test/cloud-bootstrap-config.test.ts test/cloud-bootstrap-package.test.ts test/cloud-bootstrap-package-refusals.test.ts test/cloud-bootstrap-preflight.test.ts test/cloud-bootstrap-toolchain.test.ts",
+    "cloud:package": "node scripts/cloud-bootstrap.ts",
+    "cloud:verify": "node scripts/cloud-bootstrap-verify.ts",
+    "cloud:prepare": "node scripts/cloud-bootstrap-preflight.ts",
+    "cloud:dry-run": "wrangler deploy --config wrangler.bootstrap.jsonc --dry-run --autoconfig=false --outdir .review/cloud-bootstrap-dry-run"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "5.20261006.1",
+    "@types/node": "22.20.5",
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "esbuild": "0.28.2",
+    "fast-check": "4.10.2",
+    "miniflare": "4.20260730.0",
+    "typescript": "5.9.3",
+    "vitest": "5.0.3",
+    "wrangler": "4.150.0"
+  }
+}

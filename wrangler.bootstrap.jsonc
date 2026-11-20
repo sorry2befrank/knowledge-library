@@ -1,0 +1,17 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "kl-bootstrap-local-only",
+  "account_id": "00000000000000000000000000000000",
+  "main": "apps/api/src/cloudflare/worker.ts",
+  "find_additional_modules": false,
+  "compatibility_date": "2026-07-30",
+  "workers_dev": false,
+  "preview_urls": false,
+  "send_metrics": false,
+  "upload_source_maps": false,
+  "observability": {
+    "enabled": false,
+    "logs": { "enabled": false },
+    "traces": { "enabled": false }
+  }
+}

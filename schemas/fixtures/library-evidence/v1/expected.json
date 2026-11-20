@@ -1,0 +1,261 @@
+{
+  "positive": {
+    "valid": true,
+    "verdicts": {
+      "ingest-custody": "verified",
+      "retrieval-index": "verified"
+    },
+    "freshness": "fresh"
+  },
+  "stale": {
+    "valid": true,
+    "verdicts": {
+      "ingest-custody": "verified",
+      "retrieval-index": "verified"
+    },
+    "freshness": "stale",
+    "note": "staleness is an overlay, not proof of failed preservation"
+  },
+  "absent": {
+    "valid": true,
+    "verdicts": {
+      "ingest-custody": "unproven",
+      "retrieval-index": "unproven"
+    },
+    "freshness": "fresh"
+  },
+  "partial": {
+    "valid": true,
+    "verdicts": {
+      "ingest-custody": "verified",
+      "retrieval-index": "unproven"
+    },
+    "freshness": "fresh"
+  },
+  "failure": {
+    "valid": true,
+    "verdicts": {
+      "ingest-custody": "blocked",
+      "retrieval-index": "verified"
+    },
+    "freshness": "fresh",
+    "note": "the failed RECEIVED attempt is on 7QK2M9X4AC@1; @3 keeps its COMMITTED + INDEXED pair"
+  },
+  "cross-version": {
+    "valid": true,
+    "operationErrors": 1,
+    "verdicts": {
+      "ingest-custody": "unproven",
+      "retrieval-index": "verified"
+    },
+    "freshness": "fresh",
+    "note": "a receipt for a different version never satisfies the milestone; the snapshot itself stays valid"
+  },
+  "partial-within-milestone": {
+    "valid": true,
+    "verdicts": {
+      "ingest-custody": "verified",
+      "retrieval-index": "unproven"
+    },
+    "freshness": "fresh"
+  },
+  "failure-then-retry": {
+    "valid": true,
+    "verdicts": {
+      "ingest-custody": "verified",
+      "retrieval-index": "verified"
+    },
+    "freshness": "fresh",
+    "note": "judged on the latest attempt per source version: run-8's success replaces run-7's failure for the same version"
+  },
+  "fresh-producer-old-sync": {
+    "valid": true,
+    "verdicts": {
+      "ingest-custody": "verified",
+      "retrieval-index": "verified"
+    },
+    "freshness": "stale",
+    "note": "producer time is only an upper bound"
+  },
+  "no-sync": {
+    "valid": true,
+    "verdicts": {
+      "ingest-custody": "verified",
+      "retrieval-index": "verified"
+    },
+    "freshness": "unknown"
+  },
+  "invalid-completed-without-proof": {
+    "valid": false
+  },
+  "invalid-promotion-without-receipt": {
+    "valid": false
+  },
+  "invalid-truncation-flag-without-count": {
+    "valid": false
+  },
+  "invalid-empty-receipt": {
+    "valid": false
+  },
+  "invalid-missing-nullable-field": {
+    "valid": false
+  },
+  "now": "2026-10-04T18:00:00.000Z",
+  "one-run-two-versions-pending": {
+    "valid": true,
+    "verdicts": {
+      "ingest-custody": "unproven",
+      "retrieval-index": "verified"
+    },
+    "freshness": "fresh",
+    "note": "one run over two versions keeps each version separate; a pending one makes the milestone unproven"
+  },
+  "one-run-two-versions-failed": {
+    "valid": true,
+    "verdicts": {
+      "ingest-custody": "blocked",
+      "retrieval-index": "verified"
+    },
+    "freshness": "fresh"
+  },
+  "received-no-receipt": {
+    "valid": true,
+    "verdicts": {
+      "ingest-custody": "unproven",
+      "retrieval-index": "verified"
+    },
+    "freshness": "fresh",
+    "note": "RECEIVED is progress, not proof"
+  },
+  "planned-under-retrieval": {
+    "valid": true,
+    "verdicts": {
+      "ingest-custody": "verified",
+      "retrieval-index": "unproven"
+    },
+    "freshness": "fresh"
+  },
+  "guard-refused": {
+    "valid": true,
+    "verdicts": {
+      "ingest-custody": "blocked",
+      "retrieval-index": "verified"
+    },
+    "freshness": "fresh"
+  },
+  "restore-requested": {
+    "valid": true,
+    "verdicts": {
+      "ingest-custody": "verified",
+      "retrieval-index": "verified",
+      "recovery": "unproven"
+    },
+    "freshness": "fresh"
+  },
+  "restored": {
+    "valid": true,
+    "verdicts": {
+      "ingest-custody": "verified",
+      "retrieval-index": "verified",
+      "recovery": "verified"
+    },
+    "freshness": "fresh"
+  },
+  "tied-timestamps": {
+    "valid": true,
+    "verdicts": {
+      "ingest-custody": "blocked",
+      "retrieval-index": "verified"
+    },
+    "freshness": "fresh",
+    "note": "ties go to the worse outcome"
+  },
+  "stale-sync-fresh-acceptance": {
+    "valid": true,
+    "verdicts": {
+      "ingest-custody": "verified",
+      "retrieval-index": "verified"
+    },
+    "freshness": "stale",
+    "options": {
+      "acceptedAt": "2026-10-04T17:59:00.000Z"
+    },
+    "note": "sync-first: a 16-minute-old sync is stale even if the consumer accepted a minute ago"
+  },
+  "null-sync-accepted": {
+    "valid": true,
+    "verdicts": {
+      "ingest-custody": "verified",
+      "retrieval-index": "verified"
+    },
+    "freshness": "fresh",
+    "options": {
+      "acceptedAt": "2026-10-04T17:59:00.000Z"
+    },
+    "note": "acceptance time applies only when the sync is null, bounded by observedAt"
+  },
+  "future-sync": {
+    "valid": true,
+    "verdicts": {
+      "ingest-custody": "verified",
+      "retrieval-index": "verified"
+    },
+    "freshness": "unknown",
+    "note": "a sync more than 2 minutes ahead of the consumer's clock"
+  },
+  "truncated-ordered": {
+    "valid": true,
+    "verdicts": {
+      "ingest-custody": "unproven",
+      "retrieval-index": "verified"
+    },
+    "freshness": "fresh"
+  },
+  "truncated-misordered": {
+    "valid": true,
+    "verdicts": {
+      "ingest-custody": "unproven",
+      "retrieval-index": "unproven"
+    },
+    "freshness": "fresh",
+    "note": "a truncated snapshot that lists a verified attempt before an unproven one proves nothing"
+  },
+  "duplicate": {
+    "valid": true,
+    "duplicate": true,
+    "verdicts": {
+      "ingest-custody": "verified",
+      "retrieval-index": "verified"
+    },
+    "freshness": "fresh",
+    "options": {
+      "previousSequence": 12,
+      "accepted": {
+        "snapshotId": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      }
+    },
+    "note": "equal to the accepted checkpoint: a duplicate, reported before the sequence check, never a rollback"
+  },
+  "veil-written": {
+    "valid": true,
+    "verdicts": {
+      "ingest-custody": "verified",
+      "retrieval-index": "verified",
+      "focus": "verified"
+    },
+    "freshness": "fresh"
+  },
+  "invalid-veil-without-receipt": {
+    "valid": false
+  },
+  "invalid-timestamp-stage": {
+    "valid": false
+  },
+  "invalid-whitespace-receipt": {
+    "valid": false
+  },
+  "inconsistent-counts": {
+    "valid": false,
+    "note": "schema-valid; the semantic consistency check (indexing.indexed == custody.indexed, preserved == verifiedNotIndexed + indexed, pending == receivedOnly + verifiedNotIndexed) rejects it"
+  }
+}

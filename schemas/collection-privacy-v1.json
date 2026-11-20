@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://knowledge-library.invalid/schemas/collection-privacy/v1",
+  "title": "collection-privacy/v1",
+  "description": "Collections and privacy classes (DESIGN §3.2, §9.4). client:<name> and founders are rejected at admission until a dated decision row records store_ok; student-record and secret are always rejected.",
+  "$defs": {
+    "privacyClass": { "type": "string", "pattern": "^(team|frank-private|partner-private|founders|student-record|secret|client:[a-z0-9-]{1,40})$" },
+    "clientClass": { "enum": ["connector", "claude-code", "codex", "kl-device"] },
+    "decisionRow": {
+      "type": "object", "required": ["client", "store_ok", "clients_ok", "vendors", "decidedAt", "receiptId"], "additionalProperties": false,
+      "properties": {
+        "client": { "type": "string", "minLength": 1 },
+        "store_ok": { "type": "boolean" },
+        "clients_ok": { "type": "array", "items": { "$ref": "#/$defs/clientClass" }, "uniqueItems": true },
+        "vendors": { "type": "array", "items": { "enum": ["anthropic", "openai"] }, "description": "every vendor that would read it is named" },
+        "decidedAt": { "type": "string", "format": "date" },
+        "receiptId": { "type": "string" }
+      }
+    }
+  },
+  "type": "object",
+  "required": ["collectionId", "class", "store_ok", "clients_ok", "model_processing"],
+  "additionalProperties": false,
+  "properties": {
+    "collectionId": { "type": "string", "pattern": "^(col|inbox):[a-z0-9-]{1,40}$" },
+    "class": { "$ref": "#/$defs/privacyClass" },
+    "store_ok": { "type": "boolean" },
+    "clients_ok": { "type": "array", "items": { "$ref": "#/$defs/clientClass" }, "uniqueItems": true },
+    "model_processing": { "type": "boolean" },
+    "decision_row": { "anyOf": [{ "$ref": "#/$defs/decisionRow" }, { "type": "null" }] }
+  },
+  "allOf": [
+    { "if": { "properties": { "class": { "pattern": "^(client:|founders$)" } } }, "then": { "properties": { "model_processing": { "const": false } } } },
+    { "if": { "properties": { "class": { "pattern": "^(client:|founders$)" } }, "required": ["store_ok"] }, "then": { "anyOf": [{ "properties": { "store_ok": { "const": false } } }, { "required": ["decision_row"], "properties": { "decision_row": { "type": "object" } } }] } }
+  ]
+}

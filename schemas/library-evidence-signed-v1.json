@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://knowledge-library.invalid/schemas/library-evidence-signed/v1",
+  "title": "library-evidence-signed/v1",
+  "description": "What the Library writes to outbox/orrery/: the signed library-evidence/v1 bytes verbatim, their SHA-256 digest, an Ed25519 signature over exactly those bytes (base64url) and the producer key id. The adapter verifies key id, digest and signature before parsing the envelope, and checks envelope.producer.keyId equals keyId.",
+  "type": "object",
+  "required": ["schemaVersion", "envelopeBytes", "digest", "sig", "keyId"],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": { "const": "library-evidence-signed/v1" },
+    "envelopeBytes": { "type": "string", "minLength": 2, "maxLength": 1048576, "description": "the exact UTF-8 JSON text that was signed" },
+    "digest": { "type": "string", "pattern": "^[0-9a-f]{64}$", "description": "SHA-256 of envelopeBytes" },
+    "sig": { "type": "string", "pattern": "^[A-Za-z0-9_-]{86}$", "description": "Ed25519 signature, base64url without padding" },
+    "keyId": { "type": "string", "minLength": 1, "maxLength": 64 }
+  }
+}

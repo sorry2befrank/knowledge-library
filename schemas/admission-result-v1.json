@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://knowledge-library.invalid/schemas/admission-result/v1",
+  "title": "admission-result/v1",
+  "description": "What a caller sees after the admission guard (DESIGN §3.3): an outcome, rule codes and a request id. Never matched text. Identical for single save, batch and multipart.",
+  "type": "object",
+  "required": ["requestId", "outcome", "ruleCodes"],
+  "additionalProperties": false,
+  "properties": {
+    "requestId": { "type": "string", "pattern": "^[0-9a-f]{32}$" },
+    "outcome": { "enum": ["admitted", "rejected", "held"] },
+    "ruleCodes": { "type": "array", "uniqueItems": true, "items": { "$ref": "#/$defs/ruleCode" } },
+    "destination": { "type": "object", "required": ["collection", "quarantine"], "additionalProperties": false, "properties": { "collection": { "type": "string", "pattern": "^(col|inbox):[a-z0-9-]{1,40}$" }, "quarantine": { "type": "boolean" }, "privacyClassCeiling": { "type": "string" } } },
+    "revokedTokens": { "type": "integer", "minimum": 0 }
+  },
+  "$defs": {
+    "ruleCode": {
+      "type": "string",
+      "pattern": "^(policy\\.unavailable|secret\\.file\\.badname|secret\\.credential(\\.[a-z0-9-]+)?|student\\.content|student\\.path|deny\\.segment|deny\\.client-ledger|client\\.match\\.no-store-ok|client\\.match\\.quarantine|lineage-uncertain|lineage-narrower-source|destination\\.not-allowed|collection\\.not-allowed)$"
+    }
+  },
+  "allOf": [
+    { "if": { "properties": { "outcome": { "const": "rejected" } } }, "then": { "properties": { "ruleCodes": { "minItems": 1 } }, "not": { "required": ["destination"] } } },
+    { "if": { "properties": { "outcome": { "const": "held" } } }, "then": { "required": ["destination"], "properties": { "ruleCodes": { "contains": { "enum": ["lineage-uncertain", "lineage-narrower-source", "destination.not-allowed"] } } } } }
+  ]
+}

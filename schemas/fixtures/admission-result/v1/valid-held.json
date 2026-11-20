@@ -1,0 +1,12 @@
+{
+  "requestId": "33333333333333333333333333333333",
+  "outcome": "held",
+  "ruleCodes": [
+    "lineage-uncertain"
+  ],
+  "destination": {
+    "collection": "inbox:frank",
+    "quarantine": true,
+    "privacyClassCeiling": "frank-private"
+  }
+}

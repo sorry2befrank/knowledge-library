@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://knowledge-library.invalid/schemas/signals-cases/v1",
+  "title": "signals-cases/v1",
+  "description": "Learning signals (DESIGN §7.3) and cases (§7.4). Every signal is an unconfirmed observation until an approval receipt confirms it. Case inputs are immutable noteId@ver references with frozen features.",
+  "$defs": {
+    "signalKind": { "enum": ["S0", "S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S9"] },
+    "strength": { "enum": ["strong", "medium", "weak", "positive"] },
+    "capability": { "enum": ["retrieval", "context", "focus", "tag", "link", "dedupe", "supersede"] },
+    "split": { "enum": ["train", "heldout", "audit", "split-conflict"] },
+    "signal": {
+      "type": "object",
+      "required": ["signalId", "kind", "principal", "client", "scopeId", "target", "strength", "confirmed", "ts", "interactive", "status"],
+      "additionalProperties": false,
+      "properties": {
+        "signalId": { "type": "string", "pattern": "^[0-9a-f]{32}$" },
+        "kind": { "$ref": "#/$defs/signalKind" },
+        "principal": { "type": "string" },
+        "client": { "enum": ["connector", "claude-code", "codex", "kl-device"] },
+        "scopeId": { "type": "string" },
+        "target": { "type": "string", "pattern": "^[0-9A-HJKMNP-TV-Z]{10}(@[1-9][0-9]*)?$" },
+        "queryId": { "type": ["string", "null"] },
+        "q_h": { "type": ["string", "null"], "pattern": "^[0-9a-f]{64}$" },
+        "strength": { "$ref": "#/$defs/strength" },
+        "confirmed": { "type": "boolean" },
+        "receiptId": { "type": ["string", "null"] },
+        "ts": { "type": "string", "format": "date-time" },
+        "interactive": { "type": "boolean" },
+        "status": { "enum": ["unconfirmed", "confirmed", "discarded", "disputed"] }
+      },
+      "allOf": [{ "if": { "properties": { "confirmed": { "const": true } } }, "then": { "required": ["receiptId"], "properties": { "receiptId": { "type": "string", "minLength": 1 } } } }]
+    },
+    "case": {
+      "type": "object",
+      "required": ["caseId", "capability", "scopeId", "privacy", "groupKey", "lineageKey", "inputRef", "frozenFeatures", "expected", "split", "sourceSignals", "author", "client", "status"],
+      "additionalProperties": false,
+      "properties": {
+        "caseId": { "type": "string", "pattern": "^[0-9a-f]{32}$" },
+        "capability": { "$ref": "#/$defs/capability" },
+        "scopeId": { "type": "string" },
+        "privacy": { "type": "string" },
+        "groupKey": { "type": "string", "minLength": 1 },
+        "lineageKey": { "type": "string", "pattern": "^lineage:[0-9A-HJKMNP-TV-Z]{10}$" },
+        "inputRef": { "type": "string" },
+        "frozenFeatures": { "type": "object" },
+        "expected": { "type": "object" },
+        "split": { "$ref": "#/$defs/split" },
+        "sourceSignals": { "type": "array", "items": { "type": "string" } },
+        "author": { "type": "string" },
+        "client": { "type": "string" },
+        "receiptId": { "type": ["string", "null"] },
+        "status": { "enum": ["unconfirmed", "confirmed", "disputed", "discarded"] }
+      },
+      "allOf": [{ "if": { "properties": { "status": { "const": "confirmed" } } }, "then": { "required": ["receiptId"], "properties": { "receiptId": { "type": "string", "minLength": 1 } } } }]
+    }
+  },
+  "oneOf": [{ "$ref": "#/$defs/signal" }, { "$ref": "#/$defs/case" }]
+}

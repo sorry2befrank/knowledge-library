@@ -1,0 +1,50 @@
+# dependencies and build output
+node_modules/
+dist/
+build/
+coverage/
+.wrangler/
+*.tsbuildinfo
+
+# secrets and local credentials - never commit
+.env
+.env.*
+.dev.vars
+.dev.vars.*
+*.dpapi
+*.pem
+*.key
+*.p12
+tokens*.json
+credentials*.json
+
+# local runtime state (belongs in a local-state directory outside the checkout, not the repo)
+/local/
+/state/
+*.sqlite
+*.sqlite-journal
+*.sqlite-wal
+
+# OS and editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# generated synthetic fixtures and benchmark output (regenerable from the seed)
+/fixtures/out/
+/bench-out/
+/bench-out.log
+
+# Generated specification identity; refreshed before typecheck and tests.
+packages/core/src/evidence/design-spec.generated.ts
+
+# Isolated local review copies (synthetic only).
+.review/
+
+# kl-fs build output (built in CI from source; never committed)
+cli/kl-fs/bin/
+cli/kl-fs/obj/
+
+# Build-time standalone validators; regenerate from reviewed schemas/tool contracts.
+packages/contracts/src/validators.generated.ts

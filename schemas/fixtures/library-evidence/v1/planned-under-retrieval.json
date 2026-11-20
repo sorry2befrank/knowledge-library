@@ -1,0 +1,136 @@
+{
+  "schemaVersion": "library-evidence/v1",
+  "producer": {
+    "id": "knowledge-library",
+    "version": "0.1.0",
+    "keyId": "k-synthetic"
+  },
+  "snapshotId": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "sequence": 12,
+  "generatedAt": "2026-10-04T18:00:00.000Z",
+  "observedAt": "2026-10-04T18:00:00.000Z",
+  "spec": {
+    "revision": "r0.5",
+    "hash": "5555555555555555555555555555555555555555555555555555555555555555"
+  },
+  "policyRevision": "proposal-unaccepted",
+  "mappingRevision": "none",
+  "scope": {
+    "authorizedCollections": [
+      "col:synth-desk"
+    ],
+    "milestonesEnabled": [
+      "ingest-custody",
+      "retrieval-index"
+    ]
+  },
+  "traceId": "ffffffffffffffffffffffffffffffff",
+  "terminalReceiptId": "ev-1300",
+  "identity": {
+    "integrationProjectId": "00000000-0000-4000-8000-000000000001",
+    "collectionId": "col:synth-desk",
+    "folderId": "folder:synth-desk"
+  },
+  "operations": [
+    {
+      "operationId": "11111111111111111111111111111111",
+      "runId": null,
+      "planId": null,
+      "goalHash": null,
+      "policyHash": null,
+      "milestone": "ingest-custody",
+      "stage": "COMMITTED",
+      "result": "completed",
+      "reasonCode": null,
+      "sourceVersion": "7QK2M9X4AB@3",
+      "timestamps": {
+        "COMMITTED": "2026-10-04T18:00:00.000Z"
+      },
+      "proof": {
+        "sourceVersion": "7QK2M9X4AB@3",
+        "sourceHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "custodyReceipt": "ev-1201"
+      }
+    },
+    {
+      "operationId": "22222222222222222222222222222222",
+      "runId": null,
+      "planId": null,
+      "goalHash": null,
+      "policyHash": null,
+      "milestone": "retrieval-index",
+      "stage": "PLANNED",
+      "result": "completed",
+      "reasonCode": null,
+      "sourceVersion": "7QK2M9X4AB@3",
+      "timestamps": {
+        "PLANNED": "2026-10-04T18:00:00.000Z"
+      },
+      "proof": {
+        "sourceVersion": "7QK2M9X4AB@3",
+        "sourceHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    }
+  ],
+  "state": {
+    "custody": {
+      "receivedOnly": 0,
+      "verifiedNotIndexed": 2,
+      "indexed": 540
+    },
+    "indexing": {
+      "preserved": 542,
+      "extracted": 540,
+      "indexed": 540,
+      "accessible": "unknown",
+      "unsupported": 0,
+      "pending": 2
+    },
+    "localPresence": {
+      "present": "unknown",
+      "focusHeld": 0,
+      "absentLocally": 0,
+      "unknown": 542
+    },
+    "availability": "online",
+    "backupAgeHours": "unknown",
+    "lastRestoreDrill": null,
+    "conflicts": 1,
+    "holds": 0
+  },
+  "learning": {
+    "proposals": 1,
+    "evaluations": 1,
+    "promotions": 0,
+    "reversions": 0,
+    "trustRevision": {
+      "scopeId": "global",
+      "revision": "ladder-v0"
+    },
+    "confirmingReceiptId": null,
+    "observationCounts": {
+      "S0": 120,
+      "S1": 6,
+      "S4": 14
+    }
+  },
+  "measurement": {
+    "notesRemovedFromWorkingFolders": 0,
+    "notesHeld": 0,
+    "notesVeiled": 0,
+    "bytesLogicallyPreserved": 1048576,
+    "bytesReclaimedMeasured": 0,
+    "incompleteCount": 2,
+    "unknownCount": 4,
+    "durationMs": 42,
+    "adapterCostMs": "unknown"
+  },
+  "freshness": {
+    "lastSuccessfulSync": "2026-10-04T18:00:00.000Z",
+    "staleAfterSeconds": 900,
+    "lastKnownSnapshotId": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+  },
+  "truncated": {
+    "operations": false
+  }
+}

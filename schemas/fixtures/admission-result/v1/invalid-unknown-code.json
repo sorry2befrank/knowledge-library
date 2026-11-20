@@ -1,0 +1,7 @@
+{
+  "requestId": "66666666666666666666666666666666",
+  "outcome": "rejected",
+  "ruleCodes": [
+    "made.up"
+  ]
+}

@@ -1,0 +1,60 @@
+# CI for knowledge-library (DESIGN §9.7, §12.2).
+# - Runs the full suite on every pull request, on every push (including main) and on manual dispatch.
+# - The staging deploy job exists but is DISABLED: there are no Cloudflare credentials in this
+#   repository and nothing ever deploys production from CI. DESIGN r0.6 requires production
+#   deployment from reviewed main after staging, with a scoped token, a recorded rollback,
+#   a separate clean deploy session and owner or authorized delegated approval.
+name: ci
+
+on:
+  pull_request:
+  push:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: typecheck, lint, test (Linux)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - name: cloud bootstrap types and local package checks (no credentials)
+        env:
+          WRANGLER_SEND_METRICS: "false"
+        run: |
+          npm run cloud:types -- --check
+          npm run cloud:dry-run
+      - run: npm run lint:sql
+      - run: npm run lint:citations
+      - run: npm run lint:persona
+      - run: npm test -- --reporter=default
+      - name: fixtures regenerate byte-identical
+        run: |
+          node fixtures/gen.ts /tmp/fx-a > /tmp/a.json
+          node fixtures/gen.ts /tmp/fx-b > /tmp/b.json
+          diff -rq /tmp/fx-a /tmp/fx-b && cat /tmp/a.json
+      - name: secret-shape and workstation-path scan (no identity check; identities are reviewed by hand)
+        run: node scripts/scan-secrets.ts # the same script test/s1c-hygiene.test.ts runs against a planted tree
+
+  deploy-staging:
+    name: deploy staging (disabled until reviewed enrollment, recovery and scoped provisioning exist)
+    if: ${{ false }}
+    needs: test
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - run: echo "No deployment. Shared-account staging is an explicit owner decision; it does not establish a production permission boundary."

@@ -1,0 +1,14 @@
+{
+  "name": "@kl/auth",
+  "version": "0.1.0",
+  "private": true,
+  "description": "kl-auth: S1 bearer token service (OAuth and /approve are later sessions)",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "types": "./src/index.ts",
+  "dependencies": {
+    "@kl/core": "0.1.0"
+  }
+}

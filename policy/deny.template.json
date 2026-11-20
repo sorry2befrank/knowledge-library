@@ -1,0 +1,76 @@
+{
+  "schema": "knowledge-library-deny-reference/v1",
+  "status": "reference-template-not-installed",
+  "purpose": "Generic legacy detection declarations plus explicit library adaptations; not an installed or complete security policy.",
+  "sourceIds": ["legacy-vault-policy", "legacy-static-policy"],
+  "supportedTextExtensions": [".md", ".markdown", ".txt"],
+  "legacySignals": {
+    "vaultDeniedDirectorySegments": [
+      ".git", ".obsidian", ".remember", "node_modules", ".next", ".cache", "__pycache__", "dist", "build", "builds", "tmp", "claude-backup", ".worktrees", ".godot", ".venv", "venv", ".gradle", ".nuxt", ".output", ".turbo", ".svelte-kit", "coverage", ".pytest_cache", ".mypy_cache", ".ruff_cache", ".parcel-cache", ".yarn", ".pnpm-store", ".expo", ".claude-portable", ".claude", ".codex", ".vercel", ".netlify", ".vscode", ".idea", ".openai", ".cursor", ".windsurf", "tool-results", "logs"
+    ],
+    "staticDeniedDirectorySegments": [
+      "node_modules", ".git", ".obsidian", ".remember", ".next", "dist", "build", "tmp", "claude-backup", "intake"
+    ],
+    "directorySegmentMatching": "case-insensitive exact membership",
+    "deniedBasename": {
+      "source": "(^\\.env|secret|credential|backup|(?:^|[-_.])tokens?(?:[-_.]|$)|\\.(pem|key|bak)$)",
+      "flags": "i"
+    },
+    "recordGuard": {
+      "genericPathSignatures": ["/intake/", "/uploads/"],
+      "pathNormalization": "Lowercase; replace backslash with slash; trim outer slashes; prepend and append slash.",
+      "contentSignatures": ["student id", "date of birth", "IEP", "504 plan", "legal guardian", "grade level", "attendance record"],
+      "contentMatching": "Case-insensitive word-boundary match for each regex-escaped literal signature.",
+      "distinctContentSignatureThreshold": 2,
+      "pathSignatureThreshold": 1
+    },
+    "credentialPatterns": [
+      {
+        "source": "-{5}BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----|\\b(?:sk-(?:proj-)?[A-Za-z0-9_-]{24,}|gh[pousr]_[A-Za-z0-9]{30,}|github_pa[t]_[A-Za-z0-9_]{30,}|AK[I]A[A-Z0-9]{16})\\b|\\bAuthorization\\s*:\\s*Bearer\\s+[A-Za-z0-9_.-]{24,}",
+        "flags": "i"
+      },
+      {
+        "source": "\\b(?:api[_ -]?key|access[_ -]?token|client[_ -]?secret|password)\\s*[=:]\\s*[\"']?[A-Za-z0-9_+\\/.-]{24,}",
+        "flags": "i"
+      }
+    ],
+    "guardReasonPrecedence": ["credential-pattern", "record-path", "record-signatures"],
+    "absolutePathRestrictions": {
+      "requireStringAndAbsolutePath": true,
+      "rejectNul": true,
+      "rejectUncOrDoubleSlashPrefix": true,
+      "rejectColonAfterFirstTwoCharacters": true,
+      "rejectExactDotDotSegment": true,
+      "requireSupportedTextExtension": true,
+      "scope": "Legacy local-reader signals; cloud identifiers need their own separate validated contract."
+    }
+  },
+  "requiredPrivateOverlay": {
+    "installed": false,
+    "requiredBeforeRealContentAdmission": true,
+    "location": "Owner-controlled local state, outside the publication repository and reference pack.",
+    "contentsTemplate": {
+      "ownerApprovedRevision": null,
+      "projectAndClientDeniedDirectorySegments": [],
+      "projectAuditDirectoryPatterns": [],
+      "privateOperationalPathSignatures": [],
+      "clientClassificationRules": [],
+      "privateLedgerPathRules": []
+    },
+    "missingOrUnapprovedBehavior": "Reject admission of real content; synthetic reference validation may proceed.",
+    "redactionMethod": "Omit private names and paths entirely; do not publish hashes of names or substitute name hashes as a privacy rule."
+  },
+  "libraryAdaptations": {
+    "revisionBasis": "r0.5 reconciliation decisions D1, D5 and D11",
+    "alwaysRejectDetectedCredentials": true,
+    "alwaysRejectDetectedStudentRecords": true,
+    "studentRecordSignal": "At least one generic or private-overlay record path signature, or at least two distinct content signatures.",
+    "rejectBeforePersistence": true,
+    "persistenceCovered": ["content blobs", "search rows", "derived fingerprints", "private inbox content"],
+    "clientAuthorization": "Unclassified or unapproved client material is rejected before persistence; a generic pattern miss is not proof of approval.",
+    "admissionRequiresSeparateScopeAndAuthorizationChecks": true,
+    "allowSensitiveFlagOverride": false,
+    "noDetectorCompletenessClaim": true,
+    "notRemovalEligibility": true
+  }
+}

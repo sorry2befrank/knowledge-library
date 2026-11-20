@@ -1,0 +1,8 @@
+{
+  "requestId": "44444444444444444444444444444444",
+  "outcome": "rejected",
+  "ruleCodes": [
+    "secret.credential"
+  ],
+  "matched": "sk_live_abc"
+}

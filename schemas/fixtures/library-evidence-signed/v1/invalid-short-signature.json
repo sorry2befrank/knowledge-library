@@ -1,0 +1,7 @@
+{
+  "schemaVersion": "library-evidence-signed/v1",
+  "envelopeBytes": "{}",
+  "digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "sig": "AAAA",
+  "keyId": "k"
+}

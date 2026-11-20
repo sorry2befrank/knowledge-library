@@ -1,0 +1,8 @@
+{
+  "collectionId": "col:client-examplecorp",
+  "class": "client:examplecorp",
+  "store_ok": true,
+  "clients_ok": [],
+  "model_processing": false,
+  "decision_row": null
+}

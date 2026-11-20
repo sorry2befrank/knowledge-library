@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://knowledge-library.invalid/schemas/persona-manifest/v1",
+  "title": "library-manifest/v1",
+  "description": "The librarian's manifest: a versioned library adaptation of Orrery's owner manifest envelope (DESIGN §7.2). The exact mapping lives in docs/reference/manifest-mapping.md (reference pack).",
+  "type": "object",
+  "required": ["schema", "adaptedFrom", "id", "version", "tenant_id", "role", "risk_tier", "registryKey", "persona", "knowledge", "tools", "crew", "reports"],
+  "additionalProperties": false,
+  "properties": {
+    "schema": { "const": "library-manifest/v1" },
+    "adaptedFrom": { "type": "string", "pattern": "^orrery-owner-manifest@([0-9a-f]{64}|pack-pending)$" },
+    "id": { "type": "string", "pattern": "^understudy\\.[a-z-]+\\.[a-z-]+$" },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "tenant_id": { "type": "string" },
+    "role": { "type": "string" },
+    "risk_tier": { "enum": ["low-reversible", "medium", "high"] },
+    "registryKey": { "type": "string", "pattern": "^[a-z][a-z0-9-]*$", "description": "distinct from the manifest id; mapped explicitly, never through dotted-key fallback" },
+    "persona": { "type": "object", "required": ["northstar", "directive", "corrections"], "additionalProperties": false, "properties": { "northstar": { "type": "string" }, "directive": { "type": "string" }, "corrections": { "type": "string" } } },
+    "knowledge": { "type": "object", "required": ["collections", "privacy_ceiling"], "additionalProperties": false, "properties": { "collections": { "const": "pushed-in-scope" }, "privacy_ceiling": { "const": "principal" } } },
+    "tools": {
+      "type": "object", "required": ["capabilities", "never"], "additionalProperties": false,
+      "properties": {
+        "capabilities": { "type": "array", "items": { "enum": ["tag", "link", "dedupe", "supersede", "context", "focus", "retrieval"] }, "uniqueItems": true },
+        "never": { "type": "array", "items": { "type": "string" }, "allOf": [
+          { "contains": { "const": "policy.*" } }, { "contains": { "const": "acl.*" } }, { "contains": { "const": "retention.*" } }, { "contains": { "const": "roots.*" } },
+          { "contains": { "const": "eligibility.*" } }, { "contains": { "const": "pins.*" } }, { "contains": { "const": "ladder.*" } }, { "contains": { "const": "overrides.confirm" } },
+          { "contains": { "const": "delete" } }, { "contains": { "const": "purge" } } ] }
+      }
+    },
+    "crew": { "type": "object", "maxProperties": 0 },
+    "reports": { "type": "object", "required": ["contract", "cadence"], "additionalProperties": false, "properties": { "contract": { "const": "MOVED|BLOCKED|HIRING|NEXT" }, "extension": { "const": "LEARNED" }, "cadence": { "const": "weekly" } } }
+  }
+}

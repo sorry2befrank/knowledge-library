@@ -1,0 +1,14 @@
+{
+  "signalId": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "kind": "S1",
+  "principal": "frank",
+  "client": "connector",
+  "scopeId": "global",
+  "target": "7QK2M9X4AB",
+  "strength": "strong",
+  "confirmed": true,
+  "receiptId": null,
+  "ts": "2026-10-04T18:00:00.000Z",
+  "interactive": true,
+  "status": "confirmed"
+}

@@ -1,0 +1,184 @@
+{
+  "$comment": "S2e item C: every native refusal row (N*), every DESIGN §12.2 Windows item (P*), the DPAPI tests (D*) and every shared contract case run natively (FS*). established = its test ran and passed in the Windows job; held = cannot be established in the job, with the reason; differs = declared in fs-windows-differences.json. test/fs-windows-gate.ts checks this against conformance.json.",
+  "ids": {
+    "N01": {
+      "property": "exclusive open refuses a PowerShell holder sharing read, write and delete; succeeds without it",
+      "status": "established"
+    },
+    "N02": {
+      "property": "a second process cannot write after verify while the handle is held; bytes equal the hashed bytes; the write succeeds after close",
+      "status": "established"
+    },
+    "N03": {
+      "property": "non-replacing rename refuses already-exists and leaves the destination unchanged; fs.renameSync replaces",
+      "status": "established"
+    },
+    "N04": {
+      "property": "source swap and parent swap refuse identity-changed and parent-changed; the untouched open succeeds",
+      "status": "established"
+    },
+    "N05": {
+      "property": "destination race before placement refuses already-exists and leaves the racer unchanged; placement succeeds without it",
+      "status": "established"
+    },
+    "N06": {
+      "property": "hard link count 1 before fs.linkSync, 2 after; the open refuses hard-linked",
+      "status": "established"
+    },
+    "N07": {
+      "property": "a junction in any parent refuses reparse; the path opens without it",
+      "status": "established"
+    },
+    "N08": {
+      "property": "a same-size edit with mtime restored by fs.utimesSync moves ChangeTime; size and mtime equal before and after",
+      "status": "established"
+    },
+    "N09": {
+      "property": "kill between §6.8 steps 1–4 leaves step n done, n+1 not started and the source intact; a DeleteOnClose holder loses its file; the Release build ignores the pause flag",
+      "status": "established"
+    },
+    "N10": {
+      "property": "NTFS accepted as a supported local volume",
+      "status": "established"
+    },
+    "N10R": {
+      "property": "ReFS refused or accepted per policy",
+      "status": "held",
+      "reason": "no ReFS volume in the job; releases when the job creates one and logs fsutil fsinfo volumeinfo for it"
+    },
+    "N10N": {
+      "property": "network volume refused",
+      "status": "held",
+      "reason": "no network volume in the job; releases when the job maps one and logs fsutil fsinfo volumeinfo for it"
+    },
+    "N10S": {
+      "property": "removable volume with a changed serial refused",
+      "status": "held",
+      "reason": "no removable volume in the job; releases when the job attaches one and logs fsutil fsinfo volumeinfo for it"
+    },
+    "P01": {
+      "property": "paths: spaces, dots and case resolve to one identity; invalid segments refused",
+      "status": "established"
+    },
+    "P02": {
+      "property": "long paths beyond 260 characters open, hash and place",
+      "status": "established"
+    },
+    "D01": {
+      "property": "DPAPI: kl token store writes a CurrentUser blob; kl token print cc --json prints exactly the header; the file holds no token form; the blob carries the DPAPI header",
+      "status": "established"
+    },
+    "D02": {
+      "property": "DPAPI: a flipped byte makes kl token print exit non-zero with empty stdout",
+      "status": "established"
+    },
+    "D03": {
+      "property": "DPAPI precedence: the stored token wins over KL_TOKEN_<KIND>; KL_TOKEN_FILE is refused on Windows",
+      "status": "established"
+    },
+    "P06": {
+      "property": "git ls-files in a linked worktree",
+      "status": "held",
+      "reason": "S2d's git port is run natively in a later session"
+    },
+    "P07": {
+      "property": "drill test",
+      "status": "held",
+      "reason": "needs the restore orchestration (S2 item 6) and a Kopia repository; not in S2e"
+    },
+    "FS02": {
+      "property": "contract: exact file, volume and every parent are bound",
+      "status": "established"
+    },
+    "FS03": {
+      "property": "contract: replaced source name does not preserve identity",
+      "status": "established"
+    },
+    "FS04": {
+      "property": "contract: replacement parent invalidates the chain",
+      "status": "established"
+    },
+    "FS06": {
+      "property": "contract: hard links fail custody; copies have new identities",
+      "status": "established"
+    },
+    "FS07": {
+      "property": "contract: unsupported volumes and a changed serial refuse",
+      "status": "held",
+      "reason": "no network, unknown or other volume and no serial change inside the job; releases when the job mounts such volumes"
+    },
+    "FS09": {
+      "property": "contract: held parent replacement is blocked; forced tampering is rechecked",
+      "status": "held",
+      "reason": "Windows refuses to rename a directory holding a file opened with no sharing, so the forced replacement cannot be made; the in-use refusal is asserted first"
+    },
+    "FS10": {
+      "property": "contract: create-new preserves normal, empty, identical, linked and reparse entries",
+      "status": "established"
+    },
+    "FS11": {
+      "property": "contract: created and returned buffers are independent",
+      "status": "established"
+    },
+    "FS12": {
+      "property": "contract: foreign, forged, closed and pre-crash handles never gain authority",
+      "status": "established"
+    },
+    "FS14": {
+      "property": "contract: bound hashes do not follow source replacement",
+      "status": "held",
+      "reason": "Windows refuses to replace a file held with no sharing, so the replacement cannot be forced"
+    },
+    "FS15": {
+      "property": "contract: same size and restored mtime still changes ChangeTime; unknown ChangeTime",
+      "status": "held",
+      "reason": "ChangeTime is always known on NTFS; the unknown-ChangeTime tail cannot be made (the moving ChangeTime itself is N08)"
+    },
+    "FS16": {
+      "property": "contract: copying old mtime does not copy creation or identity",
+      "status": "established"
+    },
+    "FS18": {
+      "property": "contract: read-only sealing requires attributes access; tampering stays detectable",
+      "status": "established"
+    },
+    "FS19": {
+      "property": "contract: non-replacing placement preserves a target including a final-boundary race",
+      "status": "established"
+    },
+    "FS20": {
+      "property": "contract: same-volume placement completes; cross-volume never falls back",
+      "status": "established"
+    },
+    "FS21": {
+      "property": "contract: destination parent guards are checked at the final boundary",
+      "status": "held",
+      "reason": "the forced directory replacement cannot be made on Windows (see FS09)"
+    },
+    "FS22": {
+      "property": "contract: disposition requires delete access and rechecks link safety",
+      "status": "established"
+    },
+    "FS23": {
+      "property": "contract: no delete-on-close on the source; explicit disposition survives a process crash",
+      "status": "established"
+    },
+    "FS27": {
+      "property": "contract: ASCII aliases collide; unmodeled normalization refuses",
+      "status": "established"
+    },
+    "FS30": {
+      "property": "contract: disposition cleanup reports uncertainty and preserves a substituted identity",
+      "status": "held",
+      "reason": "the substitution cannot be forced while the handle is held (see FS14)"
+    },
+    "FS31": {
+      "property": "contract: malformed parent segments cannot impersonate the chain",
+      "status": "established"
+    },
+    "FS32": {
+      "property": "contract: bound SHA256 uses exact bytes and zero-length content",
+      "status": "established"
+    }
+  }
+}
