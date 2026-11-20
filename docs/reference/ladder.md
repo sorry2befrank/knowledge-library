@@ -52,4 +52,4 @@ The Library's focus F-levels, lesson L-levels and per-scope capabilities remain 
 
 If a later owner-approved adapter records generic outcomes, it must use stable event IDs, independently adjudicated evidence, privacy-safe notes and the full manifest ID. Repeated evidence syncs must not mint new streak increments. A restore is not a merge; a successful sync is not a human-confirmed lesson. This reference pack authorizes no such state writes.
 
-The shared learning fixtures cover arbitrary IDs, duplicate event IDs, invalid verdicts, streak reset/skip behavior and higher-rung filter limitations. Attribution/source spans remain in pack provenance. Permission to redistribute the script has not been inferred.
+The shared learning fixtures cover arbitrary IDs, duplicate event IDs, invalid verdicts, streak reset/skip behavior and higher-rung filter limitations. Attribution/source spans remain in pack provenance. The pack is published under the repository's MIT license.

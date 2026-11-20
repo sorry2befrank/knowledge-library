@@ -710,8 +710,8 @@
     },
     {
       "path": "docs/reference/ladder.md",
-      "bytes": 4623,
-      "sha256": "222C5543E807A7F14054F1C0D88B2F98D23280AAEEFF3D6C1E82388E9A60EE57",
+      "bytes": 4620,
+      "sha256": "16D52F0B0E7CFE9E649CE0BF396DDA23E77B29142ED4DA644D45BF6830BDD53A",
       "derivedFrom": [
         "understudy-agent-ladder"
       ]

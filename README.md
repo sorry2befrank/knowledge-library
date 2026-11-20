@@ -107,7 +107,7 @@ comments cite its section numbers.
 | A policy takes effect only with a valid signed acceptance at a current epoch | `packages/core/src/policy/acceptance.ts` | `test/policy.test.ts` |
 | Evidence is signed and schema-validated | `packages/core/src/evidence/producer.ts`, `packages/contracts/src/semantics.ts` | `test/evidence.test.ts`, `test/contracts.test.ts` |
 | Note text returned to models is wrapped and escaped as untrusted data | `packages/core/src/primitives/untrusted.ts`, `tools/call.ts` | `test/api.test.ts`, `test/s1b-security.test.ts` |
-| No credential shapes or workstation paths in the tree | `scripts/scan-secrets.ts` (a CI step) | `test/s1c-hygiene.test.ts`, which plants synthetic tokens in a temporary tree |
+| No credential shapes anywhere in the tree, and no workstation paths outside `docs/` and this README (which documents the default state directory) | `scripts/scan-secrets.ts` (a CI step) | `test/s1c-hygiene.test.ts`, which plants synthetic tokens in a temporary tree |
 | Only allowed files live under `persona/` | `scripts/lint-persona.ts` (a CI step) | — |
 
 ## Running it
