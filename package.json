@@ -30,6 +30,8 @@
     "scan:secrets": "node scripts/scan-secrets.ts",
     "fixtures": "node fixtures/gen.ts",
     "bench": "node scripts/bench-store.ts",
+    "preeval": "npm run build:spec && npm run build:contracts",
+    "eval": "node eval/run-eval.ts",
     "check": "npm run typecheck && npm run lint:citations && npm run lint:sql && npm run lint:persona && npm run scan:secrets && npm test",
     "build:contracts": "node scripts/build-contracts.ts",
     "cloud:types": "wrangler types apps/api/src/cloudflare/worker-configuration.d.ts --env-interface CloudBootstrapEnv --include-runtime=false --config wrangler.bootstrap.jsonc",

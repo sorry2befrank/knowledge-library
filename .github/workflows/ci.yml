@@ -41,6 +41,9 @@ jobs:
       - run: npm run lint:citations
       - run: npm run lint:persona
       - run: npm test -- --reporter=default
+      - name: answer-accuracy eval table in the job summary (the test above fails if it is stale)
+        if: always()
+        run: cat eval/RESULTS.md >> "$GITHUB_STEP_SUMMARY"
       - name: fixtures regenerate byte-identical
         run: |
           node fixtures/gen.ts /tmp/fx-a > /tmp/a.json

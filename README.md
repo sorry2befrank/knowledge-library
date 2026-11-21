@@ -143,8 +143,55 @@ are templates and cannot deploy anything. `kl` keeps its local state outside the
 named by `KL_STATE_DIR`. If that variable is unset, the archive command falls back to `D:\.knowledge-library\state`, the
 author's Windows layout, so set `KL_STATE_DIR` on any other machine.
 
+## How I know a change is safe to ship
+
+An agent asks the library a question and gets back notes with citations. The answer-accuracy eval checks
+that those are the right notes, the current versions, and citations that verify, and it fails the build
+when any of that gets worse.
+
+```bash
+npm run eval   # the run itself takes well under a second; writes eval/RESULTS.md and eval/results.json
+```
+
+It builds an archive of 28 invented notes (a bakery's oven manuals, a town's bus timetables and so on)
+through the library's normal save path, then asks 43 questions through the same tool calls an MCP client
+makes (`library_search`, `library_read`, and two cases over JSON-RPC over HTTP). Nothing in search, citation
+or read is mocked. Every citation returned is read back and compared byte for byte with the text that was
+saved. Measured on baseline v0 ([full table](eval/RESULTS.md)):
+
+| Measure | Result |
+|---|---|
+| Cases passed | 32/43 |
+| Right note first (hit@1), questions with one expected note | 17/24 |
+| Right note in the top 5 (hit@5) | 23/24 |
+| Returned citations that verify against the saved text | 171/171 |
+| Bad citations refused (wrong hash, missing version, wrong line-span hash, note the reader may not see) | 4/4 |
+| No hits when the archive has no answer | 2/5 |
+| Notes returned to a reader who may not see them | 0 |
+
+`test/eval-answer-accuracy.test.ts` runs the eval inside `npm test`, so CI runs it on every push and pull
+request. It fails if any metric falls below the floors in `eval/thresholds.json` (set from the measured
+run), if a case that passed now fails, or if the committed results table no longer matches a fresh run.
+The 11 failing cases are labelled known gaps with the code that causes each one: no abstention (search
+falls back to matching any word), supersession that is recorded but never applied to ranking, no newer-version
+signal on an old citation, unequal BM25 scores across per-class indexes, and a planted note that copies
+the question's title and ranks first. If one of them starts passing, the test fails until the label is
+removed and the floor raised, so a gain cannot be lost later.
+
+To check that the gate works, I broke three things on purpose and ran it. Skipping the citation hash check
+let a tampered citation through (bad citations refused 4/4 to 3/4). Reversing the ranking order dropped
+hit@1 from 17/24 to 5/24. Returning old versions in search made the library-hours question cite version 1
+of 3. Each time the test failed; each change was then reverted.
+
+**Scope.** There is no language model in this library: retrieval is keyword search (BM25) plus a fixed
+re-rank. So this is a retrieval-and-citation eval of what an agent receives, not a measure of answers a
+model writes from those notes. The corpus is small and synthetic, the questions were written by the same
+person who wrote the notes, and the numbers say nothing about real notes, other languages or larger
+archives. It does not test the removal kernel, the Windows helper or the deployed Worker; other suites do.
+
 ## How it is tested
 
+- **Answer accuracy.** `npm run eval` and its gate test; see the section above.
 - **Vitest** runs unit, integration and property-based tests (fast-check), including suites that run the
   real Worker code in workerd through Miniflare.
 - **Synthetic data only.** `fixtures/gen.ts` generates the corpus, principals and planted hazards (fake
@@ -168,7 +215,8 @@ Two GitHub Actions workflows run on pull requests, on pushes to `main` and on ma
 runs on pushes to other branches):
 
 - `ci` (ubuntu-latest): `npm ci`, typecheck, Wrangler type check and dry run, the SQL, citation and persona
-  lints, the full test suite, a fixture determinism check, and the secret and workstation-path scan. A
+  lints, the full test suite (including the answer-accuracy gate, whose table is added to the job summary),
+  a fixture determinism check, and the secret and workstation-path scan. A
   staging deploy job exists but is disabled (`if: false`). CI holds no Cloudflare credentials.
 - `windows-conformance` (windows-latest): builds the native helper and runs the Windows-only suites.
 

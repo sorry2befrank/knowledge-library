@@ -1,0 +1,1321 @@
+{
+  "golden": {
+    "name": "answer-accuracy golden set",
+    "version": 1,
+    "sha256": "d3a1771fda1cecf91cdbc6ec6ffe639b018af8f5603baab0f54f35df1ec9ea56",
+    "notes": 28,
+    "cases": 43
+  },
+  "baselineHash": "b6258b0bb0042b51543dc4a5a3427e82aac2750cee63a0f1f370eeaddb3ff765",
+  "metrics": {
+    "casesPassed": 32,
+    "cases": 43,
+    "rankedCases": 24,
+    "hitAt1": 17,
+    "hitAt5": 23,
+    "mrr": 0.826,
+    "citationsReturned": 171,
+    "citationsValid": 171,
+    "citationValidity": 1,
+    "abstainCases": 5,
+    "abstainCorrect": 2,
+    "abstentionAccuracy": 0.4,
+    "negativeControls": 4,
+    "negativeControlsRefused": 4,
+    "accessLeaks": 0,
+    "stateChanges": 0
+  },
+  "categories": [
+    {
+      "category": "direct",
+      "cases": 12,
+      "passed": 12,
+      "hitAt1": "12/12",
+      "hitAt5": "12/12"
+    },
+    {
+      "category": "paraphrase",
+      "cases": 5,
+      "passed": 3,
+      "hitAt1": "3/5",
+      "hitAt5": "4/5"
+    },
+    {
+      "category": "multi-note",
+      "cases": 3,
+      "passed": 3,
+      "hitAt1": "-",
+      "hitAt5": "-"
+    },
+    {
+      "category": "no-answer",
+      "cases": 5,
+      "passed": 2,
+      "hitAt1": "-",
+      "hitAt5": "-"
+    },
+    {
+      "category": "current-version",
+      "cases": 4,
+      "passed": 1,
+      "hitAt1": "1/3",
+      "hitAt5": "3/3"
+    },
+    {
+      "category": "access",
+      "cases": 4,
+      "passed": 3,
+      "hitAt1": "1/2",
+      "hitAt5": "2/2"
+    },
+    {
+      "category": "injection",
+      "cases": 3,
+      "passed": 1,
+      "hitAt1": "0/2",
+      "hitAt5": "2/2"
+    },
+    {
+      "category": "citation",
+      "cases": 5,
+      "passed": 5,
+      "hitAt1": "-",
+      "hitAt5": "-"
+    },
+    {
+      "category": "mcp-parity",
+      "cases": 2,
+      "passed": 2,
+      "hitAt1": "-",
+      "hitAt5": "-"
+    }
+  ],
+  "cases": [
+    {
+      "id": "direct-01",
+      "category": "direct",
+      "as": "reader-a",
+      "q": "steam injection Hearthline 900",
+      "why": "Exact product name plus a feature only one manual mentions.",
+      "knownGap": null,
+      "pass": true,
+      "reason": "",
+      "rank": 1,
+      "hits": [
+        {
+          "rank": 1,
+          "key": "oven-900",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 2,
+          "key": "inject-oven",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 3,
+          "key": "oven-600",
+          "ver": 1,
+          "supersededBy": null
+        }
+      ]
+    },
+    {
+      "id": "direct-02",
+      "category": "direct",
+      "as": "reader-a",
+      "q": "Hearthline 600 fan speed croissants",
+      "why": "Two oven manuals share most words; the model number must decide.",
+      "knownGap": null,
+      "pass": true,
+      "reason": "",
+      "rank": 1,
+      "hits": [
+        {
+          "rank": 1,
+          "key": "oven-600",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 2,
+          "key": "oven-900",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 3,
+          "key": "inject-oven",
+          "ver": 1,
+          "supersededBy": null
+        }
+      ]
+    },
+    {
+      "id": "direct-03",
+      "category": "direct",
+      "as": "reader-b",
+      "q": "deck oven stone cleaning",
+      "why": "Shares 'deck oven' with the Hearthline 900 manual; the title should win.",
+      "knownGap": null,
+      "pass": true,
+      "reason": "",
+      "rank": 1,
+      "hits": [
+        {
+          "rank": 1,
+          "key": "oven-stones",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 2,
+          "key": "inject-oven",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 3,
+          "key": "oven-900",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 4,
+          "key": "oven-600",
+          "ver": 1,
+          "supersededBy": null
+        }
+      ]
+    },
+    {
+      "id": "direct-04",
+      "category": "direct",
+      "as": "reader-a",
+      "q": "sourdough starter feeding",
+      "why": "Plain title match for the second reader class.",
+      "knownGap": null,
+      "pass": true,
+      "reason": "",
+      "rank": 1,
+      "hits": [
+        {
+          "rank": 1,
+          "key": "sourdough",
+          "ver": 1,
+          "supersededBy": null
+        }
+      ]
+    },
+    {
+      "id": "direct-05",
+      "category": "direct",
+      "as": "reader-b",
+      "q": "allergen labelling sesame",
+      "why": "Title word plus a body word.",
+      "knownGap": null,
+      "pass": true,
+      "reason": "",
+      "rank": 1,
+      "hits": [
+        {
+          "rank": 1,
+          "key": "allergens",
+          "ver": 1,
+          "supersededBy": null
+        }
+      ]
+    },
+    {
+      "id": "direct-06",
+      "category": "direct",
+      "as": "reader-a",
+      "q": "fire drill assembly point",
+      "why": "The question is about one fact in the body.",
+      "knownGap": null,
+      "pass": true,
+      "reason": "",
+      "rank": 1,
+      "hits": [
+        {
+          "rank": 1,
+          "key": "fire-drill",
+          "ver": 1,
+          "supersededBy": null
+        }
+      ]
+    },
+    {
+      "id": "direct-07",
+      "category": "direct",
+      "as": "reader-b",
+      "q": "delivery van tyre pressure",
+      "why": "Exact title.",
+      "knownGap": null,
+      "pass": true,
+      "reason": "",
+      "rank": 1,
+      "hits": [
+        {
+          "rank": 1,
+          "key": "van-tyres",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 2,
+          "key": "bike-brakes",
+          "ver": 1,
+          "supersededBy": null
+        }
+      ]
+    },
+    {
+      "id": "direct-08",
+      "category": "direct",
+      "as": "reader-a",
+      "q": "Route 12 night bus",
+      "why": "Several bus notes exist; the route number must decide.",
+      "knownGap": null,
+      "pass": true,
+      "reason": "",
+      "rank": 1,
+      "hits": [
+        {
+          "rank": 1,
+          "key": "route12",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 2,
+          "key": "route7-autumn",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 3,
+          "key": "route7-weekend",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 4,
+          "key": "route7-spring",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 5,
+          "key": "lost-property",
+          "ver": 1,
+          "supersededBy": null
+        }
+      ]
+    },
+    {
+      "id": "direct-09",
+      "category": "direct",
+      "as": "reader-b",
+      "q": "bus lost property office",
+      "why": "'bus' and 'office' appear in other notes too.",
+      "knownGap": null,
+      "pass": true,
+      "reason": "",
+      "rank": 1,
+      "hits": [
+        {
+          "rank": 1,
+          "key": "lost-property",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 2,
+          "key": "route12",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 3,
+          "key": "fares",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 4,
+          "key": "route7-weekend",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 5,
+          "key": "route7-spring",
+          "ver": 1,
+          "supersededBy": null
+        }
+      ]
+    },
+    {
+      "id": "direct-10",
+      "category": "direct",
+      "as": "reader-a",
+      "q": "ferry winter schedule Gull Island",
+      "why": "Title words plus a place name from the body.",
+      "knownGap": null,
+      "pass": true,
+      "reason": "",
+      "rank": 1,
+      "hits": [
+        {
+          "rank": 1,
+          "key": "ferry",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 2,
+          "key": "sourdough",
+          "ver": 1,
+          "supersededBy": null
+        }
+      ]
+    },
+    {
+      "id": "direct-11",
+      "category": "direct",
+      "as": "reader-b",
+      "q": "replace bicycle chain",
+      "why": "'replace' must match 'Replacing' through stemming.",
+      "knownGap": null,
+      "pass": true,
+      "reason": "",
+      "rank": 1,
+      "hits": [
+        {
+          "rank": 1,
+          "key": "bike-chain",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 2,
+          "key": "garden-2026",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 3,
+          "key": "route7-autumn",
+          "ver": 1,
+          "supersededBy": null
+        }
+      ]
+    },
+    {
+      "id": "direct-12",
+      "category": "direct",
+      "as": "reader-a",
+      "q": "rain gauge calibration",
+      "why": "The answer note's title uses 'calibration' and the body 'rain gauge'.",
+      "knownGap": null,
+      "pass": true,
+      "reason": "",
+      "rank": 1,
+      "hits": [
+        {
+          "rank": 1,
+          "key": "weather-station",
+          "ver": 1,
+          "supersededBy": null
+        }
+      ]
+    },
+    {
+      "id": "paraphrase-01",
+      "category": "paraphrase",
+      "as": "reader-a",
+      "q": "how long to warm up the big bread oven",
+      "why": "The words a person uses ('warm up', 'big') are not the words in the manual ('preheat', 'three-deck').",
+      "knownGap": null,
+      "pass": true,
+      "reason": "",
+      "rank": 1,
+      "hits": [
+        {
+          "rank": 1,
+          "key": "oven-900",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 2,
+          "key": "oven-stones",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 3,
+          "key": "oven-600",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 4,
+          "key": "inject-oven",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 5,
+          "key": "bike-brakes",
+          "ver": 1,
+          "supersededBy": null
+        }
+      ]
+    },
+    {
+      "id": "paraphrase-02",
+      "category": "paraphrase",
+      "as": "reader-b",
+      "q": "fish tank cleaning",
+      "why": "'fish tank' versus 'freshwater tank' and 'water change'.",
+      "knownGap": null,
+      "pass": true,
+      "reason": "",
+      "rank": 1,
+      "hits": [
+        {
+          "rank": 1,
+          "key": "aquarium",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 2,
+          "key": "oven-stones",
+          "ver": 1,
+          "supersededBy": null
+        }
+      ]
+    },
+    {
+      "id": "paraphrase-03",
+      "category": "paraphrase",
+      "as": "reader-a",
+      "q": "bike stopping power",
+      "why": "Only the tag 'bike' links the question to the brakes note; 'stopping power' is not in it.",
+      "knownGap": null,
+      "pass": true,
+      "reason": "",
+      "rank": 1,
+      "hits": [
+        {
+          "rank": 1,
+          "key": "bike-brakes",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 2,
+          "key": "bike-chain",
+          "ver": 1,
+          "supersededBy": null
+        }
+      ]
+    },
+    {
+      "id": "paraphrase-04",
+      "category": "paraphrase",
+      "as": "reader-b",
+      "q": "how much is a ticket",
+      "why": "'ticket' appears once in the fares note; 'how much' never does.",
+      "knownGap": "Keyword search only: baseline v0 has no synonyms (packages/core/src/understudy/baseline.ts:20) and words like 'a' and 'is' are searched like any other word, so a note with more of them ranks first.",
+      "pass": false,
+      "reason": "expected note at rank 2, needed rank 1; above it: bike-chain",
+      "rank": 2,
+      "hits": [
+        {
+          "rank": 1,
+          "key": "bike-chain",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 2,
+          "key": "fares",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 3,
+          "key": "lost-property",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 4,
+          "key": "allergens",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 5,
+          "key": "sourdough",
+          "ver": 1,
+          "supersededBy": null
+        }
+      ]
+    },
+    {
+      "id": "paraphrase-05",
+      "category": "paraphrase",
+      "as": "reader-a",
+      "q": "when do the bins get emptied",
+      "why": "'bins' and 'emptied' versus 'collection days'.",
+      "knownGap": "Keyword search only: no word of the question is in the answer note, and baseline v0 has no synonyms (packages/core/src/understudy/baseline.ts:20).",
+      "pass": false,
+      "reason": "expected note not in the top 10; got van-tyres, oven-900, garden-2026",
+      "rank": null,
+      "hits": [
+        {
+          "rank": 1,
+          "key": "van-tyres",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 2,
+          "key": "oven-900",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 3,
+          "key": "garden-2026",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 4,
+          "key": "garden-2025",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 5,
+          "key": "allergens",
+          "ver": 1,
+          "supersededBy": null
+        }
+      ]
+    },
+    {
+      "id": "multi-01",
+      "category": "multi-note",
+      "as": "reader-a",
+      "q": "Hearthline 900 and Hearthline 600 preheat temperatures",
+      "why": "A comparison question needs both manuals in the top 5.",
+      "knownGap": null,
+      "pass": true,
+      "reason": "",
+      "rank": 3,
+      "hits": [
+        {
+          "rank": 1,
+          "key": "oven-600",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 2,
+          "key": "inject-oven",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 3,
+          "key": "oven-900",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 4,
+          "key": "aquarium",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 5,
+          "key": "fares",
+          "ver": 1,
+          "supersededBy": null
+        }
+      ]
+    },
+    {
+      "id": "multi-02",
+      "category": "multi-note",
+      "as": "reader-b",
+      "q": "Route 7 weekday and weekend timetable",
+      "why": "Needs the current weekday timetable and the weekend one.",
+      "knownGap": null,
+      "pass": true,
+      "reason": "",
+      "rank": 3,
+      "hits": [
+        {
+          "rank": 1,
+          "key": "route7-weekend",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 2,
+          "key": "route7-spring",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 3,
+          "key": "route7-autumn",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 4,
+          "key": "route12",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 5,
+          "key": "inject-bus",
+          "ver": 1,
+          "supersededBy": null
+        }
+      ]
+    },
+    {
+      "id": "multi-03",
+      "category": "multi-note",
+      "as": "reader-a",
+      "q": "fire drill gas valve and allergen labels",
+      "why": "Two unrelated notes asked about in one question.",
+      "knownGap": null,
+      "pass": true,
+      "reason": "",
+      "rank": 2,
+      "hits": [
+        {
+          "rank": 1,
+          "key": "fire-drill",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 2,
+          "key": "allergens",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 3,
+          "key": "fares",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 4,
+          "key": "oven-900",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 5,
+          "key": "inject-bus",
+          "ver": 1,
+          "supersededBy": null
+        }
+      ]
+    },
+    {
+      "id": "no-answer-01",
+      "category": "no-answer",
+      "as": "reader-a",
+      "q": "qzxv plorbish",
+      "why": "Nonsense words: the right answer is no hits.",
+      "knownGap": null,
+      "pass": true,
+      "reason": "",
+      "rank": null,
+      "hits": []
+    },
+    {
+      "id": "no-answer-02",
+      "category": "no-answer",
+      "as": "reader-b",
+      "q": "volcano eruption warning",
+      "why": "Real words, none of them in the archive.",
+      "knownGap": null,
+      "pass": true,
+      "reason": "",
+      "rank": null,
+      "hits": []
+    },
+    {
+      "id": "no-answer-03",
+      "category": "no-answer",
+      "as": "reader-a",
+      "q": "how do I renew a passport",
+      "why": "Nothing about passports exists, but 'a' and 'do' are everywhere.",
+      "knownGap": "No abstention: when fewer than k notes match every word, search falls back to matching any word (packages/core/src/catalog/search.ts:95-96), and the score is not returned to the agent (packages/core/src/tools/call.ts:43), so neither side can apply a threshold.",
+      "pass": false,
+      "reason": "returned 9 hit(s) for a question with no answer; top 3: bike-chain, oven-900, allergens",
+      "rank": null,
+      "hits": [
+        {
+          "rank": 1,
+          "key": "bike-chain",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 2,
+          "key": "oven-900",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 3,
+          "key": "allergens",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 4,
+          "key": "parking",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 5,
+          "key": "lost-property",
+          "ver": 1,
+          "supersededBy": null
+        }
+      ]
+    },
+    {
+      "id": "no-answer-04",
+      "category": "no-answer",
+      "as": "reader-b",
+      "q": "swimming pool opening hours",
+      "why": "Shares 'opening hours' with the library note, which does not answer it.",
+      "knownGap": "No abstention: the any-word fallback (packages/core/src/catalog/search.ts:95-96) returns the library note for 'opening hours'.",
+      "pass": false,
+      "reason": "returned 3 hit(s) for a question with no answer; top 3: library-hours, lost-property, oven-900",
+      "rank": null,
+      "hits": [
+        {
+          "rank": 1,
+          "key": "library-hours",
+          "ver": 3,
+          "supersededBy": null
+        },
+        {
+          "rank": 2,
+          "key": "lost-property",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 3,
+          "key": "oven-900",
+          "ver": 1,
+          "supersededBy": null
+        }
+      ]
+    },
+    {
+      "id": "no-answer-05",
+      "category": "no-answer",
+      "as": "reader-a",
+      "q": "train timetable to the airport",
+      "why": "There are bus and ferry timetables but no train or airport.",
+      "knownGap": "No abstention: the any-word fallback (packages/core/src/catalog/search.ts:95-96) returns every timetable for 'timetable'.",
+      "pass": false,
+      "reason": "returned 10 hit(s) for a question with no answer; top 3: route7-weekend, route7-autumn, route7-spring",
+      "rank": null,
+      "hits": [
+        {
+          "rank": 1,
+          "key": "route7-weekend",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 2,
+          "key": "route7-autumn",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 3,
+          "key": "route7-spring",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 4,
+          "key": "inject-bus",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 5,
+          "key": "garden-2026",
+          "ver": 1,
+          "supersededBy": null
+        }
+      ]
+    },
+    {
+      "id": "version-01",
+      "category": "current-version",
+      "as": "reader-a",
+      "q": "library opening hours",
+      "why": "The note has three versions at one path; the hit must cite the newest one.",
+      "knownGap": null,
+      "pass": true,
+      "reason": "",
+      "rank": 1,
+      "hits": [
+        {
+          "rank": 1,
+          "key": "library-hours",
+          "ver": 3,
+          "supersededBy": null
+        },
+        {
+          "rank": 2,
+          "key": "lost-property",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 3,
+          "key": "oven-900",
+          "ver": 1,
+          "supersededBy": null
+        }
+      ]
+    },
+    {
+      "id": "version-02",
+      "category": "current-version",
+      "as": "reader-b",
+      "q": null,
+      "why": "An agent holding an old citation reads it; the response should say a newer version exists.",
+      "knownGap": "An exact-version read returns that version with status 'current' and supersededBy null; nothing in the response says a newer version exists (packages/core/src/catalog/catalog.ts:375-377).",
+      "pass": false,
+      "reason": "read of version 1 returned status=current, supersededBy=null and nothing that says version 3 exists",
+      "rank": null,
+      "hits": []
+    },
+    {
+      "id": "version-03",
+      "category": "current-version",
+      "as": "reader-a",
+      "q": "Route 7 weekday timetable",
+      "why": "The autumn note was saved as superseding the spring note; it must rank first and the old one must point to it.",
+      "knownGap": "A save with supersedes only records a proposed edge (packages/core/src/catalog/apply.ts:825-828). Nothing sets the old note's status to superseded or its supersededBy, so the superseded penalty (packages/core/src/catalog/search.ts:123) never applies and the old note can rank first.",
+      "pass": false,
+      "reason": "expected note at rank 2, needed rank 1; above it: route7-spring; route7-spring ranks 1, above the expected note; route7-spring is returned with supersededBy=null, expected route7-autumn",
+      "rank": 2,
+      "hits": [
+        {
+          "rank": 1,
+          "key": "route7-spring",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 2,
+          "key": "route7-autumn",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 3,
+          "key": "route7-weekend",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 4,
+          "key": "route12",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 5,
+          "key": "inject-bus",
+          "ver": 1,
+          "supersededBy": null
+        }
+      ]
+    },
+    {
+      "id": "version-04",
+      "category": "current-version",
+      "as": "reader-b",
+      "q": "community garden plot rules",
+      "why": "Same as version-03 for a decision note.",
+      "knownGap": "Same cause as version-03: supersedes is recorded as a proposed edge only (packages/core/src/catalog/apply.ts:825-828), so the older rules keep status current and can rank first.",
+      "pass": false,
+      "reason": "expected note at rank 2, needed rank 1; above it: garden-2025; garden-2025 ranks 1, above the expected note; garden-2025 is returned with supersededBy=null, expected garden-2026",
+      "rank": 2,
+      "hits": [
+        {
+          "rank": 1,
+          "key": "garden-2025",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 2,
+          "key": "garden-2026",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 3,
+          "key": "allergens",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 4,
+          "key": "recycling",
+          "ver": 1,
+          "supersededBy": null
+        }
+      ]
+    },
+    {
+      "id": "access-01",
+      "category": "access",
+      "as": "reader-a",
+      "q": "rye trial batch tasting notes",
+      "why": "A reader finds their own private note.",
+      "knownGap": "Each privacy class has its own full-text index (packages/core/src/catalog/search.ts:66-71) and their BM25 scores are merged as if comparable (search.ts:97). In an index with one note the BM25 term weight is near zero, so the private note scores on title bonuses alone (4.30) and a team note that only shares the word 'notes' (6.87) ranks above it.",
+      "pass": false,
+      "reason": "expected note at rank 2, needed rank 1; above it: inject-bus",
+      "rank": 2,
+      "hits": [
+        {
+          "rank": 1,
+          "key": "inject-bus",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 2,
+          "key": "private-a-rye",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 3,
+          "key": "inject-oven",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 4,
+          "key": "sourdough",
+          "ver": 1,
+          "supersededBy": null
+        }
+      ]
+    },
+    {
+      "id": "access-02",
+      "category": "access",
+      "as": "reader-b",
+      "q": "rye trial batch tasting notes",
+      "why": "The other reader asks the same question and must not see that note.",
+      "knownGap": null,
+      "pass": true,
+      "reason": "",
+      "rank": null,
+      "hits": [
+        {
+          "rank": 1,
+          "key": "inject-bus",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 2,
+          "key": "inject-oven",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 3,
+          "key": "sourdough",
+          "ver": 1,
+          "supersededBy": null
+        }
+      ]
+    },
+    {
+      "id": "access-03",
+      "category": "access",
+      "as": "reader-b",
+      "q": "driver rota draft",
+      "why": "The second reader finds their own private note.",
+      "knownGap": null,
+      "pass": true,
+      "reason": "",
+      "rank": 1,
+      "hits": [
+        {
+          "rank": 1,
+          "key": "private-b-rota",
+          "ver": 1,
+          "supersededBy": null
+        }
+      ]
+    },
+    {
+      "id": "access-04",
+      "category": "access",
+      "as": "reader-a",
+      "q": "driver rota draft",
+      "why": "The first reader must not see the second reader's note.",
+      "knownGap": null,
+      "pass": true,
+      "reason": "",
+      "rank": null,
+      "hits": []
+    },
+    {
+      "id": "injection-01",
+      "category": "injection",
+      "as": "reader-a",
+      "q": "Hearthline 900 deck oven preheat time",
+      "why": "A planted note copies the question as its title and carries injection text; the real manual should still rank first.",
+      "knownGap": "Ranking uses words and titles only (packages/core/src/catalog/search.ts:109-126). A planted note whose title copies the question ranks first; nothing marks or demotes text addressed to an AI. The text is still wrapped as untrusted (see injection-03).",
+      "pass": false,
+      "reason": "expected note at rank 2, needed rank 1; above it: inject-oven; inject-oven ranks 1, above the expected note",
+      "rank": 2,
+      "hits": [
+        {
+          "rank": 1,
+          "key": "inject-oven",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 2,
+          "key": "oven-900",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 3,
+          "key": "oven-600",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 4,
+          "key": "oven-stones",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 5,
+          "key": "ferry",
+          "ver": 1,
+          "supersededBy": null
+        }
+      ]
+    },
+    {
+      "id": "injection-02",
+      "category": "injection",
+      "as": "reader-b",
+      "q": "Route 7 first bus",
+      "why": "A planted note gives a false first-bus time for Route 7 without copying a title.",
+      "knownGap": "The planted note did not outrank the answer (it is rank 5). The case fails for another reason: the superseded spring timetable and the weekend timetable rank above the current one, the same gap as version-03.",
+      "pass": false,
+      "reason": "expected note at rank 3, needed rank 1; above it: route7-weekend, route7-spring",
+      "rank": 3,
+      "hits": [
+        {
+          "rank": 1,
+          "key": "route7-weekend",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 2,
+          "key": "route7-spring",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 3,
+          "key": "route7-autumn",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 4,
+          "key": "route12",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 5,
+          "key": "inject-bus",
+          "ver": 1,
+          "supersededBy": null
+        }
+      ]
+    },
+    {
+      "id": "injection-03",
+      "category": "injection",
+      "as": "reader-a",
+      "q": null,
+      "why": "The planted note contains a forged closing tag; the read response must keep exactly one real wrapper around it.",
+      "knownGap": null,
+      "pass": true,
+      "reason": "",
+      "rank": null,
+      "hits": []
+    },
+    {
+      "id": "citation-01",
+      "category": "citation",
+      "as": "reader-a",
+      "q": null,
+      "why": "A citation whose hash does not match the stored text must be refused.",
+      "knownGap": null,
+      "pass": true,
+      "reason": "",
+      "rank": null,
+      "hits": []
+    },
+    {
+      "id": "citation-02",
+      "category": "citation",
+      "as": "reader-a",
+      "q": null,
+      "why": "A citation to a version that does not exist must not fall back to another version.",
+      "knownGap": null,
+      "pass": true,
+      "reason": "",
+      "rank": null,
+      "hits": []
+    },
+    {
+      "id": "citation-03",
+      "category": "citation",
+      "as": "reader-b",
+      "q": null,
+      "why": "A line-range citation with the right span hash returns exactly those lines.",
+      "knownGap": null,
+      "pass": true,
+      "reason": "",
+      "rank": null,
+      "hits": []
+    },
+    {
+      "id": "citation-04",
+      "category": "citation",
+      "as": "reader-b",
+      "q": null,
+      "why": "A line-range citation with a wrong span hash must be refused.",
+      "knownGap": null,
+      "pass": true,
+      "reason": "",
+      "rank": null,
+      "hits": []
+    },
+    {
+      "id": "citation-05",
+      "category": "citation",
+      "as": "reader-b",
+      "q": null,
+      "why": "A valid citation to a note the reader may not see looks the same as a missing note.",
+      "knownGap": null,
+      "pass": true,
+      "reason": "",
+      "rank": null,
+      "hits": []
+    },
+    {
+      "id": "mcp-01",
+      "category": "mcp-parity",
+      "as": "reader-a",
+      "q": "Route 12 night bus",
+      "why": "The same search over MCP JSON-RPC over HTTP must return the same hits as the direct tool call.",
+      "knownGap": null,
+      "pass": true,
+      "reason": "",
+      "rank": null,
+      "hits": [
+        {
+          "rank": 1,
+          "key": "route12",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 2,
+          "key": "route7-autumn",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 3,
+          "key": "route7-weekend",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 4,
+          "key": "route7-spring",
+          "ver": 1,
+          "supersededBy": null
+        },
+        {
+          "rank": 5,
+          "key": "lost-property",
+          "ver": 1,
+          "supersededBy": null
+        }
+      ]
+    },
+    {
+      "id": "mcp-02",
+      "category": "mcp-parity",
+      "as": "reader-a",
+      "q": null,
+      "why": "The same read over MCP JSON-RPC over HTTP must return the same note text and hash.",
+      "knownGap": null,
+      "pass": true,
+      "reason": "",
+      "rank": null,
+      "hits": []
+    }
+  ]
+}
