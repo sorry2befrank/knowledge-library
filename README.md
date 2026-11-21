@@ -145,53 +145,74 @@ author's Windows layout, so set `KL_STATE_DIR` on any other machine.
 
 ## How I know a change is safe to ship
 
-An agent asks the library a question and gets back notes with citations. The answer-accuracy eval checks
-that those are the right notes, the current versions, and citations that verify, and it fails the build
-when any of that gets worse.
+No language model writes or is graded on an answer in this library. An agent asks a question and gets
+back notes with citations. The retrieval-and-citation eval checks that those are the right notes, the
+current versions, and citations that verify, and it fails the build when a measured case gets worse.
 
 ```bash
 npm run eval   # the run itself takes well under a second; writes eval/RESULTS.md and eval/results.json
 ```
 
-It builds an archive of 28 invented notes (a bakery's oven manuals, a town's bus timetables and so on)
-through the library's normal save path, then asks 43 questions through the same tool calls an MCP client
-makes (`library_search`, `library_read`, and two cases over JSON-RPC over HTTP). Nothing in search, citation
-or read is mocked. Every citation returned is read back and compared byte for byte with the text that was
-saved. Measured on baseline v0 ([full table](eval/RESULTS.md)):
+It builds an archive of 29 invented notes (a bakery's oven manuals, a town's bus timetables and so on)
+through the library's normal save path, on in-memory SQLite and in-memory object storage, and withdraws
+one of them. It then runs 45 cases, 36 searches and 9 citation reads, through the same tool calls an MCP
+client makes (`library_search`, `library_read`). Two of the cases are also sent as MCP JSON-RPC requests
+to the HTTP request handler, called in-process. Search, citation and read are the real code, not mocks.
+Every citation returned is read back and compared byte for byte with the text that was saved. Measured
+on baseline v0, the library's built-in ranking settings ([full table and glossary](eval/RESULTS.md)):
 
 | Measure | Result |
 |---|---|
-| Cases passed | 32/43 |
+| Cases passed | 34/45 |
 | Right note first (hit@1), questions with one expected note | 17/24 |
+| Right note first, outside the 12 direct questions that mostly reuse the note's title words | 5/12 |
 | Right note in the top 5 (hit@5) | 23/24 |
-| Returned citations that verify against the saved text | 171/171 |
-| Bad citations refused (wrong hash, missing version, wrong line-span hash, note the reader may not see) | 4/4 |
+| Returned citations that verify against the saved text | 172/172 |
+| Bad citations refused (wrong hash, missing version, wrong line-span hash, note the reader may not see, withdrawn note) | 5/5 |
 | No hits when the archive has no answer | 2/5 |
-| Notes returned to a reader who may not see them | 0 |
+| Notes returned that the reader may not see, or that were withdrawn | 0 |
 
-`test/eval-answer-accuracy.test.ts` runs the eval inside `npm test`, so CI runs it on every push and pull
-request. It fails if any metric falls below the floors in `eval/thresholds.json` (set from the measured
-run), if a case that passed now fails, or if the committed results table no longer matches a fresh run.
+The pooled hit@1 is mostly the direct questions (12/12). The three paraphrase questions that pass still
+share a literal word with the answer note ("oven", "tank", the tag "bike"), so they do not show any
+synonym handling; baseline v0 has none.
+
+`test/eval-retrieval-citation.test.ts` runs the eval inside `npm test`, so CI runs it on every push and
+pull request. It fails if any metric falls below the floors in `eval/thresholds.json` (set from the
+measured run, including the number of hits returned across all searches, 172) or if a case that passed
+now fails. It also fails if the committed results table does not match a fresh run, but that check only
+proves the table is current: `npm run eval` clears it, so it does not catch a regression on its own.
+
 The 11 failing cases are labelled known gaps with the code that causes each one: no abstention (search
-falls back to matching any word), supersession that is recorded but never applied to ranking, no newer-version
-signal on an old citation, unequal BM25 scores across per-class indexes, and a planted note that copies
-the question's title and ranks first. If one of them starts passing, the test fails until the label is
-removed and the floor raised, so a gain cannot be lost later.
+falls back to matching any word; 3 cases), keyword-only search with no synonyms (2 paraphrase cases),
+supersession that is recorded but never applied to ranking (3 cases), no newer-version signal on an old
+citation (1 case), and planted notes ranking first (2 cases). One planted note copies the question's
+title. The other, `inject-bus`, shares only the word "note(s)" with a reader's question about their own
+private note, and wins because BM25 scores from separate per-class indexes are merged as if comparable.
+If a known gap starts passing, the test fails until its label is removed; the floors should then be
+raised by hand in the same change, which the test does not check.
 
-To check that the gate works, I broke three things on purpose and ran it. Skipping the citation hash check
-let a tampered citation through (bad citations refused 4/4 to 3/4). Reversing the ranking order dropped
-hit@1 from 17/24 to 5/24. Returning old versions in search made the library-hours question cite version 1
-of 3. Each time the test failed; each change was then reverted.
+Three deliberate breakages were run against the gate, and each was reverted. Skipping the citation hash
+check let a tampered citation through (bad citations refused 5/5 to 4/5). Reversing the ranking order
+dropped hit@1 from 17/24 to 5/24. Returning old versions in search made the library-hours question cite
+version 1 of 3. Each time the floor, category and case checks failed. Capping search at 5 hits instead
+of 20 changed no case result but dropped the hits returned from 172 to 114, which the floor catches.
 
-**Scope.** There is no language model in this library: retrieval is keyword search (BM25) plus a fixed
-re-rank. So this is a retrieval-and-citation eval of what an agent receives, not a measure of answers a
-model writes from those notes. The corpus is small and synthetic, the questions were written by the same
-person who wrote the notes, and the numbers say nothing about real notes, other languages or larger
-archives. It does not test the removal kernel, the Windows helper or the deployed Worker; other suites do.
+**Scope.** Retrieval is keyword search (BM25) plus a fixed re-rank. So this is a retrieval-and-citation
+eval of what an agent receives, not a measure of answers a model writes from those notes. The corpus is
+small and synthetic, the questions were written together with the notes, by the same author, and the
+numbers say nothing about real notes, other languages or larger archives. Not covered:
+
+- Supersession. No note is ever marked superseded, because a save with `supersedes` only records a
+  proposed edge (`packages/core/src/catalog/apply.ts:825-828`). So the superseded-demotion code in search
+  and the `supersededBy` field in read never run here, and weakening them would pass this gate.
+- Each access layer on its own. The leak check measures end-to-end exposure only. In this corpus either
+  of the two access layers in search (the SQL access predicate and the per-class index filter) is enough
+  by itself, so losing one of them would not show here. Per-layer access tests belong to other suites.
+- The removal kernel, the Windows helper and the deployed Worker; other suites test those.
 
 ## How it is tested
 
-- **Answer accuracy.** `npm run eval` and its gate test; see the section above.
+- **Retrieval and citation.** `npm run eval` and its gate test; see the section above.
 - **Vitest** runs unit, integration and property-based tests (fast-check), including suites that run the
   real Worker code in workerd through Miniflare.
 - **Synthetic data only.** `fixtures/gen.ts` generates the corpus, principals and planted hazards (fake
@@ -215,7 +236,8 @@ Two GitHub Actions workflows run on pull requests, on pushes to `main` and on ma
 runs on pushes to other branches):
 
 - `ci` (ubuntu-latest): `npm ci`, typecheck, Wrangler type check and dry run, the SQL, citation and persona
-  lints, the full test suite (including the answer-accuracy gate, whose table is added to the job summary),
+  lints, the full test suite (including the retrieval-and-citation gate; the eval is then re-run so the job
+  summary shows that commit's numbers),
   a fixture determinism check, and the secret and workstation-path scan. A
   staging deploy job exists but is disabled (`if: false`). CI holds no Cloudflare credentials.
 - `windows-conformance` (windows-latest): builds the native helper and runs the Windows-only suites.

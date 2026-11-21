@@ -1,11 +1,12 @@
-// Answer-accuracy eval: does an agent that asks the library a question receive the right, current,
-// verifiable note? There is no language model on this path. Retrieval is BM25 plus a hand-weighted
-// re-rank, so this measures retrieval and citation, not generated prose.
+// Retrieval-and-citation eval: does an agent that asks the library a question receive the right,
+// current, verifiable note? No language model writes or is graded on an answer here. Retrieval is BM25
+// keyword search plus a hand-weighted re-rank, so this measures retrieval and citation, not prose.
 //
 // It builds a synthetic archive from eval/golden-set.json through the library's own write path
-// (Catalog.save, then the outbox), asks every question through the same tool dispatcher an MCP client
-// reaches (callTool: library_search, library_read), and for two cases through real MCP JSON-RPC over
-// the HTTP handler. Nothing in search, citation or read is mocked.
+// (Catalog.save, then the outbox) on in-memory SQLite and in-memory object storage, withdraws the notes
+// the golden set marks as withdrawn, sends every case through the same tool dispatcher an MCP client
+// reaches (callTool: library_search, library_read), and sends two cases as MCP JSON-RPC requests to the
+// HTTP request handler, called in-process (no socket). Search, citation and read are the real code.
 //
 // `npm run eval` writes eval/RESULTS.md and eval/results.json. Same input, same output: the clock and
 // random source are fixed, and no timing or timestamp goes into either file.
@@ -13,7 +14,7 @@ import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import {
-  Catalog, MemoryObjectStore, openNodeSqlite, seededRng, noApprovalChannel, callTool, parseCitation, formatCitation, spanHash, sliceLines, sha256Hex,
+  Catalog, MemoryObjectStore, openNodeSqlite, seededRng, noApprovalChannel, type ReceiptVerifier, type ApprovalReceipt, callTool, parseCitation, formatCitation, spanHash, sliceLines, sha256Hex,
   mintToken, tokenScopes, tokenExpiry, clientClassFor, BASELINE_V0_HASH, type Actor, type Op,
 } from "@kl/core";
 import { createApiHandler } from "@kl/api";
@@ -24,9 +25,15 @@ export const GOLDEN_PATH = join(HERE, "golden-set.json");
 export const RESULTS_MD = join(HERE, "RESULTS.md");
 export const RESULTS_JSON = join(HERE, "results.json");
 const SETUP_SECRET = "synthetic-eval-bootstrap-secret";
+// Withdrawing a note needs an owner approval receipt. The eval accepts exactly one synthetic receipt id, for
+// note.withdraw only; every other receipt is refused as in the default build (noApprovalChannel).
+const WITHDRAW_RECEIPT_ID = "synthetic-eval-withdraw";
+const evalReceipts: ReceiptVerifier = {
+  verify: (receipt, expect) => receipt?.receiptId === WITHDRAW_RECEIPT_ID && expect.actionKind === "note.withdraw" ? { ok: true } : noApprovalChannel.verify(receipt, expect),
+};
 
 // ---------- golden set shape ----------
-export interface CorpusNote { key: string; collection: string; path: string; title: string; kind: string; tags?: string[]; body: string; history?: string[]; supersedes?: string; adversarial?: boolean }
+export interface CorpusNote { key: string; collection: string; path: string; title: string; kind: string; tags?: string[]; body: string; history?: string[]; supersedes?: string; adversarial?: boolean; withdrawn?: boolean }
 export interface EvalCase {
   id: string; category: string; as: string; why: string; check: "answer" | "all" | "abstain" | "no-leak" | "read" | "wrapper" | "mcp-search" | "mcp-read";
   q?: string; accept?: string[]; requireAll?: string[]; maxRank?: number; mustOutrank?: string[]; forbid?: string[]; currentVersion?: boolean; supersededBy?: Record<string, string>;
@@ -44,6 +51,7 @@ export interface EvalResults {
   metrics: {
     casesPassed: number; cases: number;
     rankedCases: number; hitAt1: number; hitAt5: number; mrr: number;
+    rankedOutsideDirect: number; hitAt1OutsideDirect: number;
     citationsReturned: number; citationsValid: number; citationValidity: number;
     abstainCases: number; abstainCorrect: number; abstentionAccuracy: number;
     negativeControls: number; negativeControlsRefused: number;
@@ -66,7 +74,7 @@ export async function buildArchive(golden: GoldenSet) {
   const t0 = Date.parse("2026-06-01T09:00:00.000Z"); let tick = 0;
   const clock = { now: () => new Date(t0 + 1000 * ++tick).toISOString() };
   const catalog = new Catalog({ db: openNodeSqlite(":memory:"), blobStore: new MemoryObjectStore(), mirror: new MemoryObjectStore(), clock, random: (n: number) => rng.bytes(n),
-    denyRules: generateFixtures().denyRules, receipts: noApprovalChannel });
+    denyRules: generateFixtures().denyRules, receipts: evalReceipts });
   catalog.enableSetup(SETUP_SECRET);
   const sys: Actor = { principal: "system", clientClass: "kl-device" };
   for (const r of golden.readers) {
@@ -103,6 +111,12 @@ export async function buildArchive(golden: GoldenSet) {
   await catalog.drainOutbox();
   const notIndexed = catalog.db.get<{ c: number }>("SELECT count(*) AS c FROM versions WHERE custody != 'indexed'")!.c;
   if (notIndexed) throw new Error(`${notIndexed} corpus version(s) were not indexed`);
+  for (const n of golden.corpus.filter((x) => x.withdrawn)) {
+    const actor = owner(n);
+    const receipt: ApprovalReceipt = { receiptId: WITHDRAW_RECEIPT_ID, actionKind: "note.withdraw", actionHash: "0".repeat(64), evidenceHash: "0".repeat(64), principal: actor.principal,
+      credentialId: "synthetic", issuedAt: "2026-06-01T00:00:00Z", expiresAt: "2099-01-01T00:00:00Z", serverSig: "synthetic" };
+    catalog.apply(actor, { kind: "receipt", receipt }, { kind: "note.withdraw", noteId: saved.get(n.key)!.noteId });
+  }
   return { catalog, saved, token };
 }
 
@@ -126,6 +140,7 @@ export async function runEval(goldenPath = GOLDEN_PATH): Promise<EvalResults> {
   const collOf = new Map(golden.corpus.map((n) => [n.key, n.collection]));
   const classOf = new Map(golden.collections.map((c) => [c.id, c.class]));
   const readerClasses = new Map(golden.readers.map((r) => [r.id, r.classes]));
+  const withdrawnKeys = new Set(golden.corpus.filter((n) => n.withdrawn).map((n) => n.key));
   const actorFor = (id: string): Actor => ({ principal: id, clientClass: "connector", interactive: true });
   const tool = (as: string, name: string, args: Record<string, unknown>) => callTool({ catalog, actor: actorFor(as), scopes: ["read"], random: catalog.random }, name, args);
   const api = createApiHandler({ catalog });
@@ -161,9 +176,10 @@ export async function runEval(goldenPath = GOLDEN_PATH): Promise<EvalResults> {
       const c = parseCitation(h.cite);
       const key = c ? keyOf.get(c.noteId) ?? "?" : "?";
       hits.push({ rank: i + 1, key, ver: c?.ver ?? 0, supersededBy: h.supersededBy ? keyOf.get(h.supersededBy) ?? "?" : null });
-      // Leak canary, from the golden set's own metadata, not from the library's ACL.
+      // Leak canary, from the golden set's own metadata, not from the library's ACL: a note of a class the
+      // reader may not see, or a note the golden set withdrew.
       const cls = classOf.get(collOf.get(key) ?? "") ?? "?";
-      if (!readerClasses.get(as)!.includes(cls)) accessLeaks++;
+      if (!readerClasses.get(as)!.includes(cls) || withdrawnKeys.has(key)) accessLeaks++;
       citationsReturned++;
       const problem = await verifyCite(as, h.cite);
       if (problem) citationProblems.push(`${q}: ${key}: ${problem}`); else citationsValid++;
@@ -284,6 +300,7 @@ export async function runEval(goldenPath = GOLDEN_PATH): Promise<EvalResults> {
   // ---------- metrics ----------
   const ranked = cases.filter((r) => { const c = golden.cases.find((x) => x.id === r.id)!; return c.check === "answer"; });
   const rr = ranked.map((r) => (r.rank ? 1 / r.rank : 0));
+  const rankedOther = ranked.filter((r) => r.category !== "direct");
   const abstain = cases.filter((r) => golden.cases.find((x) => x.id === r.id)!.check === "abstain");
   const categories: CategoryRow[] = [...new Set(golden.cases.map((c) => c.category))].map((category) => {
     const rows = cases.filter((r) => r.category === category);
@@ -298,6 +315,7 @@ export async function runEval(goldenPath = GOLDEN_PATH): Promise<EvalResults> {
       casesPassed: cases.filter((c) => c.pass).length, cases: cases.length,
       rankedCases: ranked.length, hitAt1: ranked.filter((r) => r.rank === 1).length, hitAt5: ranked.filter((r) => r.rank !== null && r.rank <= 5).length,
       mrr: Math.round((rr.reduce((a, b) => a + b, 0) / Math.max(1, rr.length)) * 1000) / 1000,
+      rankedOutsideDirect: rankedOther.length, hitAt1OutsideDirect: rankedOther.filter((r) => r.rank === 1).length,
       citationsReturned, citationsValid, citationValidity: ratio(citationsValid, citationsReturned),
       abstainCases: abstain.length, abstainCorrect: abstain.filter((r) => r.pass).length, abstentionAccuracy: ratio(abstain.filter((r) => r.pass).length, abstain.length),
       negativeControls, negativeControlsRefused, accessLeaks, stateChanges,
@@ -318,14 +336,25 @@ function stateCounts(catalog: Catalog): Record<string, number> {
 export function renderMarkdown(r: EvalResults): string {
   const m = r.metrics;
   const esc = (s: string) => s.replace(/\|/g, "\\|");
+  const searches = r.cases.filter((c) => c.q !== null).length;
   const lines = [
-    "# Answer-accuracy eval results",
+    "# Retrieval-and-citation eval results",
     "",
-    "Generated by `npm run eval` from `eval/golden-set.json`. Do not edit by hand: `npm test` fails if this file does not match a fresh run.",
+    "No language model writes or is graded on an answer here. This measures which notes and citations an agent receives from the library, not text an agent writes from them.",
     "",
-    `- Golden set: version ${r.golden.version}, ${r.golden.notes} synthetic notes, ${r.golden.cases} cases, sha256 \`${r.golden.sha256.slice(0, 16)}\``,
+    "Generated by `npm run eval` from `eval/golden-set.json`. Do not edit by hand: `npm test` fails if this file does not match a fresh run. That check only proves the file is current; the floors in `eval/thresholds.json` are what catch a regression.",
+    "",
+    `- Golden set: version ${r.golden.version}, ${r.golden.notes} synthetic notes, ${r.golden.cases} cases (${searches} searches, ${r.golden.cases - searches} citation reads), sha256 \`${r.golden.sha256.slice(0, 16)}\``,
     `- Ranking: baseline v0 (BM25 plus a fixed re-rank), playbook hash \`${r.baselineHash.slice(0, 16)}\``,
-    "- No language model is involved. This measures which notes and citations an agent receives, not text an agent writes.",
+    "",
+    "Terms used below:",
+    "",
+    "- BM25: a standard keyword-matching score; notes that use the question's words more, and rarer words, score higher.",
+    "- Re-rank: fixed bonuses added after BM25 (a title or tag match, recent notes, the note kind) and a penalty for superseded notes.",
+    "- Baseline v0: the library's built-in ranking settings, before any learning; it has no synonyms. Playbook hash: a fingerprint of those settings.",
+    "- Per-class indexes: each privacy class (shared team notes, one reader's private notes) has its own search index.",
+    "- hit@1 / hit@5: the expected note is first / in the first five results. MRR: the average of 1/rank of the expected note (0 when it is missing).",
+    "- Negative controls: deliberately bad citations that the library must refuse.",
     "",
     "## Summary",
     "",
@@ -333,13 +362,16 @@ export function renderMarkdown(r: EvalResults): string {
     "|---|---|",
     `| Cases passed | ${m.casesPassed}/${m.cases} |`,
     `| hit@1 (questions with one expected note) | ${m.hitAt1}/${m.rankedCases} |`,
+    `| hit@1 outside the direct questions (which mostly reuse the answer note's title words) | ${m.hitAt1OutsideDirect}/${m.rankedOutsideDirect} |`,
     `| hit@5 | ${m.hitAt5}/${m.rankedCases} |`,
     `| MRR | ${m.mrr.toFixed(3)} |`,
     `| Citation validity (every returned citation re-read and compared to the saved text) | ${m.citationsValid}/${m.citationsReturned} |`,
     `| Bad citations refused (negative controls) | ${m.negativeControlsRefused}/${m.negativeControls} |`,
     `| Abstention accuracy (no hits when the archive has no answer) | ${m.abstainCorrect}/${m.abstainCases} |`,
-    `| Notes returned to a reader who may not see them | ${m.accessLeaks} |`,
-    `| Library state changed by the questions | ${m.stateChanges} |`,
+    `| Notes returned that the reader may not see (another reader's private note) or that were withdrawn | ${m.accessLeaks} |`,
+    `| Learning and supersession rows changed by the questions (overrides, champions, candidates, cases, edges, non-current notes) | ${m.stateChanges} |`,
+    "",
+    "Searches and reads do write rows by design: one `reads` row per returned hit or read, and one `query_log` row per search. Those are not counted above.",
     "",
     "## By category",
     "",

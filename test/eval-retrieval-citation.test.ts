@@ -1,6 +1,7 @@
-// The "is this change safe to ship" gate. It runs the answer-accuracy eval (eval/run-eval.ts) over the
-// synthetic golden set and fails when any metric drops below the floors in eval/thresholds.json, when a
-// case that passed before now fails, or when the committed results table no longer matches a fresh run.
+// The "is this change safe to ship" gate. It runs the retrieval-and-citation eval (eval/run-eval.ts) over the
+// synthetic golden set and fails when any metric drops below the floors in eval/thresholds.json or when a
+// case that passed before now fails. A separate check proves the committed results table is current; that
+// check alone does not catch a regression, because `npm run eval` clears it.
 import { describe, it, expect, beforeAll } from "vitest";
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -13,7 +14,7 @@ const lf = (s: string) => s.replace(/\r\n/g, "\n");
 let r: EvalResults;
 beforeAll(async () => { r = await runEval(); });
 
-describe("answer-accuracy eval: the ship gate", () => {
+describe("retrieval-and-citation eval: the ship gate", () => {
   it("no metric drops below its floor", () => {
     const m = r.metrics as unknown as Record<string, number>;
     for (const [k, floor] of Object.entries(thresholds.minimum)) expect(m[k], `${k} fell below ${floor}`).toBeGreaterThanOrEqual(floor);
@@ -30,14 +31,14 @@ describe("answer-accuracy eval: the ship gate", () => {
     expect(failing).toEqual([]);
   });
 
-  it("every known gap still fails; one that now passes must lose its label and raise the floors", () => {
+  it("every known gap still fails; one that now passes must lose its label (and the floors should be raised by hand)", () => {
     const fixed = r.cases.filter((c) => c.pass && c.knownGap).map((c) => c.id);
     expect(fixed, "these known gaps now pass: remove knownGap in eval/golden-set.json, raise eval/thresholds.json, run npm run eval").toEqual([]);
   });
 
-  it("the committed results table matches a fresh run (run npm run eval after any change that moves a number)", () => {
-    expect(lf(readFileSync(RESULTS_JSON, "utf8")), "eval/results.json is stale").toBe(renderJson(r));
-    expect(lf(readFileSync(RESULTS_MD, "utf8")), "eval/RESULTS.md is stale").toBe(renderMarkdown(r));
+  it("the committed results table is current (freshness only: it proves the table matches the code, not that nothing regressed)", () => {
+    expect(lf(readFileSync(RESULTS_JSON, "utf8")), "eval/results.json is stale: run npm run eval").toBe(renderJson(r));
+    expect(lf(readFileSync(RESULTS_MD, "utf8")), "eval/RESULTS.md is stale: run npm run eval").toBe(renderMarkdown(r));
   });
 
   it("is deterministic: a second run gives byte-identical results", async () => {

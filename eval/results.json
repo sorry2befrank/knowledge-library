@@ -1,27 +1,29 @@
 {
   "golden": {
-    "name": "answer-accuracy golden set",
-    "version": 1,
-    "sha256": "d3a1771fda1cecf91cdbc6ec6ffe639b018af8f5603baab0f54f35df1ec9ea56",
-    "notes": 28,
-    "cases": 43
+    "name": "retrieval-and-citation golden set",
+    "version": 2,
+    "sha256": "9b9a29c03d5f8cc55ab3d676066fc44c2b694f09d1e0d52ea3426e7197c8c357",
+    "notes": 29,
+    "cases": 45
   },
   "baselineHash": "b6258b0bb0042b51543dc4a5a3427e82aac2750cee63a0f1f370eeaddb3ff765",
   "metrics": {
-    "casesPassed": 32,
-    "cases": 43,
+    "casesPassed": 34,
+    "cases": 45,
     "rankedCases": 24,
     "hitAt1": 17,
     "hitAt5": 23,
     "mrr": 0.826,
-    "citationsReturned": 171,
-    "citationsValid": 171,
+    "rankedOutsideDirect": 12,
+    "hitAt1OutsideDirect": 5,
+    "citationsReturned": 172,
+    "citationsValid": 172,
     "citationValidity": 1,
     "abstainCases": 5,
     "abstainCorrect": 2,
     "abstentionAccuracy": 0.4,
-    "negativeControls": 4,
-    "negativeControlsRefused": 4,
+    "negativeControls": 5,
+    "negativeControlsRefused": 5,
     "accessLeaks": 0,
     "stateChanges": 0
   },
@@ -79,6 +81,13 @@
       "category": "citation",
       "cases": 5,
       "passed": 5,
+      "hitAt1": "-",
+      "hitAt5": "-"
+    },
+    {
+      "category": "withdrawn",
+      "cases": 2,
+      "passed": 2,
       "hitAt1": "-",
       "hitAt5": "-"
     },
@@ -387,8 +396,8 @@
       "id": "direct-11",
       "category": "direct",
       "as": "reader-b",
-      "q": "replace bicycle chain",
-      "why": "'replace' must match 'Replacing' through stemming.",
+      "q": "chains replaced",
+      "why": "No word of the question appears in the note as written: 'chains' and 'replaced' match 'chain' and 'Replacing' only through stemming.",
       "knownGap": null,
       "pass": true,
       "reason": "",
@@ -557,13 +566,13 @@
         },
         {
           "rank": 4,
-          "key": "allergens",
+          "key": "sourdough",
           "ver": 1,
           "supersededBy": null
         },
         {
           "rank": 5,
-          "key": "sourdough",
+          "key": "allergens",
           "ver": 1,
           "supersededBy": null
         }
@@ -1011,7 +1020,7 @@
       "as": "reader-a",
       "q": "rye trial batch tasting notes",
       "why": "A reader finds their own private note.",
-      "knownGap": "Each privacy class has its own full-text index (packages/core/src/catalog/search.ts:66-71) and their BM25 scores are merged as if comparable (search.ts:97). In an index with one note the BM25 term weight is near zero, so the private note scores on title bonuses alone (4.30) and a team note that only shares the word 'notes' (6.87) ranks above it.",
+      "knownGap": "Each privacy class has its own full-text index (packages/core/src/catalog/search.ts:66-71) and their BM25 scores are merged as if comparable (search.ts:97). In an index with one note the BM25 term weight is near zero, so the private note scores on title bonuses alone (4.30) and the planted note inject-bus ('Note to automated readers'), which shares only the word 'note(s)' (6.22), ranks above it.",
       "pass": false,
       "reason": "expected note at rank 2, needed rank 1; above it: inject-bus",
       "rank": 2,
@@ -1030,13 +1039,13 @@
         },
         {
           "rank": 3,
-          "key": "inject-oven",
+          "key": "sourdough",
           "ver": 1,
           "supersededBy": null
         },
         {
           "rank": 4,
-          "key": "sourdough",
+          "key": "inject-oven",
           "ver": 1,
           "supersededBy": null
         }
@@ -1061,13 +1070,13 @@
         },
         {
           "rank": 2,
-          "key": "inject-oven",
+          "key": "sourdough",
           "ver": 1,
           "supersededBy": null
         },
         {
           "rank": 3,
-          "key": "sourdough",
+          "key": "inject-oven",
           "ver": 1,
           "supersededBy": null
         }
@@ -1263,11 +1272,42 @@
       "hits": []
     },
     {
+      "id": "withdrawn-01",
+      "category": "withdrawn",
+      "as": "reader-a",
+      "q": "proofing cabinet humidity settings",
+      "why": "The only note on this topic was withdrawn after it was saved; search must not return it.",
+      "knownGap": null,
+      "pass": true,
+      "reason": "",
+      "rank": null,
+      "hits": [
+        {
+          "rank": 1,
+          "key": "parking",
+          "ver": 1,
+          "supersededBy": null
+        }
+      ]
+    },
+    {
+      "id": "withdrawn-02",
+      "category": "withdrawn",
+      "as": "reader-a",
+      "q": null,
+      "why": "An agent holding a citation to a withdrawn note must be refused with the reason 'withdrawn', not given the text.",
+      "knownGap": null,
+      "pass": true,
+      "reason": "",
+      "rank": null,
+      "hits": []
+    },
+    {
       "id": "mcp-01",
       "category": "mcp-parity",
       "as": "reader-a",
       "q": "Route 12 night bus",
-      "why": "The same search over MCP JSON-RPC over HTTP must return the same hits as the direct tool call.",
+      "why": "The same search sent as an MCP JSON-RPC request to the HTTP handler must return the same hits as the direct tool call.",
       "knownGap": null,
       "pass": true,
       "reason": "",
@@ -1310,7 +1350,7 @@
       "category": "mcp-parity",
       "as": "reader-a",
       "q": null,
-      "why": "The same read over MCP JSON-RPC over HTTP must return the same note text and hash.",
+      "why": "The same read sent as an MCP JSON-RPC request to the HTTP handler must return the same note text and hash.",
       "knownGap": null,
       "pass": true,
       "reason": "",

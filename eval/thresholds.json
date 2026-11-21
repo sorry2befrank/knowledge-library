@@ -1,10 +1,12 @@
 {
-  "note": "Floors for the answer-accuracy gate, set from the measured baseline run (golden set version 1, baseline v0). A change ships only if no metric drops below these. When a change improves a metric, raise the floor in the same change so the gain cannot be lost later. Never lower a floor to make a change pass.",
+  "note": "Floors for the retrieval-and-citation gate, set from the measured run (golden set version 2, baseline v0). A change ships only if no metric drops below these. citationsReturned is the number of hits agents receive across all searches, so a change that quietly returns fewer results fails here. When a change improves a metric, raise the floor in the same change so the gain cannot be lost later; the test does not check that. Never lower a floor to make a change pass.",
   "minimum": {
-    "casesPassed": 32,
+    "casesPassed": 34,
     "hitAt1": 17,
+    "hitAt1OutsideDirect": 5,
     "hitAt5": 23,
     "mrr": 0.826,
+    "citationsReturned": 172,
     "citationValidity": 1,
     "abstainCorrect": 2
   },
@@ -22,6 +24,7 @@
     "access": 3,
     "injection": 1,
     "citation": 5,
+    "withdrawn": 2,
     "mcp-parity": 2
   }
 }
